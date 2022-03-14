@@ -459,6 +459,16 @@ loki:
 
   # -- Post Renderers.  See docs/postrenders.md
   postRenderers: []
+
+  # -- Loki architecture.  Options are monolith | scalable | distributed
+  strategy: monolith
+
+  # -- Grafana Enterprise Logging functionality.
+  enterprise:
+    enabled: false
+
+    licenseContents: |
+      FULL LICENSE
 # ----------------------------------------------------------------------------------------------------------------------
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -503,6 +513,12 @@ monitoring:
   # Redirect the package ingress to a specific Istio Gateway (listed in `istio.gateways`).  The default is "public".
   ingress:
     gateway: ""
+
+  grafana:
+    enterprise:
+      enabled: false
+      licenseContents: |
+        FULL LICENSE
 
   sso:
     # -- Toggle SSO for monitoring components on and off
