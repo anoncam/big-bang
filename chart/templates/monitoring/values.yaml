@@ -88,8 +88,9 @@ prometheus:
         imagePullPolicy: {{ .Values.imagePullPolicy }}
       - name: "config-reloader"
         imagePullPolicy: {{ .Values.imagePullPolicy }}
-    {{- if or $istioInjection .Values.monitoring.sso.enabled .Values.networkPolicies.enabled .Values.addons.vault.enabled }}
+    {{- if or $istioInjection .Values.monitoring.sso.enabled .Values.addons.vault.enabled }}
     podMetadata:
+      {{- if or .Values.monitoring.sso.enabled (and .Values.networkPolicies.enabled .Values.addons.vault.enabled) }}
       labels:
         {{- if .Values.monitoring.sso.enabled }}
         {{- $prometheusAuthserviceKey := (dig "selector" "key" "protect" .Values.addons.authservice.values) }}
@@ -99,6 +100,8 @@ prometheus:
         {{- if and .Values.networkPolicies.enabled .Values.addons.vault.enabled }}
         vault-ingress: "true"
         {{- end }}
+      {{- end }}
+      {{- if or $istioInjection .Values.addons.vault.enabled }}
       annotations:
         {{- if $istioInjection }}
         {{ include "istioAnnotation" . }}
@@ -109,6 +112,7 @@ prometheus:
         vault.hashicorp.com/agent-inject-token: "true"      
         vault.hashicorp.com/role: "prometheus"
         {{- end }}
+      {{- end }}
     {{- end }}        
 
 anchore:
