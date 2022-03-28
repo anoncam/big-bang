@@ -4,3 +4,6 @@ include:
     file: '/pipelines/bigbang.yaml'
 variables:
   PIPELINE_REPO_BRANCH: 39-disable-ci
+
+
+
