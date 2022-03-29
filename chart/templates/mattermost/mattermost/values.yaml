@@ -78,7 +78,7 @@ minio:
     - name: private-registry
   tenants:
     metrics:
-      enabled: {{ .Values.monitoring.enabled }}
+      enabled: {{ $.Values.monitoring.enabled }}
 {{- end }}
 {{- end }}
 
