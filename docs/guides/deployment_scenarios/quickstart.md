@@ -396,7 +396,8 @@ k3d-k3s-default-server-0   Ready  control-plane,master   11m   v1.21.3+k3s1
 
 1. Here we continue to follow the DevOps best practice of enabling early left-shifted feedback whenever possible; Before adding credentials to a configuration file and not finding out there is an issue until after we see an ImagePullBackOff error during deployment, we will do a quick left-shifted verification of the credentials.
 
-    1. Look up your IronBank image pull credentials
+1. Look up your IronBank image pull credentials
+
     1. In a web browser go to [https://registry1.dso.mil](https://registry1.dso.mil)
     1. Login via OIDC provider
     1. In the top right of the page, click your name, and then User Profile
