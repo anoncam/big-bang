@@ -715,7 +715,7 @@ It should make sense that the following is a valid edit
 cat << EOF > ~/tinkering.yaml
 addons:
   argocd:
-  enabled: true
+    enabled: true
 EOF
 
 helm upgrade --install bigbang $HOME/bigbang/chart \
