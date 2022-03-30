@@ -158,23 +158,21 @@ Note: This guide follows the DevOps best practice of left-shifting feedback on m
 
 1. Install k3d
 
-    > Note: k3d v4.4.8 has integration issues with Big Bang, v4.4.7 is known to work.
-
     ```shell
     # [ubuntu@Ubuntu_VM:~]
-    # The following downloads the 64 bit linux version of k3d v4.4.7, checks it
+    # The following downloads the 64 bit linux version of k3d v5.4.1, checks it
     # against a copy of the sha256 checksum, if they match k3d gets installed
-    wget -q -O - https://github.com/rancher/k3d/releases/download/v4.4.7/k3d-linux-amd64 > k3d
+    wget -q -O - https://github.com/k3d-io/k3d/releases/download/v5.4.1/k3d-linux-amd64 > k3d
 
-    echo 51731ffb2938c32c86b2de817c7fbec8a8b05a55f2e4ab229ba094f5740a0f60 k3d | sha256sum -c | grep OK
-    # 51731ffb2938c32c86b2de817c7fbec8a8b05a55f2e4ab229ba094f5740a0f60 came from
-    # wget -q -O - https://github.com/rancher/k3d/releases/download/v4.4.7/sha256sum.txt | grep k3d-linux-amd64 | cut -d ' ' -f 1
+    echo 50f64747989dc1fcde5db5cb82f8ac132a174b607ca7dfdb13da2f0e509fda11 k3d | sha256sum -c | grep OK
+    # 50f64747989dc1fcde5db5cb82f8ac132a174b607ca7dfdb13da2f0e509fda11 came from running the following against a trusted internet connection.
+    # wget -q -O - https://github.com/k3d-io/k3d/releases/download/v5.4.1/k3d-linux-amd64 | sha256sum | cut -d ' ' -f 1
 
     if [ $? == 0 ]; then chmod +x k3d && sudo mv k3d /usr/local/bin/k3d; fi
 
 
     # Alternative command (less safe due to curl | bash, but more generic):
-    # wget -q -O - https://raw.githubusercontent.com/rancher/k3d/main/install.sh | TAG=v4.4.7 bash
+    # wget -q -O - https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | TAG=v5.4.1 bash
     ```
 
 1. Verify k3d installation
@@ -185,21 +183,21 @@ Note: This guide follows the DevOps best practice of left-shifting feedback on m
     ```
 
     ```console
-    k3d version v4.4.7
-    k3s version v1.21.2-k3s1 (default)
+    k3d version v5.4.1
+    k3s version v1.22.7-k3s1 (default)
     ```
 
 1. Install kubectl
 
     ```shell
     # [ubuntu@Ubuntu_VM:~]
-    # The following downloads the 64 bit linux version of kubectl v1.22.1, checks it
+    # The following downloads the 64 bit linux version of kubectl v1.23.5, checks it
     # against a copy of the sha256 checksum, if they match kubectl gets installed
-    wget -q -O - https://dl.k8s.io/release/v1.22.1/bin/linux/amd64/kubectl > kubectl
+    wget -q -O - https://dl.k8s.io/release/v1.23.5/bin/linux/amd64/kubectl > kubectl
 
-    echo 78178a8337fc6c76780f60541fca7199f0f1a2e9c41806bded280a4a5ef665c9 kubectl | sha256sum -c | grep OK
-    # 78178a8337fc6c76780f60541fca7199f0f1a2e9c41806bded280a4a5ef665c9 came from
-    # wget -q -O - https://dl.k8s.io/release/v1.22.1/bin/linux/amd64/kubectl.sha256
+    echo 715da05c56aa4f8df09cb1f9d96a2aa2c33a1232f6fd195e3ffce6e98a50a879 kubectl | sha256sum -c | grep OK
+    # 715da05c56aa4f8df09cb1f9d96a2aa2c33a1232f6fd195e3ffce6e98a50a879 came from
+    # wget -q -O - https://dl.k8s.io/release/v1.23.5/bin/linux/amd64/kubectl.sha256
 
     if [ $? == 0 ]; then chmod +x kubectl && sudo mv kubectl /usr/local/bin/kubectl; fi
 
@@ -215,20 +213,20 @@ Note: This guide follows the DevOps best practice of left-shifting feedback on m
     ```
 
     ```console
-    Client Version: version.Info{Major:"1", Minor:"22", GitVersion:"v1.22.1", GitCommit:"632ed300f2c34f6d6d15ca4cef3d3c7073412212", GitTreeState:"clean", BuildDate:"2021-08-19T15:45:37Z", GoVersion:"go1.16.7", Compiler:"gc", Platform:"linux/amd64"}
+    Client Version: version.Info{Major:"1", Minor:"23", GitVersion:"v1.23.5", GitCommit:"c285e781331a3785a7f436042c65c5641ce8a9e9", GitTreeState:"clean", BuildDate:"2022-03-16T15:58:47Z", GoVersion:"go1.17.8", Compiler:"gc", Platform:"linux/amd64"}
     ```
 
 1. Install Kustomize
 
     ```shell
     # [ubuntu@Ubuntu_VM:~]
-    # The following downloads the 64 bit linux version of kustomize v4.3.0, checks it
+    # The following downloads the 64 bit linux version of kustomize v4.5.4, checks it
     # against a copy of the sha256 checksum, if they match kustomize gets installed
-    wget -q -O - https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv4.3.0/kustomize_v4.3.0_linux_amd64.tar.gz > kustomize.tar.gz
+    wget -q -O - https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv4.5.4/kustomize_v4.5.4_linux_amd64.tar.gz > kustomize.tar.gz
 
-    echo d34818d2b5d52c2688bce0e10f7965aea1a362611c4f1ddafd95c4d90cb63319 kustomize.tar.gz | sha256sum -c | grep OK
-    # d34818d2b5d52c2688bce0e10f7965aea1a362611c4f1ddafd95c4d90cb63319
-    # came from https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv4.3.0/checksums.txt
+    echo 1159c5c17c964257123b10e7d8864e9fe7f9a580d4124a388e746e4003added3 kustomize.tar.gz | sha256sum -c | grep OK
+    # 1159c5c17c964257123b10e7d8864e9fe7f9a580d4124a388e746e4003added3
+    # came from https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv4.5.4/checksums.txt
 
     if [ $? == 0 ]; then tar -xvf kustomize.tar.gz && chmod +x kustomize && sudo mv kustomize /usr/local/bin/kustomize && rm kustomize.tar.gz ; fi  
 
@@ -247,20 +245,20 @@ Note: This guide follows the DevOps best practice of left-shifting feedback on m
     ```
 
     ```console
-    {Version:kustomize/v4.3.0 GitCommit:cd17338759ef64c14307991fd25d52259697f1fb BuildDate:2021-08-24T19:24:28Z GoOs:linux GoArch:amd64}
+    {Version:kustomize/v4.5.4 GitCommit:cf3a452ddd6f83945d39d582243b8592ec627ae3 BuildDate:2022-03-28T23:12:45Z GoOs:linux GoArch:amd64}
     ```
 
 1. Install Helm
 
     ```shell
     # [ubuntu@Ubuntu_VM:~]
-    # The following downloads the 64 bit linux version of helm v3.6.3, checks it
+    # The following downloads the 64 bit linux version of helm v3.8.1, checks it
     # against a copy of the sha256 checksum, if they match helm gets installed
-    wget -q -O - https://get.helm.sh/helm-v3.6.3-linux-amd64.tar.gz > helm.tar.gz
+    wget -q -O - https://get.helm.sh/helm-v3.8.1-linux-amd64.tar.gz > helm.tar.gz
 
-    echo 07c100849925623dc1913209cd1a30f0a9b80a5b4d6ff2153c609d11b043e262 helm.tar.gz | sha256sum -c | grep OK
-    # 07c100849925623dc1913209cd1a30f0a9b80a5b4d6ff2153c609d11b043e262
-    # came from https://github.com/helm/helm/releases/tag/v3.6.3
+    echo d643f48fe28eeb47ff68a1a7a26fc5142f348d02c8bc38d699674016716f61cd helm.tar.gz | sha256sum -c | grep OK
+    # d643f48fe28eeb47ff68a1a7a26fc5142f348d02c8bc38d699674016716f61cd
+    # came from https://github.com/helm/helm/releases/tag/v3.8.1
 
     if [ $? == 0 ]; then tar -xvf helm.tar.gz && chmod +x linux-amd64/helm && sudo mv linux-amd64/helm /usr/local/bin/helm && rm -rf linux-amd64 && rm helm.tar.gz ; fi  
 
@@ -277,7 +275,7 @@ Note: This guide follows the DevOps best practice of left-shifting feedback on m
     ```
 
     ```console
-    version.BuildInfo{Version:"v3.6.3", GitCommit:"d506314abfb5d21419df8c7e7e68012379db2354", GitTreeState:"dirty", GoVersion:"go1.16.5"}
+    version.BuildInfo{Version:"v3.8.1", GitCommit:"5cb9af4b1b271d11d7a97a71df3ac337dd94ad37", GitTreeState:"clean", GoVersion:"go1.17.5"}
     ```
 
 ## Step 4: Configure Host Operating System Prerequisites
