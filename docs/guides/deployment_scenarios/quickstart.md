@@ -324,7 +324,7 @@ After reading the notes on the purpose of k3d's command flags, you will be able 
 
 ### Explanation of k3d Command Flags, Relevant to the Quick Start
 
-* `SERVER_IP="10.10.16.11"` and `--k3s-server-arg "--tls-san=$SERVER_IP"`:  
+* `SERVER_IP="10.10.16.11"` and `--k3s-arg "--tls-san=$SERVER_IP@server:0"`:  
   These associate an extra IP to the Kubernetes API server's generated HTTPS certificate.  
 
   **Explanation of the effect:**
@@ -355,6 +355,9 @@ These flags are not used and shouldn't be added. This is because the image cachi
 * `--port 80:80@loadbalancer` and `--port 443:443@loadbalancer`:  
 These map the virtual machine's port 80 and 443 to port 80 and 443 of a Dockerized LB that will point to the NodePorts of the Dockerized k3s node.
 
+* `--k3s-arg "--disable=traefik@server:0"`:  
+This flag prevents the traefik ingress controller from being deployed. Without this flag traefik would provision a service of type LoadBalancer, and claim k3d's only LoadBalancer that works with ports 80 and 443. Disabling this makes it so the Istio Ingress Gateway will be able to claim the service of type LoadBalancer.
+
 ### k3d Cluster Creation Commands
 
 ```shell
@@ -367,10 +370,10 @@ IMAGE_CACHE=${HOME}/.k3d-container-image-cache
 mkdir -p ${IMAGE_CACHE}
 
 k3d cluster create \
-  --k3s-server-arg "--tls-san=$SERVER_IP" \
+  --k3s-arg "--tls-san=$SERVER_IP@server:0" \
   --volume /etc/machine-id:/etc/machine-id \
   --volume ${IMAGE_CACHE}:/var/lib/rancher/k3s/agent/containerd/io.containerd.content.v1.content \
-  --k3s-server-arg "--disable=traefik" \
+  --k3s-arg "--disable=traefik@server:0" \
   --port 80:80@loadbalancer \
   --port 443:443@loadbalancer \
   --api-port 6443
@@ -386,8 +389,8 @@ kubectl get node
 
 ```console
 Switched to context "k3d-k3s-default".
-NAME             STATUS   ROLES          AGE   VERSION
-k3d-k3s-default-server-0   Ready  control-plane,master   11m   v1.21.3+k3s1
+NAME                       STATUS   ROLES                  AGE   VERSION
+k3d-k3s-default-server-0   Ready    control-plane,master   11m   v1.22.7+k3s1
 ```
 
 ## Step 6: Verify Your IronBank Image Pull Credentials
@@ -425,11 +428,16 @@ k3d-k3s-default-server-0   Ready  control-plane,master   11m   v1.21.3+k3s1
 # [ubuntu@Ubuntu_VM:~]
 cd ~
 git clone https://repo1.dso.mil/platform-one/big-bang/bigbang.git
-cd ~/bigbang
 
 # Checkout version latest stable version of Big Bang
+cd ~/bigbang
 git checkout tags/$(grep 'tag:' base/gitrepository.yaml | awk '{print $2}')
 git status
+cd ~
+
+# Note you can do the following to checkout a specific version of bigbang
+# cd ~/bigbang
+# git checkout tags/1.30.1
 ```
 
 ```console
@@ -458,11 +466,11 @@ The `echo $REGISTRY1_USERNAME` is there to verify that the value of your environ
   ```
 
   ```console
-  NAME                   READY   STATUS  RESTARTS   AGE
-  kustomize-controller-d689c6688-bnr96   1/1   Running   0      3m8s
-  notification-controller-65dffcb7-zk796   1/1   Running   0      3m8s
-  source-controller-5fdb69cc66-g5dlh     1/1   Running   0      3m8s
-  helm-controller-6c67b58f78-cvxmv     1/1   Running   0      3m8s
+  NAME                                      READY   STATUS    RESTARTS   AGE
+  helm-controller-746d586c6-ln7dl           1/1     Running   0          3m8s
+  notification-controller-f6658d796-fdzjx   1/1     Running   0          3m8s
+  kustomize-controller-5887bb8dd7-jzp7m     1/1     Running   0          3m8s
+  source-controller-7c4564d74c-7ffrf        1/1     Running   0          3m8s  
   ```
 
 ## Step 9: Create Helm Values .yaml Files To Act as Input Variables for the Big Bang Helm Chart
@@ -576,21 +584,21 @@ helm upgrade --install bigbang $HOME/bigbang/chart \
 
 Explanation of flags used in the imperative helm install command:
 
-`upgrade --install`
-: This makes the command more idempotent by allowing the exact same command to work for both the initial installation and upgrade use cases.
+`upgrade --install`:  
+This makes the command more idempotent by allowing the exact same command to work for both the initial installation and upgrade use cases.
 
-`bigbang $HOME/bigbang/chart`
-: bigbang is the name of the helm release that you'd see if you run `helm list -n=bigbang`. `$HOME/bigbang/chart` is a reference to the helm chart being installed.
+`bigbang $HOME/bigbang/chart`:  
+bigbang is the name of the helm release that you'd see if you run `helm list -n=bigbang`. `$HOME/bigbang/chart` is a reference to the helm chart being installed.
 
-`--values https://repo1.dso.mil/platform-one/big-bang/bigbang/-/raw/master/chart/ingress-certs.yaml`
-: References demonstration HTTPS certificates embedded in the public repository. The *.bigbang.dev wildcard certificate is signed by Let's Encrypt, a free public internet Certificate Authority. Note the URL path to the copy of the cert on master branch is used instead of `$HOME/bigbang/chart/ingress-certs.yaml`, because the Let's Encrypt certs expire after 3 months, and if you deploy a tagged release of BigBang, like 1.15.0, the version of the cert stored in the tagged git commit / release of Big Bang could be expired. Referencing the master branches copy via URL ensures you receive the latest version of the cert, which won't be expired.
+`--values https://repo1.dso.mil/platform-one/big-bang/bigbang/-/raw/master/chart/ingress-certs.yaml`:  
+References demonstration HTTPS certificates embedded in the public repository. The *.bigbang.dev wildcard certificate is signed by Let's Encrypt, a free public internet Certificate Authority. Note the URL path to the copy of the cert on master branch is used instead of `$HOME/bigbang/chart/ingress-certs.yaml`, because the Let's Encrypt certs expire after 3 months, and if you deploy a tagged release of BigBang, like 1.15.0, the version of the cert stored in the tagged git commit / release of Big Bang could be expired. Referencing the master branches copy via URL ensures you receive the latest version of the cert, which won't be expired.
 
-`--namespace=bigbang --create-namespace`
-: Means it will install the bigbang helm chart in the bigbang namespace and create the namespace if it doesn't exist.
+`--namespace=bigbang --create-namespace`:  
+Means it will install the bigbang helm chart in the bigbang namespace and create the namespace if it doesn't exist.
 
 ## Step 11: Verify Big Bang Has Had Enough Time To Finish Installing
 
-* If you try to run the command in Step 12 too soon, you'll see an ignorable temporary error message
+* If you try to run the command in Step 11 too soon, you'll see an ignorable temporary error message
 
   ```shell
   # [ubuntu@Ubuntu_VM:~]
@@ -611,26 +619,26 @@ Explanation of flags used in the imperative helm install command:
 * If after running `kubectl get po -A` (which is the shorthand of `kubectl get pods --all-namespaces`) you see something like the following, then you need to wait longer
 
   ```console
-  NAMESPACE       NAME                        READY   STATUS        RESTARTS   AGE
-  kube-system     metrics-server-86cbb8457f-dqsl5           1/1   Running       0      39m
-  kube-system     coredns-7448499f4d-ct895              1/1   Running       0      39m
-  flux-system     notification-controller-65dffcb7-qpgj5        1/1   Running       0      32m
-  flux-system     kustomize-controller-d689c6688-6dd5n        1/1   Running       0      32m
-  flux-system     source-controller-5fdb69cc66-s9pvw          1/1   Running       0      32m
-  kube-system     local-path-provisioner-5ff76fc89d-gnvp4       1/1   Running       1      39m
-  flux-system     helm-controller-6c67b58f78-6dzqw          1/1   Running       0      32m
-  gatekeeper-system   gatekeeper-controller-manager-5cf7696bcf-xclc4    0/1   Running       0      4m6s
-  gatekeeper-system   gatekeeper-audit-79695c56b8-qgfbl           0/1   Running       0      4m6s
-  istio-operator    istio-operator-5f6cfb6d5b-hx7bs           1/1   Running       0      4m8s
-  eck-operator    elastic-operator-0                  1/1   Running       1      4m10s
-  istio-system    istiod-65798dff85-9rx4z               1/1   Running       0      87s
-  istio-system    public-ingressgateway-6cc4dbcd65-fp9hv        0/1   ContainerCreating   0      46s
-  logging       logging-fluent-bit-dbkxx              0/2   Init:0/1      0      44s
-  monitoring      monitoring-monitoring-kube-admission-create-q5j2x   0/1   ContainerCreating   0      42s
-  logging       logging-ek-kb-564d7779d5-qjdxp            0/2   Init:0/2      0      41s
-  logging       logging-ek-es-data-0                0/2   Init:0/2      0      44s
-  istio-system    svclb-public-ingressgateway-ggkvx           5/5   Running       0      39s
-  logging       logging-ek-es-master-0                0/2   Init:0/2      0      37s
+  NAMESPACE           NAME                                                READY   STATUS          RESTARTS   AGE
+  kube-system         metrics-server-86cbb8457f-dqsl5                     1/1     Running             0      39m
+  kube-system         coredns-7448499f4d-ct895                            1/1     Running             0      39m
+  flux-system         notification-controller-65dffcb7-qpgj5              1/1     Running             0      32m
+  flux-system         kustomize-controller-d689c6688-6dd5n                1/1     Running             0      32m
+  flux-system         source-controller-5fdb69cc66-s9pvw                  1/1     Running             0      32m
+  kube-system         local-path-provisioner-5ff76fc89d-gnvp4             1/1     Running             1      39m
+  flux-system         helm-controller-6c67b58f78-6dzqw                    1/1     Running             0      32m
+  gatekeeper-system   gatekeeper-controller-manager-5cf7696bcf-xclc4      0/1     Running             0      4m6s
+  gatekeeper-system   gatekeeper-audit-79695c56b8-qgfbl                   0/1     Running             0      4m6s
+  istio-operator      istio-operator-5f6cfb6d5b-hx7bs                     1/1     Running             0      4m8s
+  eck-operator        elastic-operator-0                                  1/1     Running             1      4m10s
+  istio-system        istiod-65798dff85-9rx4z                             1/1     Running             0      87s
+  istio-system        public-ingressgateway-6cc4dbcd65-fp9hv              0/1     ContainerCreating   0      46s
+  logging             logging-fluent-bit-dbkxx                            0/2     Init:0/1            0      44s
+  monitoring          monitoring-monitoring-kube-admission-create-q5j2x   0/1     ContainerCreating   0      42s
+  logging             logging-ek-kb-564d7779d5-qjdxp                      0/2     Init:0/2            0      41s
+  logging             logging-ek-es-data-0                                0/2     Init:0/2            0      44s
+  istio-system        svclb-public-ingressgateway-ggkvx                   5/5     Running             0      39s
+  logging             logging-ek-es-master-0                              0/2     Init:0/2            0      37s
   ```
 
 * Wait up to 10 minutes then re-run `kubectl get po -A`, until all pods show STATUS Running
@@ -638,18 +646,18 @@ Explanation of flags used in the imperative helm install command:
 * `helm list -n=bigbang` should also show STATUS deployed
 
   ```console
-  NAME                NAMESPACE     REVISION UPDATED                 STATUS   CHART               APP VERSION
-  bigbang             bigbang       1      2022-01-18 10:37:02.088839018 -0500 EST deployed bigbang-1.25.0                   
-  cluster-auditor-cluster-auditor cluster-auditor   1      2022-01-18 15:39:35.161101094 +0000 UTC deployed cluster-auditor-1.0.2-bb.0      0.0.3    
-  eck-operator-eck-operator     eck-operator    1      2022-01-18 15:38:03.79179921 +0000 UTC  deployed eck-operator-1.9.1-bb.0       1.9.1    
-  gatekeeper-system-gatekeeper    gatekeeper-system 1      2022-01-18 15:37:06.758450515 +0000 UTC deployed gatekeeper-3.6.0-bb.2       v3.6.0   
-  istio-operator-istio-operator   istio-operator    1      2022-01-18 15:37:07.432751828 +0000 UTC deployed istio-operator-1.11.3-bb.2             
-  istio-system-istio        istio-system    1      2022-01-18 15:37:33.973068788 +0000 UTC deployed istio-1.11.3-bb.1                
-  jaeger-jaeger           jaeger        1      2022-01-18 15:39:37.911181302 +0000 UTC deployed jaeger-operator-2.27.0-bb.2     1.28.0   
-  kiali-kiali           kiali       1      2022-01-18 15:39:36.829012053 +0000 UTC deployed kiali-operator-1.44.0-bb.1      1.44.0   
-  logging-ek            logging       1      2022-01-18 15:38:34.802230733 +0000 UTC deployed logging-0.5.0-bb.0          7.16.1   
-  logging-fluent-bit        logging       1      2022-01-18 15:39:34.462639648 +0000 UTC deployed fluent-bit-0.19.16-bb.0       1.8.11   
-  monitoring-monitoring       monitoring      1      2022-01-18 15:38:08.044148943 +0000 UTC deployed kube-prometheus-stack-23.1.6-bb.5 0.52.1 
+  NAME                           	NAMESPACE        	REVISION	UPDATED                                	STATUS  	CHART                            	APP VERSION
+  bigbang                        	bigbang          	1       	2022-03-31 12:07:49.239343968 +0000 UTC	deployed	bigbang-1.30.1
+  cluster-auditor-cluster-auditor	cluster-auditor  	1       	2022-03-31 12:14:23.004377605 +0000 UTC	deployed	cluster-auditor-1.4.0-bb.0       	0.0.4
+  eck-operator-eck-operator      	eck-operator     	1       	2022-03-31 12:09:52.921098159 +0000 UTC	deployed	eck-operator-2.0.0-bb.0          	2.0.0
+  gatekeeper-system-gatekeeper   	gatekeeper-system	1       	2022-03-31 12:07:53.52890717 +0000 UTC 	deployed	gatekeeper-3.7.1-bb.0            	v3.7.1
+  istio-operator-istio-operator  	istio-operator   	1       	2022-03-31 12:07:55.111321595 +0000 UTC	deployed	istio-operator-1.13.2-bb.1       	1.13.2
+  istio-system-istio             	istio-system     	1       	2022-03-31 12:08:23.439981427 +0000 UTC	deployed	istio-1.13.2-bb.0                	1.13.2
+  jaeger-jaeger                  	jaeger           	1       	2022-03-31 12:12:58.068313509 +0000 UTC	deployed	jaeger-operator-2.29.0-bb.0      	1.32.0
+  kiali-kiali                    	kiali            	1       	2022-03-31 12:12:57.011215896 +0000 UTC	deployed	kiali-operator-1.47.0-bb.1       	1.47.0
+  logging-ek                     	logging          	1       	2022-03-31 12:10:52.785810021 +0000 UTC	deployed	logging-0.7.0-bb.0               	7.17.1
+  logging-fluent-bit             	logging          	1       	2022-03-31 12:12:53.27612266 +0000 UTC 	deployed	fluent-bit-0.19.20-bb.1          	1.8.13
+  monitoring-monitoring          	monitoring       	1       	2022-03-31 12:10:02.31254196 +0000 UTC 	deployed	kube-prometheus-stack-33.2.0-bb.0	0.54.1
   ```
 
 ## Step 12: Edit Your Workstation’s Hosts File To Access the Web Pages Hosted on the Big Bang Cluster
@@ -661,13 +669,13 @@ kubectl get vs -A
 ```
 
 ```console
-NAMESPACE  NAME                    GATEWAYS          HOSTS              AGE
-logging    kibana                  ["istio-system/public"]   ["kibana.bigbang.dev"]     38m
-monitoring   monitoring-monitoring-kube-grafana    ["istio-system/public"]   ["grafana.bigbang.dev"]    36m
-monitoring   monitoring-monitoring-kube-alertmanager   ["istio-system/public"]   ["alertmanager.bigbang.dev"]   36m
-monitoring   monitoring-monitoring-kube-prometheus   ["istio-system/public"]   ["prometheus.bigbang.dev"]   36m
-kiali    kiali                   ["istio-system/public"]   ["kiali.bigbang.dev"]      35m
-jaeger     jaeger                  ["istio-system/public"]   ["tracing.bigbang.dev"]    35m
+NAMESPACE    NAME                                      GATEWAYS                  HOSTS                          AGE
+logging      kibana                                    ["istio-system/public"]   ["kibana.bigbang.dev"]         10m
+monitoring   monitoring-monitoring-kube-alertmanager   ["istio-system/public"]   ["alertmanager.bigbang.dev"]   10m
+monitoring   monitoring-monitoring-kube-grafana        ["istio-system/public"]   ["grafana.bigbang.dev"]        10m
+monitoring   monitoring-monitoring-kube-prometheus     ["istio-system/public"]   ["prometheus.bigbang.dev"]     10m
+kiali        kiali                                     ["istio-system/public"]   ["kiali.bigbang.dev"]          8m21s
+jaeger       jaeger                                    ["istio-system/public"]   ["tracing.bigbang.dev"]        7m46s
 ```
 
 ### Linux/Mac Users
@@ -690,8 +698,8 @@ Add the following entries to the Hosts file, where x.x.x.x = k3d virtual machine
 
 ```plaintext
 x.x.x.x  kibana.bigbang.dev
-x.x.x.x  grafana.bigbang.dev
 x.x.x.x  alertmanager.bigbang.dev
+x.x.x.x  grafana.bigbang.dev
 x.x.x.x  prometheus.bigbang.dev
 x.x.x.x  kiali.bigbang.dev
 x.x.x.x  tracing.bigbang.dev
@@ -704,8 +712,8 @@ In a browser, visit one of the sites listed using the `kubectl get vs -A` comman
 
 ## Step 14: Play
 
-Here's an example of post deployment customization of Big Bang.
-After looking at <https://repo1.dso.mil/platform-one/big-bang/bigbang/-/blob/master/chart/values.yaml>
+Here's an example of post deployment customization of Big Bang.  
+After looking at <https://repo1.dso.mil/platform-one/big-bang/bigbang/-/blob/master/chart/values.yaml>  
 It should make sense that the following is a valid edit
 
 ```shell
