@@ -96,11 +96,17 @@ Why 2 VMs? 2 reasons:
 
     ```shell
     # [admin@Laptop:~]
-    mkdir -p ~/qs
-    BIG_BANG_VERSION="1.18.0"
+   
+    # Commented out directly below, is how to use a pinned version of BigBang:
+    # BIG_BANG_VERSION="1.30.1" 
+    # (Note: 1.30.1 was the last version this guide was tested against)
+    # 
+    # The following will load the latest tagger version of BigBang into an environment variable
+    BIG_BANG_VERSION=$(curl -s https://repo1.dso.mil/platform-one/big-bang/bigbang/-/raw/master/base/gitrepository.yaml | grep 'tag:' | awk '{print $2}')
+    echo "This script will install Big Bang version: $BIG_BANG_VERSION"
     REGISTRY1_USERNAME="REPLACE_ME"
     REGISTRY1_PASSWORD="REPLACE_ME"
-    echo $REGISTRY1_PASSWORD | docker login https://registry1.dso.mil --username=$REGISTRY1_USERNAME --password-stdin | grep "log in Succeeded" ; echo $? | grep 0 && echo "This validation check shows your registry1 credentials are valid, please continue." || for i in {1..10}; do echo "Validation check shows error, fix your registry1 credentials before moving on."; done
+    echo $REGISTRY1_PASSWORD | docker login https://registry1.dso.mil --username=$REGISTRY1_USERNAME --password-stdin | grep "Succeeded" ; echo $? | grep 0 && echo "This validation check shows your registry1 credentials are valid, please continue." || for i in {1..10}; do echo "Validation check shows error, fix your registry1 credentials before moving on."; done
     
     export KEYCLOAK_IP=$(cat ~/.ssh/config | grep keycloak-cluster -A 1 | grep Hostname | awk '{print $2}')
     echo "\n\n\n$KEYCLOAK_IP is the IP of the k3d node that will host Keycloak on Big Bang"
@@ -108,9 +114,15 @@ Why 2 VMs? 2 reasons:
     export WORKLOAD_IP=$(cat ~/.ssh/config | grep workload-cluster -A 1 | grep Hostname | awk '{print $2}')
     echo "$WORKLOAD_IP is the IP of the k3d node that will host Workloads on Big Bang"
     echo "Please manually verify that the IPs of your keycloak and workload k3d VMs look correct before moving on."
-    
-    
-    
+    ```
+
+   * Copy paste the following code block into your workstation's unix terminal.
+     (This is using cat command to generate files. Specifically scripts templatized using environment variables.)
+
+    ```shell
+    # [admin@Laptop:~]
+    mkdir -p ~/qs   
+   
     cat << EOFkeycloak-k3d-prepwork-commandsEOF > ~/qs/keycloak-k3d-prepwork-commands.txt
     # Idempotent logic:
     lines_in_file=()
@@ -143,8 +155,19 @@ Why 2 VMs? 2 reasons:
       if [ \$? -ne 0 ]; then echo "\${line}" >> ~/.bashrc ; fi
     done
     EOFworkload-k3d-prepwork-commandsEOF
-    
-    # run the above commands against the remote shell in parallel and wait for finish
+    ```
+
+   * Run the following against your Laptop / Workstation's Unix terminal.
+
+    ```shell
+    # [admin@Laptop:~]
+    # Let's do a sanity check to make sure the above commands correctly generated text files
+    cat ~/qs/keycloak-k3d-prepwork-commands.txt
+    cat ~/qs/workload-k3d-prepwork-commands.txt
+    # Notice that the exported REGISTRY1_USERNAME var should have a value substituted in.
+
+    # Run the above commands against the remote shell in parallel and wait for finish
+    # [admin@Laptop:~]
     ssh keycloak-cluster < ~/qs/keycloak-k3d-prepwork-commands.txt &
     ssh workload-cluster < ~/qs/workload-k3d-prepwork-commands.txt &
     wait
@@ -177,6 +200,7 @@ Why 2 VMs? 2 reasons:
     ```
 
 1. Configure host OS prerequisites and install prerequisite software on both VMs
+   * Copy paste the following to generate an automation script
 
     ```shell
     # [admin@Laptop:~]
@@ -205,27 +229,31 @@ Why 2 VMs? 2 reasons:
     sudo apt update -y && sudo apt install docker-ce docker-ce-cli containerd.io -y && sudo usermod --append --groups docker \$USER
     
     # Install k3d
-    wget -q -O - https://github.com/rancher/k3d/releases/download/v4.4.7/k3d-linux-amd64 > k3d
-    echo 51731ffb2938c32c86b2de817c7fbec8a8b05a55f2e4ab229ba094f5740a0f60 k3d | sha256sum -c | grep OK
+    wget -q -O - https://github.com/k3d-io/k3d/releases/download/v5.4.1/k3d-linux-amd64 > k3d
+    echo 50f64747989dc1fcde5db5cb82f8ac132a174b607ca7dfdb13da2f0e509fda11 k3d | sha256sum -c | grep OK
     if [ \$? == 0 ]; then chmod +x k3d && sudo mv k3d /usr/local/bin/k3d ; fi
     
     # Install kubectl
-    wget -q -O - https://dl.k8s.io/release/v1.22.1/bin/linux/amd64/kubectl > kubectl
-    echo 78178a8337fc6c76780f60541fca7199f0f1a2e9c41806bded280a4a5ef665c9 kubectl | sha256sum -c | grep OK
+    wget -q -O - https://dl.k8s.io/release/v1.23.5/bin/linux/amd64/kubectl > kubectl
+    echo 715da05c56aa4f8df09cb1f9d96a2aa2c33a1232f6fd195e3ffce6e98a50a879 kubectl | sha256sum -c | grep OK
     if [ \$? == 0 ]; then chmod +x kubectl && sudo mv kubectl /usr/local/bin/kubectl; fi
     sudo ln -s /usr/local/bin/kubectl /usr/local/bin/k || true
     
     # Install kustomize
-    wget -q -O - https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv4.3.0/kustomize_v4.3.0_linux_amd64.tar.gz > kustomize.tar.gz
-    echo d34818d2b5d52c2688bce0e10f7965aea1a362611c4f1ddafd95c4d90cb63319 kustomize.tar.gz | sha256sum -c | grep OK
+    wget -q -O - https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv4.5.4/kustomize_v4.5.4_linux_amd64.tar.gz > kustomize.tar.gz
+    echo 1159c5c17c964257123b10e7d8864e9fe7f9a580d4124a388e746e4003added3 kustomize.tar.gz | sha256sum -c | grep OK
     if [ \$? == 0 ]; then tar -xvf kustomize.tar.gz && chmod +x kustomize && sudo mv kustomize /usr/local/bin/kustomize && rm kustomize.tar.gz ; fi    
     
     # Install helm
-    wget -q -O - https://get.helm.sh/helm-v3.6.3-linux-amd64.tar.gz > helm.tar.gz
-    echo 07c100849925623dc1913209cd1a30f0a9b80a5b4d6ff2153c609d11b043e262 helm.tar.gz | sha256sum -c | grep OK
+    wget -q -O - https://get.helm.sh/helm-v3.8.1-linux-amd64.tar.gz > helm.tar.gz
+    echo d643f48fe28eeb47ff68a1a7a26fc5142f348d02c8bc38d699674016716f61cd helm.tar.gz | sha256sum -c | grep OK
     if [ \$? == 0 ]; then tar -xvf helm.tar.gz && chmod +x linux-amd64/helm && sudo mv linux-amd64/helm /usr/local/bin/helm && rm -rf linux-amd64 && rm helm.tar.gz ; fi
     EOFshared-k3d-prepwork-commandsEOF
-    
+    ```
+
+   * Copy paste the following to run the above against both machines
+
+    ```shell
     # [admin@Laptop:~]
     # Run the above prereq script against both VMs
     ssh keycloak-cluster < ~/qs/shared-k3d-prepwork-commands.txt &
