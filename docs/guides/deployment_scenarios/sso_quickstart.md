@@ -93,6 +93,7 @@ Why 2 VMs? 2 reasons:
    * We'll pass some environment variables into the VMs that will help with automation
    * We'll also update the PS1 var so we can tell the 2 machines apart when ssh'd into.
    * All of the commands in the following section are run from the Admin Laptop
+   * Note: The REGISTRY1_USERNAME and REGISTRY1_PASSWORD in the code block below, can't be blindly copy pasted.
 
     ```shell
     # [admin@Laptop:~]
@@ -106,6 +107,12 @@ Why 2 VMs? 2 reasons:
     echo "This script will install Big Bang version: $BIG_BANG_VERSION"
     REGISTRY1_USERNAME="REPLACE_ME"
     REGISTRY1_PASSWORD="REPLACE_ME"
+    ```
+
+   * Note: The following code block can be copy pasted into the terminal as is
+
+    ```shell
+    # [admin@Laptop:~]
     echo $REGISTRY1_PASSWORD | docker login https://registry1.dso.mil --username=$REGISTRY1_USERNAME --password-stdin | grep "Succeeded" ; echo $? | grep 0 && echo "This validation check shows your registry1 credentials are valid, please continue." || for i in {1..10}; do echo "Validation check shows error, fix your registry1 credentials before moving on."; done
     
     export KEYCLOAK_IP=$(cat ~/.ssh/config | grep keycloak-cluster -A 1 | grep Hostname | awk '{print $2}')
