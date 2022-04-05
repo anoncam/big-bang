@@ -66,7 +66,7 @@ Why 2 VMs? 2 reasons:
       User ubuntu
       StrictHostKeyChecking no
     #########################"""
-    echo "$temp" | sudo tee -a ~/.ssh/config  #tee -a, appends to preexisting config file
+    echo "$temp" | tee -a ~/.ssh/config  #tee -a, appends to preexisting config file
     ```
 
 1. Verify SSH works for both VMs

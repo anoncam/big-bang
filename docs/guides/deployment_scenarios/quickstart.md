@@ -100,7 +100,7 @@ The following requirements are recommended for Demonstration Purposes:
       User ubuntu
       StrictHostKeyChecking no   #Useful for vagrant where you'd reuse IP from repeated tear downs
     #########################"""
-    echo "$temp" | sudo tee -a ~/.ssh/config  #tee -a, appends to preexisting config file
+    echo "$temp" | tee -a ~/.ssh/config  #tee -a, appends to preexisting config file
     ```
 
 1. SSH to instance
