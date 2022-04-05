@@ -358,7 +358,7 @@ kubectl get node
 ```
 
 ## Step 5: Clone Big Bang and Install Flux on both Clusters
-
+* Note after copy pasting the following block of automation, it might look stuck on "networkpolicy.networking.k8s.io/allow-webhooks created", the install_flux.sh script has logic near the end that waits for a healthy deployment, so just wait about 4 minutes. After which `kubectl get po -n=flux-system` should show a healthy deployment and you should be able to interactively use your terminal again. 
 ```shell
 # [admin@Laptop:~]
 cat << EOFshared-flux-install-commandsEOF > ~/qs/shared-flux-install-commands.txt
