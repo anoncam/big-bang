@@ -71,7 +71,7 @@ cr:
         {{- end }}
       tracing:
         enabled: {{ or .Values.tempo.enabled .Values.jaeger.enabled }}
-        {{- if .Values.tempo.enabled }}
+        {{- if and .Values.tempo.enabled (not .Values.jaeger.enabled)}}
         in_cluster_url: "http://tempo-tempo.tempo.svc.cluster.local:16686"
         {{- $tracingUrl := first (dig "istio" "tempoQuery" "hosts" list .Values.tempo.values) }}
         url: https://{{ tpl ($tracingUrl | default (printf "%s.%s" "tracing" $domainName )) . }}
