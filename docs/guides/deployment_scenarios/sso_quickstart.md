@@ -132,6 +132,9 @@ Why 2 VMs? 2 reasons:
    
     cat << EOFkeycloak-k3d-prepwork-commandsEOF > ~/qs/keycloak-k3d-prepwork-commands.txt
     # Idempotent logic:
+    sudo sed -i "/.*BIG_BANG_VERSION.*/d"      ~/.bashrc
+    sudo sed -i "/.*REGISTRY1_USERNAME.*/d"    ~/.bashrc
+    sudo sed -i "/.*REGISTRY1_PASSWORD.*/d"    ~/.bashrc
     lines_in_file=()
     lines_in_file+=( 'export PS1="\[\033[01;32m\]\u@keycloak-cluster\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ "' )
     lines_in_file+=( 'export CLUSTER_NAME="keycloak-cluster"' )
@@ -149,6 +152,9 @@ Why 2 VMs? 2 reasons:
     
     cat << EOFworkload-k3d-prepwork-commandsEOF > ~/qs/workload-k3d-prepwork-commands.txt
     # Idempotent logic:
+    sudo sed -i "/.*BIG_BANG_VERSION.*/d"      ~/.bashrc
+    sudo sed -i "/.*REGISTRY1_USERNAME.*/d"    ~/.bashrc
+    sudo sed -i "/.*REGISTRY1_PASSWORD.*/d"    ~/.bashrc
     lines_in_file=()
     lines_in_file+=( 'export PS1="\[\033[01;32m\]\u@workload-cluster\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ "' )
     lines_in_file+=( 'export CLUSTER_NAME="workload-cluster"' )
@@ -168,7 +174,7 @@ Why 2 VMs? 2 reasons:
 
     ```shell
     # [admin@Laptop:~]
-    # Let's do a sanity check to make sure the above commands correctly generated text files
+    # We will do a sanity check to make sure the above commands correctly generated text files
     cat ~/qs/keycloak-k3d-prepwork-commands.txt
     cat ~/qs/workload-k3d-prepwork-commands.txt
     # Notice that the exported REGISTRY1_USERNAME var should have a value substituted in.
@@ -178,12 +184,15 @@ Why 2 VMs? 2 reasons:
     ssh keycloak-cluster < ~/qs/keycloak-k3d-prepwork-commands.txt &
     ssh workload-cluster < ~/qs/workload-k3d-prepwork-commands.txt &
     wait
-    # Explanation: (We're basically doing Ansible w/o Ansible's dependencies)
-    # ssh keycloak-cluster < ~/qs/keycloak-k3d-prepwork-commands.txt
-    # ^-- runs script against remote VM 
-    # & at the end of the command means to let it run in the background
-    # using it allows us to run the script against both machines in parallel.
-    # wait command waits for background processes to finish
+    ```
+    ```text
+    Explanation: (We are basically doing the equivalent of Ansible, without 
+    having to install Ansible and its dependencies.)
+    ssh keycloak-cluster < ~/qs/keycloak-k3d-prepwork-commands.txt
+    ^-- runs script against remote VM 
+    & at the end of the command means to let it run in the background
+    using it allows us to run the script against both machines in parallel.
+    wait command waits for background processes to finish
     ```
 
 1. Take a look at one of the VMs to understand what happened
@@ -195,9 +204,12 @@ Why 2 VMs? 2 reasons:
     
     # Then ssh in to see the differences
     ssh keycloak-cluster
-    
+    ```
+
+1. Notice the prompt makes it obvious which VM you ssh'ed into.  
+
+    ```shell
     # [ubuntu@keycloak-cluster:~$]
-    echo "Notice the prompt makes it obvious which VM you ssh'ed into"
     echo "Notice the prompt has access to environment variables that are useful for automation"
     env | grep -i name
     env | grep IP
