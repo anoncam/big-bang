@@ -548,8 +548,6 @@ ssh workload-cluster < ~/qs/deploy-workloads.txt
 * The following command can be used to check the status of the deployment. You can optionally re-run `kubectl get hr -A` multiple times until you see READY: True, but there's no need to wait for it to finish before moving on.
 
 ```shell
-# You can run these commands to check it out, 
-# but there's no need to wait for the deployment to finish before moving on.
 sleep 5
 export KUBECONFIG=$HOME/.kube/workload-cluster
 kubectl get hr -A
@@ -643,7 +641,10 @@ cat /etc/hosts
 * Edit similarly using method mentioned in the generic quickstart
 
 ## Step 9: Make sure the clusters have had enough time to finish their deployments
-
+* Note:  
+  After copy pasting the following, you may need to wait up to 10 minutes. If you're too  
+  fast you may see a temporary error about pod keycloak-0 not found. It's recommended to  
+  copy paste this block of verification commands a 2nd time after 10 minutes have passed.  
 ```shell
 # [admin@Laptop:~]
 export KUBECONFIG=$HOME/.kube/keycloak-cluster
