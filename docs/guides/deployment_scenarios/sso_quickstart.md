@@ -295,10 +295,10 @@ export CLUSTER_NAME=\$(cat ~/.bashrc  | grep CLUSTER_NAME | cut -d \" -f 2)
 IMAGE_CACHE=\${HOME}/.k3d-container-image-cache
 mkdir -p \${IMAGE_CACHE}
 k3d cluster create \$CLUSTER_NAME \
-    --k3s-server-arg "--tls-san=\$K3D_IP" \
+    --k3s-arg "--tls-san=\$K3D_IP@server:0" \
     --volume /etc/machine-id:/etc/machine-id \
     --volume \${IMAGE_CACHE}:/var/lib/rancher/k3s/agent/containerd/io.containerd.content.v1.content \
-    --k3s-server-arg "--disable=traefik" \
+    --k3s-arg "--disable=traefik@server:0" \
     --port 80:80@loadbalancer \
     --port 443:443@loadbalancer \
     --api-port 6443
@@ -429,8 +429,62 @@ gatekeeper:
           cpu: null
           memory: null
     violations:
+      allowedCapabilities:
+        parameters:
+          excludedResources:
+          # Allows k3d load balancer containers to not drop capabilities
+          - istio-system/lb-port-.*
       allowedDockerRegistries:
         enforcementAction: dryrun
+        parameters:
+          excludedResources:
+          # Allows k3d load balancer containers to pull from public repos
+          - istio-system/lb-port-.*
+      allowedSecCompProfiles:
+        parameters:
+          excludedResources:
+          # Allows k3d load balancer containers to have an undefined defined seccomp
+          - istio-system/lb-port-.*
+      allowedUsers:
+        parameters:
+          excludedResources:
+          # Allows k3d load balancer containers to run as any user/group
+          - istio-system/lb-port-.*
+      containerRatio:
+        parameters:
+          excludedResources:
+          # Allows k3d load balancer containers to have undefined limits/requests
+          - istio-system/lb-port-.*
+      hostNetworking:
+        parameters:
+          excludedResources:
+          # Allows k3d load balancer containers to mount host ports
+          - istio-system/lb-port-.*
+      noBigContainers:
+        parameters:
+          excludedResources:
+          # Allows k3d load balancer containers to have undefined limits/requests
+          - istio-system/lb-port-.*
+      noPrivilegedEscalation:
+        parameters:
+          excludedResources:
+          # Allows k3d load balancer containers to have undefined security context
+          - istio-system/lb-port-.*
+      readOnlyRoot:
+        parameters:
+          excludedResources:
+          # Allows k3d load balancer containers to mount filesystems read/write
+          - istio-system/lb-port-.*
+      requiredLabels:
+        parameters:
+          excludedResources:
+          # Allows k3d load balancer pods to not have required labels
+          - istio-system/svclb-.*
+      requiredProbes:
+        parameters:
+          excludedResources:
+          # Allows k3d load balancer containers to not have readiness/liveness probes
+          - istio-system/lb-port-.*
 
 istio:
   values:
@@ -451,14 +505,17 @@ EOF
 
 helm upgrade --install bigbang \$HOME/bigbang/chart \
   --values https://repo1.dso.mil/platform-one/big-bang/bigbang/-/raw/master/chart/ingress-certs.yaml \
-  --values \$HOME/bigbang/docs/example_configs/opa-overrides-k3d.yaml \
   --values \$HOME/ib_creds.yaml \
   --values \$HOME/demo_values.yaml \
   --namespace=bigbang --create-namespace
 EOFdeploy-workloadsEOF
 
 ssh workload-cluster < ~/qs/deploy-workloads.txt
+```
 
+* The following command can be used to check the status of the deployment. You can optionally re-run `kubectl get hr -A` multiple times until you see READY: True, but there's no need to wait for it to finish before moving on.
+
+```shell
 # You can run these commands to check it out, 
 # but there's no need to wait for the deployment to finish before moving on.
 sleep 5
@@ -553,21 +610,25 @@ cat /etc/hosts
 
 * Edit similarly using method mentioned in the generic quickstart
 
-## Step 9: Make sure the clusters had enough time to finish deployment
+## Step 9: Make sure the clusters have had enough time to finish their deployments
 
 ```shell
 # [admin@Laptop:~]
 export KUBECONFIG=$HOME/.kube/keycloak-cluster
 kubectl get pods -A
-kubectl wait --for=condition=ready --timeout=10m pod/keycloak-0 -n=keycloak #takes about 5min
+kubectl wait --for=condition=ready --timeout=10m pod/keycloak-0 -n=keycloak 
+# ^-- takes about 5min
 kubectl get hr -A
-kubectl get svc -n=istio-system # verify EXTERNAL-IP isn't stuck in pending
+kubectl get svc -n=istio-system 
+# ^-- verify EXTERNAL-IP isnt stuck in pending
 
 export KUBECONFIG=$HOME/.kube/workload-cluster
 kubectl get hr -A
-kubectl wait --for=condition=ready --timeout=15m hr/jaeger -n=bigbang #takes about 10-15mins
+kubectl wait --for=condition=ready --timeout=15m hr/jaeger -n=bigbang 
+# ^-- takes about 10-15mins
 kubectl get hr -A
-kubectl get svc -n=istio-system # verify EXTERNAL-IP isn't stuck in pending
+kubectl get svc -n=istio-system 
+# ^-- verify EXTERNAL-IP isnt stuck in pending
 ```
 
 ## Step 10: Verify that you can access websites hosted in both clusters
@@ -732,7 +793,6 @@ EOF
 
 helm upgrade --install bigbang \$HOME/bigbang/chart \
   --values https://repo1.dso.mil/platform-one/big-bang/bigbang/-/raw/master/chart/ingress-certs.yaml \
-  --values \$HOME/bigbang/docs/example_configs/opa-overrides-k3d.yaml \
   --values \$HOME/ib_creds.yaml \
   --values \$HOME/demo_values.yaml \
   --values \$HOME/auth_service_demo_values.yaml \
