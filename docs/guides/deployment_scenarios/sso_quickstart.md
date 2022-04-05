@@ -297,16 +297,25 @@ Why 2 VMs? 2 reasons:
     ssh workload-cluster < ~/qs/shared-k3d-prepwork-verification-commands.txt
     ```
 
-## Step 4: Create k3d cluster on both VMs and make sure you have access to both
 
+## Step 4: Create k3d cluster on both VMs and make sure you have access to both
+```text
+Note: There's no need to copy paste commands from this text box,
+      it's intended to explain some of the shell below.
+
+If you were to copy paste the following into your laptop/workstation's terminal.
+ssh keycloak-cluster 'env | grep K3D_IP'
+You'd receive blank text, this means that env vars defined in the remote VM's ~/.bashrc 
+are not populated when using non interactive shell copy paste automation method.
+
+That's why the script that runs on the remote machine has lines like this one:
+export K3D_IP=\$(cat ~/.bashrc  | grep K3D_IP | cut -d \" -f 2)
+(It's a workaround that allows the env var values to be used in a non interactive shell)
+```
+
+* Create a k3d cluster on both VMs
 ```shell
 # [admin@Laptop:~]
-# Note: 
-# ssh keycloak-cluster 'env | grep K3D_IP'
-# shows that env vars defined in ~/.bashrc aren't populated when using non interactive shell method
-# The following workaround is used to grab their values for use in non interactive shell
-# export K3D_IP=\$(cat ~/.bashrc  | grep K3D_IP | cut -d \" -f 2)
-
 cat << EOFshared-k3d-install-commandsEOF > ~/qs/shared-k3d-install-commands.txt
 export K3D_IP=\$(cat ~/.bashrc  | grep K3D_IP | cut -d \" -f 2)
 export CLUSTER_NAME=\$(cat ~/.bashrc  | grep CLUSTER_NAME | cut -d \" -f 2)
@@ -324,7 +333,7 @@ k3d cluster create \$CLUSTER_NAME \
 sed -i "s/0.0.0.0/\$K3D_IP/" ~/.kube/config
 # Explanation:
 # sed = stream editor 
-# -i 's/...   (i = inline), (s = substitution, basically cli find and replace)
+# -i s/.../.../   (i = inline), (s = substitution, basically cli find and replace)
 # / / / are delimiters the separate what to find and what to replace.
 # \$K3D_IP, is a variable with $ escaped, so the var will be processed by the remote VM.
 # This was done to allow kubectl access from a remote machine.
@@ -333,15 +342,19 @@ EOFshared-k3d-install-commandsEOF
 ssh keycloak-cluster < ~/qs/shared-k3d-install-commands.txt &
 ssh workload-cluster < ~/qs/shared-k3d-install-commands.txt &
 wait
+```
 
+* Copy pasting these verification commands, will make sure you have access to both clusters.
+```shell
+# [admin@Laptop:~]
 mkdir -p ~/.kube
 scp keycloak-cluster:~/.kube/config ~/.kube/keycloak-cluster
 scp workload-cluster:~/.kube/config ~/.kube/workload-cluster
 
 export KUBECONFIG=$HOME/.kube/keycloak-cluster
-k get node
+kubectl get node
 export KUBECONFIG=$HOME/.kube/workload-cluster
-k get node
+kubectl get node
 ```
 
 ## Step 5: Clone Big Bang and Install Flux on both Clusters
