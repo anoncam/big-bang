@@ -427,13 +427,6 @@ addons:
               fsGroup: 1001
             
   nexus:
-    # Nexus requires manual configuration in Keycloak client and cannot be tested with login.dso.mil
-    # you must test with your own dev deployment.  Example: keycloak.bigbang.dev
-    # See more info in Nexus Package docs /docs/keycloak.md
-    # Nexus SSO is behind a paywall. You must have a valid license to enable SSO
-    # -- Base64 encoded license file.
-    # cat ~/Downloads/sonatype-license-YYYY-MM-ddTnnnnnnZ.lic | base64 -w 0 ; echo
-    #license_key: "enter-single-line-base64-encoded-string-here"
     values:
       persistence:
         # Do NOT set this below 5Gi, nexus will fail to boot
