@@ -358,7 +358,7 @@ kubectl get node
 ```
 
 ## Step 5: Clone Big Bang and Install Flux on both Clusters
-* Note after copy pasting the following block of automation, it might look stuck on "networkpolicy.networking.k8s.io/allow-webhooks created", the install_flux.sh script has logic near the end that waits for a healthy deployment, so just wait about 4 minutes. After which `kubectl get po -n=flux-system` should show a healthy deployment and you should be able to interactively use your terminal again. 
+* Note after copy pasting the following block of automation, it might look stuck on "networkpolicy.networking.k8s.io/allow-webhooks created", the install_flux.sh script has logic near the end that waits for a healthy deployment, so just wait about 4 minutes. After which `kubectl get po -n=flux-system` should show a healthy deployment and you should be able to interactively use your terminal again.
 ```shell
 # [admin@Laptop:~]
 cat << EOFshared-flux-install-commandsEOF > ~/qs/shared-flux-install-commands.txt
@@ -376,7 +376,11 @@ EOFshared-flux-install-commandsEOF
 ssh keycloak-cluster < ~/qs/shared-flux-install-commands.txt &
 ssh workload-cluster < ~/qs/shared-flux-install-commands.txt &
 wait
+```
 
+* Note: It's possible for the above flux install commands to give a false error message, along the lines of "error: timed out waiting for the condition on deployments/helm-controller", if the deployment takes longer than 5 minutes, the wait for healthy logic will time out. If you follow these steps using cloud service provider infrastructure, you're unlikely to see the error. If you follow these steps on a home network lab with slower download speed you might see the error message, its ignorable, and you can use the following copy pasteable command block to verify health of the flux pods.
+```shell
+# [admin@Laptop:~]
 export KUBECONFIG=$HOME/.kube/keycloak-cluster
 kubectl get po -n=flux-system
 export KUBECONFIG=$HOME/.kube/workload-cluster
