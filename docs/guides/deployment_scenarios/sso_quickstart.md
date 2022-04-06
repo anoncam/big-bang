@@ -850,9 +850,10 @@ ssh workload-cluster 'helm get values bigbang -n=bigbang' # You can eyeball this
 
 * Go to https://authdemo.bigbang.dev
 * Before we were taken straight to the mock mission app webpage
-* Now this URL immediately redirects to a KeyCloak Log in Prompt and if you log in with your demo user, you'll see the following message
+* Now* (or 30-120 seconds after copy pasting the above block of commands into the terminal), when you create a new tab and try to visit this URL it immediately redirects to a KeyCloak Log in Prompt and if you log in with your demo user, you'll a message like this:
 
-> Your account has not been granted access to this application group yet.
+> RBAC: access denied  
+> Your account has not been granted access to this application group yet.  
 
 ## Step 17: Update the group membership of the user
 
@@ -865,7 +866,10 @@ ssh workload-cluster 'helm get values bigbang -n=bigbang' # You can eyeball this
    1. Click [Join]
 
 > Note:  
-> If you try to repeat step 16 at this stage, you'll see a access denied or an infinite loading screen.  
+> If you try to repeat step 16 at this stage, you'll see either an infinite loading screen or message like this:  
+> `Access to authdemo.bigbang.dev was denied`  
+> `You don't have authorization to view this page.`  
+> `HTTP ERROR 403`  
 > The reason for this is that we configured our workstation's hostfile /etc/hosts to avoid needing to configure DNS. But the 2 k3d clusters are unable to resolve the DNS Names.  
 > AuthService pods on the Workload Cluster need to be able to resolve the DNS name of keycloak.bigbang.dev  
 > Keycloak pod on the Keycloak Cluster needs to be able to resolve the DNS name of authdemo.bigbang.dev
@@ -878,13 +882,21 @@ ssh workload-cluster 'helm get values bigbang -n=bigbang' # You can eyeball this
 # The following tests DNS resolution from the perspective of a pod running in the cluster
 export KUBECONFIG=$HOME/.kube/workload-cluster
 kubectl run -it test --image=busybox:stable 
+```
 
+```bash
 # [pod@workload-cluster:~]
-  exit
+# ^-- this is your context, but your interface will look more like this:
+# If you dont see a command prompt, try pressing enter.
+# / #
+exit
+```
 
+```bash
 # [admin@Laptop:~]
 kubectl exec -it test -- ping keycloak.bigbang.dev -c 1 | head -n 1
-# Notice it mentions resolution as 127.0.0.1, this is incorrect and comes from public internet DNS
+# Notice it mentions resolution as 127.0.0.1, this comes from public internet DNS, 
+# The next steps will override the DNS resolution to suit the needs of this guide.
 ```
 
 * The following copy pasteable block of commands will load new entries in coredns / inner cluster dns of both clusters.
