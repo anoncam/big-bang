@@ -758,7 +758,7 @@ kubectl wait --for=condition=available deployment/podinfo --timeout=3m -n=mock-m
       Note: /login/generic_oauth comes from auth service
    1. Save
    1. Scroll up to the top of the page and you'll see a newly added [Credentials] tab, click it.
-   1. Copy the secret for the authdemo Client Application Identity, you'll paste it into the next step
+   1. Copy the secret for the authdemo Client Application Identity, (it's labeled secret) you'll paste it into the next step
 
 ## Step 15: Deploy auth service to the workload cluster and use it to protect the mock mission app
 
@@ -767,7 +767,7 @@ kubectl wait --for=condition=available deployment/podinfo --timeout=3m -n=mock-m
 
 export AUTHDEMO_APP_ID_CLIENT_SECRET="pasted_value"
 # It should look similar to the following dynamically generated demo value
-# export AUTHDEMO_APP_ID_CLIENT_SECRET="cada6b1f-a0ca-4d79-93b8-facbd52c4d9b" 
+# export AUTHDEMO_APP_ID_CLIENT_SECRET="fsCUSkwy2kaaSlgN4r4LPYOAvHCqzUk5" 
 
 echo $AUTHDEMO_APP_ID_CLIENT_SECRET | grep "pasted_value" ; echo $? | grep 1 && echo "This validation check shows you remembered to update the pasted value." || ( for i in {1..10}; do echo "Validation check shows error, update the variable by pasting in the dynamically generated secret before moving on." ; done ; sleep 3 )
 
@@ -781,8 +781,11 @@ export KEYCLOAK_IDP_JWKS=$(curl https://keycloak.bigbang.dev/auth/realms/baby-yo
 # Note: 
 # Authservice needs the CA-cert.pem that Keycloak's HTTPS cert was signed by, *.bigbang.dev is signed by Let's Encrypt Free CA
 export KEYCLOAK_CERTS_CA=$(curl https://letsencrypt.org/certs/isrgrootx1.pem)
+```
 
-
+* You can copy paste the following command block as is
+```shell
+# [admin@Laptop:~]
 cat << EOFdeploy-auth-service-demoEOF > ~/qs/deploy-auth-service-demo.txt
 
 # Note: Big Bang is configured such that if a pod is a part of the service mesh
@@ -857,13 +860,14 @@ ssh workload-cluster 'helm get values bigbang -n=bigbang' # You can eyeball this
    1. Click Impact Level 2 Authorized
    1. Click [Join]
 
-> Note: If you try to repeat step 16 at this stage, log in will result in an infinite loading screen.
-> The reason for this is that we configured our workstation's hostfile /etc/hosts to avoid needing to configure DNS. But the 2 k3d clusters are unable to resolve the DNS Names.
-> AuthService pods on the Workload Cluster need to be able to resolve the DNS name of keycloak.bigbang.dev
-> Keycloak on the Keycloak Cluster needs to be able to resolve the DNS name of authdemo.bigbang.dev
+> Note:  
+> If you try to repeat step 16 at this stage, you'll see a access denied or an infinite loading screen.  
+> The reason for this is that we configured our workstation's hostfile /etc/hosts to avoid needing to configure DNS. But the 2 k3d clusters are unable to resolve the DNS Names.  
+> AuthService pods on the Workload Cluster need to be able to resolve the DNS name of keycloak.bigbang.dev  
+> Keycloak pod on the Keycloak Cluster needs to be able to resolve the DNS name of authdemo.bigbang.dev
 
 ## Step 18: Update Inner Cluster DNS on the Workload Cluster
-
+* The following commands will show there's an issue with DNS
 ```shell
 # [admin@Laptop:~]
 
@@ -871,16 +875,17 @@ ssh workload-cluster 'helm get values bigbang -n=bigbang' # You can eyeball this
 export KUBECONFIG=$HOME/.kube/workload-cluster
 kubectl run -it test --image=busybox:stable 
 
-
 # [pod@workload-cluster:~]
   exit
-
 
 # [admin@Laptop:~]
 kubectl exec -it test -- ping keycloak.bigbang.dev -c 1 | head -n 1
 # Notice it mentions resolution as 127.0.0.1, this is incorrect and comes from public internet DNS
+```
 
-
+* The following copy pasteable block of commands will load new entries in coredns / inner cluster dns of both clusters.
+```shell
+# [admin@Laptop:~]
 # We will override it by updating coredns, which works at the Inner Cluster Network level and has higher precedence.
 export KEYCLOAK_IP=$(cat ~/.ssh/config | grep keycloak-cluster -A 1 | grep Hostname | awk '{print $2}')
 export WORKLOAD_IP=$(cat ~/.ssh/config | grep workload-cluster -A 1 | grep Hostname | awk '{print $2}')
@@ -904,7 +909,7 @@ kubectl delete pods -l=k8s-app=kube-dns -n=kube-system
 # Retest DNS resolution from the perspective of a pod running in the cluster
 kubectl exec -it test -- ping keycloak.bigbang.dev -c 1 | head -n 1
 kubectl exec -it test -- ping authdemo.bigbang.dev -c 1 | head -n 1
-# Now the k3d clusters can resolve the DNS to IP mappings, similar to our workstation's /etc/hosts file
+# Now the k3d clusters can resolve the DNS to IP mappings, similar to our workstations /etc/hosts file
 ```
 
 ## Step 19: Revisit authdemo.bigbang.dev
