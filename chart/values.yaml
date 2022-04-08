@@ -1316,6 +1316,8 @@ addons:
     # -- Redirect the package ingress to a specific Istio Gateway (listed in `istio.gateways`).  The default is "public".
     ingress:
       gateway: ""
+      key: ""
+      cert: ""
 
     # -- Values to passthrough to the vault chart: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/vault.git
     values: {}
