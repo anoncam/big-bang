@@ -125,11 +125,12 @@ gatekeeper:
   enabled: true
   values:
     replicas: 1
-    resources:
-      requests:
-        cpu: 100m
-        memory: 256Mi
-      limits: {}
+    controllerManager:
+      resources:
+        limits: {}
+        requests:
+          cpu: 100m
+          memory: 256Mi
 
     violations:
       allowedCapabilities:
@@ -1219,7 +1220,7 @@ addons:
             customreg.yaml: '{{ .Files.Get "resources/dev/baby-yoda.yaml" }}'
         realm:
           stringData:
-            realm.json: '{{ .Files.Get "resources/dev/baby-yoda.json" }}'
+            realm.json: '{{ .Files.Get "resources/dev/baby-yoda-ci.json" }}'
       extraVolumes: |-
         - name: certauthority
           secret:
