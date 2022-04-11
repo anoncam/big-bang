@@ -33,9 +33,23 @@ server:
   {{- if .Values.istio.enabled }}
   annotations:
     {{ include "istioAnnotation" . }}
+    {{- if eq .Values.addons.vault.ingress.gateway  "passthrough" }}
+    traffic.sidecar.istio.io/excludeInboundPorts: "8201"
+    traffic.sidecar.istio.io/excludeOutboundPorts: "8201"
+    {{- end }}
   {{- end }}
   image:
     pullPolicy: {{ .Values.imagePullPolicy }}
+  {{- if and .Values.addons.vault.ingress.cert .Values.addons.vault.ingress.key }}
+  volumes:
+  - name: tls
+    secret:
+      secretName: vault-tls
+  volumeMounts:
+  - name: tls
+    mountPath: "/vault/tls"
+    readOnly: true
+  {{- end }}
 
 csi:
   image:
@@ -56,7 +70,7 @@ istio:
   vault:
     gateways:
       - istio-system/{{ default "public" .Values.addons.vault.ingress.gateway }}
-    {{- if and .Values.addons.vault.ingress.cert .Values.addons.keycloak.ingress.key }}
+    {{- if and .Values.addons.vault.ingress.cert .Values.addons.vault.ingress.key }}
     tls:
       cert: {{ .Values.addons.keycloak.ingress.cert | quote }}
       key:  {{ .Values.addons.keycloak.ingress.key | quote }}

@@ -1316,6 +1316,7 @@ addons:
     # -- Redirect the package ingress to a specific Istio Gateway (listed in `istio.gateways`).  The default is "public".
     ingress:
       gateway: ""
+      # enter the vault TLS cert for passthrough ingress gatway
       key: ""
       cert: ""
 
