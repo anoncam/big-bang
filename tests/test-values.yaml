@@ -81,6 +81,9 @@ jaeger:
     enabled: false
     client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_jaeger
   values:
+    istio:
+      jaeger:
+        enabled: true
     bbtests:
       enabled: true
       cypress:
@@ -127,11 +130,12 @@ gatekeeper:
   enabled: true
   values:
     replicas: 1
-    resources:
-      requests:
-        cpu: 100m
-        memory: 256Mi
-      limits: {}
+    controllerManager:
+      resources:
+        limits: {}
+        requests:
+          cpu: 100m
+          memory: 256Mi
 
     violations:
       allowedCapabilities:
@@ -156,6 +160,7 @@ gatekeeper:
           - kiali/kiali-operator-cypress-test
           - mattermost/mattermost-cypress-test
           - keycloak/keycloak-cypress-test
+          - jaeger/jaeger-operator-cypress-test
           # Allow kyverno test vectors for Helm test
           - default/restrict-host-path-mount-.?
           - default/restrict-host-path-write-.?
@@ -247,6 +252,7 @@ gatekeeper:
           - kiali/kiali-operator-cypress-test
           - mattermost/mattermost-cypress-test
           - keycloak/keycloak-cypress-test
+          - jaeger/jaeger-operator-cypress-test
           # Allow kyverno test vectors for Helm test
           - default/restrict-host-path-mount-.?
           - default/restrict-host-path-write-.?
@@ -350,6 +356,7 @@ kyvernopolicies:
               - mattermost
               - nexus-repository-manager
               - keycloak
+              - jaeger
               names:
               - "*-cypress-test*"
         parameters:
@@ -365,6 +372,7 @@ kyvernopolicies:
               - mattermost
               - nexus-repository-manager
               - keycloak
+              - jaeger
               names:
               - "*-cypress-test*"
         parameters:
@@ -395,6 +403,7 @@ kyvernopolicies:
               - mattermost
               - nexus-repository-manager
               - keycloak
+              - jaeger
               names:
               - "*-cypress-test*"
       update-image-pull-policy:
@@ -464,38 +473,44 @@ loki:
 
 tempo:
   enabled: false
-  resources:
-    limits:
-      cpu: 200m
-      memory: 128Mi
-    requests:
-      cpu: 200m
-      memory: 128Mi
+  values:
+    istio:
+      tempoQuery:
+        hosts:
+          - "tempo.{{ .Values.domain }}"
+    tempo:
+      resources:
+        limits:
+          cpu: 200m
+          memory: 128Mi
+        requests:
+          cpu: 200m
+          memory: 128Mi
 
-  persistence:
-    enabled: true
-    # storageClassName: local-path
-    accessModes:
-      - ReadWriteOnce
-    size: 5Gi
+    persistence:
+      enabled: true
+      # storageClassName: local-path
+      accessModes:
+        - ReadWriteOnce
+      size: 5Gi
 
-  tempoQuery:
-    resources:
-      limits:
-        cpu: 200m
-        memory: 128Mi
-      requests:
-        cpu: 200m
-        memory: 128Mi
+    tempoQuery:
+      resources:
+        limits:
+          cpu: 200m
+          memory: 128Mi
+        requests:
+          cpu: 200m
+          memory: 128Mi
 
-  opentelemetryCollector:
-    resources:
-      limits:
-        cpu: 200m
-        memory: 128Mi
-      requests:
-        cpu: 200m
-        memory: 128Mi
+    opentelemetryCollector:
+      resources:
+        limits:
+          cpu: 200m
+          memory: 128Mi
+        requests:
+          cpu: 200m
+          memory: 128Mi
 
 monitoring:
   enabled: true
@@ -1213,7 +1228,7 @@ addons:
             customreg.yaml: '{{ .Files.Get "resources/dev/baby-yoda.yaml" }}'
         realm:
           stringData:
-            realm.json: '{{ .Files.Get "resources/dev/baby-yoda.json" }}'
+            realm.json: '{{ .Files.Get "resources/dev/baby-yoda-ci.json" }}'
       extraVolumes: |-
         - name: certauthority
           secret:
@@ -1247,6 +1262,9 @@ addons:
       server:
         dataStorage:
           enabled: true
+          size: 256Mi
+        auditStorage:
+          size: 256Mi
       injector:
         affinity: |
           podAntiAffinity:
@@ -1259,7 +1277,6 @@ addons:
                       app.kubernetes.io/instance: "{{ .Release.Name }}"
                       component: webhook
                   topologyKey: kubernetes.io/hostname
-
       bbtests:
         enabled: true
         cypress:
