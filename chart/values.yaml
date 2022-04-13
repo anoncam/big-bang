@@ -1316,7 +1316,8 @@ addons:
     # -- Redirect the package ingress to a specific Istio Gateway (listed in `istio.gateways`).  The default is "public".
     ingress:
       gateway: ""
-      # enter the vault TLS cert for passthrough ingress gatway
+      # -- Certificate/Key pair to use as the certificate for exposing Vault
+      # Setting the ingress cert here will automatically create the volume and volumemounts in the Vault package chart
       key: ""
       cert: ""
 
