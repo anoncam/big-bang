@@ -33,10 +33,6 @@ server:
   {{- if .Values.istio.enabled }}
   annotations:
     {{ include "istioAnnotation" . }}
-    {{- if eq .Values.addons.vault.ingress.gateway "passthrough" }}
-    traffic.sidecar.istio.io/excludeInboundPorts: "8201"
-    traffic.sidecar.istio.io/excludeOutboundPorts: "8201"
-    {{- end }}
   {{- end }}
   image:
     pullPolicy: {{ .Values.imagePullPolicy }}
