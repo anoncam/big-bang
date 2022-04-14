@@ -1262,9 +1262,7 @@ addons:
     git:
       repo: https://repo1.dso.mil/platform-one/big-bang/apps/security-tools/keycloak.git
       path: "./chart"
-      #tag: "18.0.0-bb.0"
-      tag: null
-      branch: "renovate/major-ironbank"
+      tag: "18.0.0-bb.0"
 
     database:
       # -- Hostname of a pre-existing database to use for Keycloak.
