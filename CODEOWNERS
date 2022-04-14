@@ -17,19 +17,3 @@
 # Does not allow the creator of the merge request to be the approver.
 /docs/                          @brandencobb @cmcgrath @echuang @evan.rush @jasonkrause @joshwolf @kenna81 @kevin.wilder @LynnStill @micah.nagel @michaelmartin @michaelmcleroy @rkernick @runyontr @ryan.j.garcia @shouseba @toladipupo @tsiddique1 @ronwebb @ryan.thompson.44 @gabe
 
-################################################
-# The following entries are for optional approval. 
-# They are only included to document contacts and have no impact on approval requirements
-################################################
-
-^[Kustomize Base Owners]
-base/                           @michaelmcleroy @micah.nagel @ryan.j.garcia @brandencobb
-
-^[CI Owners]
-.gitlab-ci/                     @toladipupo @brandencobb @evan.rush
-tests/                          @toladipupo @brandencobb @evan.rush
-
-^[Hack Owners]
-scripts/                        @toladipupo @michaelmcleroy 
-^[Charter Owners]
-charter/                        @gabe @micah.nagel @michaelmcleroy @ryan.thompson.44 @runyontr @ryan.j.garcia @brandencobb
