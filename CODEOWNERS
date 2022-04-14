@@ -1,15 +1,5 @@
 [Project Managers]
-# protect individual files in the root directory such as the CODEOWNERS file
-/*                              @gabe @micah.nagel @michaelmcleroy @ryan.thompson.44 @runyontr @ryan.j.garcia @brandencobb @joshwolf
-# Recursive protection for directories
-/.gitlab-ci/                    @gabe @micah.nagel @michaelmcleroy @ryan.thompson.44 @runyontr @ryan.j.garcia @brandencobb @joshwolf
-/.gitlab/                       @gabe @micah.nagel @michaelmcleroy @ryan.thompson.44 @runyontr @ryan.j.garcia @brandencobb @joshwolf
-/base/                          @gabe @micah.nagel @michaelmcleroy @ryan.thompson.44 @runyontr @ryan.j.garcia @brandencobb @joshwolf
-/chart/                         @gabe @micah.nagel @michaelmcleroy @ryan.thompson.44 @runyontr @ryan.j.garcia @brandencobb @joshwolf
-/charter/                       @gabe @micah.nagel @michaelmcleroy @ryan.thompson.44 @runyontr @ryan.j.garcia @brandencobb @joshwolf
-/scripts/                       @gabe @micah.nagel @michaelmcleroy @ryan.thompson.44 @runyontr @ryan.j.garcia @brandencobb @joshwolf
-/tests/                         @gabe @micah.nagel @michaelmcleroy @ryan.thompson.44 @runyontr @ryan.j.garcia @brandencobb @joshwolf
-/docs/                          @gabe @micah.nagel @michaelmcleroy @ryan.thompson.44 @runyontr @ryan.j.garcia @brandencobb @joshwolf
+*                              @gabe @micah.nagel @michaelmcleroy @ryan.thompson.44 @runyontr @ryan.j.garcia @brandencobb @joshwolf
 
 
 [Docs Owners]
