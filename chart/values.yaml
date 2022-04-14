@@ -418,7 +418,8 @@ logging:
   git:
     repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/elasticsearch-kibana.git
     path: "./chart"
-    tag: "0.7.0-bb.1"
+    # tag: "0.7.0-bb.2"
+    branch: "issue-1013-efk"
 
   # -- Flux reconciliation overrides specifically for the Logging (EFK) Package
   flux:
