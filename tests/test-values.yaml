@@ -444,11 +444,15 @@ logging:
       count: 1
     bbtests:
       enabled: true
+      virtualService: true
       cypress:
         artifacts: true
         envs:
           cypress_expect_logs: "true"
           cypress_kibana_url: "https://kibana.bigbang.dev"
+      scripts:
+        envs:
+          elasticsearch_host: "https://elastic.bigbang.dev"
 
 fluentbit:
   enabled: true

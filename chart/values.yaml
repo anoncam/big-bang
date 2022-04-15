@@ -459,7 +459,8 @@ eckoperator:
   git:
     repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/eck-operator.git
     path: "./chart"
-    tag: "2.0.0-bb.1"
+    # tag: "2.0.0-bb.2"
+    branch: "webhook-mtls-exception"
 
   # -- Flux reconciliation overrides specifically for the ECK Operator Package
   flux: {}
