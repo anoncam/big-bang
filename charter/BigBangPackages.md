@@ -151,16 +151,16 @@ Owners:
 
 ### Policy Enforcement
 
-The Policy Enforcement Package installs the Open Policy Agent Gatekeeper [Operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/).
+The Policy Enforcement Package installs Kyverno.
 
 Product:
 
-* [OPA Gatekeeper](https://github.com/open-policy-agent/gatekeeper)
-* [Open Policy Agent](https://www.openpolicyagent.org/)
+* [Kyverno](https://github.com/kyverno/kyverno)
+* [Kyverno Policy Reporter](https://github.com/kyverno/policy-reporter)
 
 Repository:
 
-* [Policy Repo](https://repo1.dso.mil/platform-one/big-bang/apps/core/policy)
+* [Policy Repo](https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/kyverno-policies)
 
 Dependencies: None
 
