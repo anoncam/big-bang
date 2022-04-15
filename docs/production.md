@@ -170,7 +170,7 @@ kubectl get secret/gitlab-rails-secret -n gitlab -o yaml > cya.yaml
 ```
 
 ## Vault
-This section provides suggested settings for Vault operational/production environments. Vault is a large complicated application and has many options that cannot adequately be covered here. Vault has significant security risks if not properly configured and administrated. Please consult the upstream [Vault documentation](https://learn.hashicorp.com/tutorials/vault/kubernetes-raft-deployment-guide?in=vault/kubernetes#configure-vault-helm-chart) as the ultimate authority. The following is an example operational/production config using a passthrough istio ingress gateway, high availability, auto-unseal, and raft for distributed filesystem persistence. Consult the BigBang Vault Package helm repo /docs/production-ha.md for more information.
+This section provides suggested settings for Vault operational/production environments. Vault is a large complicated application and has many options that cannot adequately be covered here. Vault has significant security risks if not properly configured and administrated. Please consult the upstream [Vault documentation](https://learn.hashicorp.com/tutorials/vault/kubernetes-raft-deployment-guide?in=vault/kubernetes#configure-vault-helm-chart) as the ultimate authority. The following is an example operational/production config using a passthrough istio ingress gateway, high availability, auto-unseal, and raft for distributed filesystem persistence. Consult the BigBang Vault Package helm repo [/docs/production-ha.md](https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/vault/-/blob/main/docs/production-ha.md) for more information.
 ```yaml
 istio:
   enabled: true
