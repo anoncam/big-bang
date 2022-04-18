@@ -296,7 +296,7 @@ kiali:
   git:
     repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/kiali.git
     path: "./chart"
-    tag: "1.47.0-bb.4"
+    tag: "1.47.0-bb.5"
 
   # -- Flux reconciliation overrides specifically for the Kiali Package
   flux: {}
@@ -1264,7 +1264,7 @@ addons:
     git:
       repo: https://repo1.dso.mil/platform-one/big-bang/apps/security-tools/keycloak.git
       path: "./chart"
-      tag: "17.0.1-bb.4"
+      tag: "18.0.0-bb.1"
 
     database:
       # -- Hostname of a pre-existing database to use for Keycloak.
@@ -1310,7 +1310,7 @@ addons:
     git:
       repo: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/vault.git
       path: "./chart"
-      tag: "0.19.0-bb.6"
+      tag: "0.19.0-bb.7"
 
     # -- Flux reconciliation overrides specifically for the Vault Package
     flux: {}
@@ -1318,6 +1318,10 @@ addons:
     # -- Redirect the package ingress to a specific Istio Gateway (listed in `istio.gateways`).  The default is "public".
     ingress:
       gateway: ""
+      # -- Certificate/Key pair to use as the certificate for exposing Vault
+      # Setting the ingress cert here will automatically create the volume and volumemounts in the Vault package chart
+      key: ""
+      cert: ""
 
     # -- Values to passthrough to the vault chart: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/vault.git
     values: {}
