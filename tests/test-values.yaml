@@ -498,9 +498,7 @@ tempo:
           - "tempo.{{ .Values.domain }}"
     tempo:
       resources:
-        limits:
-          cpu: 200m
-          memory: 768Mi
+        limits: null
         requests:
           cpu: 200m
           memory: 768Mi
@@ -514,12 +512,10 @@ tempo:
 
     tempoQuery:
       resources:
-        limits:
-          cpu: 200m
-          memory: 768Mi
+        limits: null
         requests:
           cpu: 200m
-          memory: 768Mi
+          memory: 128Mi
 
 monitoring:
   enabled: true
