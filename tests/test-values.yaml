@@ -500,10 +500,10 @@ tempo:
       resources:
         limits:
           cpu: 200m
-          memory: 512Mi
+          memory: 768Mi
         requests:
           cpu: 200m
-          memory: 512Mi
+          memory: 768Mi
 
     persistence:
       enabled: true
@@ -516,10 +516,10 @@ tempo:
       resources:
         limits:
           cpu: 200m
-          memory: 512Mi
+          memory: 768Mi
         requests:
           cpu: 200m
-          memory: 512Mi
+          memory: 768Mi
 
 monitoring:
   enabled: true
