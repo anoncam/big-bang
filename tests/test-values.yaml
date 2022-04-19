@@ -500,10 +500,10 @@ tempo:
       resources:
         limits:
           cpu: 200m
-          memory: 128Mi
+          memory: 256Mi
         requests:
           cpu: 200m
-          memory: 128Mi
+          memory: 256Mi
 
     persistence:
       enabled: true
@@ -516,19 +516,10 @@ tempo:
       resources:
         limits:
           cpu: 200m
-          memory: 128Mi
+          memory: 256Mi
         requests:
           cpu: 200m
-          memory: 128Mi
-
-    opentelemetryCollector:
-      resources:
-        limits:
-          cpu: 200m
-          memory: 128Mi
-        requests:
-          cpu: 200m
-          memory: 128Mi
+          memory: 256Mi
 
 monitoring:
   enabled: true
