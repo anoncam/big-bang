@@ -501,7 +501,7 @@ tempo:
         limits: null
         requests:
           cpu: 200m
-          memory: 768Mi
+          memory: 128Mi
 
     persistence:
       enabled: true
