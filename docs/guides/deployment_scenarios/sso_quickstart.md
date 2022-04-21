@@ -659,6 +659,8 @@ cat /etc/hosts
   fast you may see a temporary error about pod keycloak-0 not found. It's recommended to  
   copy paste this block of verification commands a 2nd time after 10 minutes have passed.  
 
+* Note when you run `kubectl get svc -n=istio-system`, against each cluster, verify that EXTERNAL-IP isn't stuck in pending.
+
 ```shell
 # [admin@Laptop:~]
 export KUBECONFIG=$HOME/.kube/keycloak-cluster
@@ -667,15 +669,13 @@ kubectl wait --for=condition=ready --timeout=10m pod/keycloak-0 -n=keycloak
 # ^-- takes about 5min
 kubectl get hr -A
 kubectl get svc -n=istio-system 
-# ^-- verify EXTERNAL-IP isn't stuck in pending
 
 export KUBECONFIG=$HOME/.kube/workload-cluster
 kubectl get hr -A
 kubectl wait --for=condition=ready --timeout=15m hr/jaeger -n=bigbang 
 # ^-- takes about 10-15mins
 kubectl get hr -A
-kubectl get svc -n=istio-system 
-# ^-- verify EXTERNAL-IP isn't stuck in pending
+kubectl get svc -n=istio-system
 ```
 
 ## Step 10: Verify that you can access websites hosted in both clusters
@@ -755,19 +755,19 @@ kubectl wait --for=condition=available deployment/podinfo --timeout=3m -n=mock-m
 1. Visit <https://keycloak.bigbang.dev/auth/admin>
 1. log in as a keycloak admin, using the default creds of admin:password
 1. In the GUI:
-   1. Navigate to: Manage/Groups > Impact Level 2 Authorized (double click)
+   1. Navigate to: Manage/Groups > Impact Level 2 Authorized (double click)  
       Notice the group UUID in the URL: 00eb8904-5b88-4c68-ad67-cec0d2e07aa6
 1. In the GUI:
    1. Navigate to: Configure/Clients > [Create]
    1. Set:
-      Client ID = "demo-env_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_authdemo"
-      Client Protocol = openid-connect
+      Client ID = "demo-env_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_authdemo"  
+      Client Protocol = openid-connect  
       Root URL = (blank)
    1. Save
 1. In the GUI:
    1. Navigate to: Configure/Clients > [Edit] demo-env_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_authdemo
    1. Under "Access Type": Change Public to Confidential
-   1. Under "Valid Redirect URIs": Add "https://authdemo.bigbang.dev/login/generic_oauth"
+   1. Under "Valid Redirect URIs": Add "https://authdemo.bigbang.dev/login/generic_oauth"  
       Note: /login/generic_oauth comes from auth service
    1. Save
    1. Scroll up to the top of the page and you'll see a newly added [Credentials] tab, click it.
