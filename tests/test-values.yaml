@@ -467,9 +467,34 @@ fluentbit:
 
 loki:
   enabled: false
+  strategy: scalable
   values:
-    persistence:
-      enabled: true
+    global:
+      createGlobalConfig: true 
+      existingSecretForConfig: "loki-config"
+    loki-simple-scalable:
+      write:
+        replicas: 1
+        persistence:
+          size: 2Gi
+        resources: 
+          limits:
+            cpu: 200m
+            memory: 400Mi 
+          requests:
+            cpu: 200m
+            memory: 400Mi
+      read:
+        replicas: 1
+        persistence:
+          size: 2Gi
+        resources: 
+          limits:
+            cpu: 200m
+            memory: 400Mi 
+          requests:
+            cpu: 200m
+            memory: 400Mi 
 
 tempo:
   enabled: false
@@ -480,9 +505,7 @@ tempo:
           - "tempo.{{ .Values.domain }}"
     tempo:
       resources:
-        limits:
-          cpu: 200m
-          memory: 128Mi
+        limits: null
         requests:
           cpu: 200m
           memory: 128Mi
@@ -496,18 +519,7 @@ tempo:
 
     tempoQuery:
       resources:
-        limits:
-          cpu: 200m
-          memory: 128Mi
-        requests:
-          cpu: 200m
-          memory: 128Mi
-
-    opentelemetryCollector:
-      resources:
-        limits:
-          cpu: 200m
-          memory: 128Mi
+        limits: null
         requests:
           cpu: 200m
           memory: 128Mi
