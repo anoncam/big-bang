@@ -353,6 +353,7 @@ kyvernopolicies:
               namespaces:
               - gitlab
               - kiali
+              - cluster-auditor
               - mattermost
               - nexus-repository-manager
               - keycloak
@@ -369,6 +370,7 @@ kyvernopolicies:
               namespaces:
               - gitlab
               - kiali
+              - cluster-auditor
               - mattermost
               - nexus-repository-manager
               - keycloak
@@ -400,6 +402,7 @@ kyvernopolicies:
               namespaces:
               - gitlab
               - kiali
+              - cluster-auditor
               - mattermost
               - nexus-repository-manager
               - keycloak
