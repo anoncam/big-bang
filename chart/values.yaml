@@ -871,7 +871,7 @@ addons:
       iamProfile: ""
 
     smtp:
-      # Passwords sholud be placed in an encrypted file. Example: environment-bb-secret.enc.yaml
+      # Passwords should be placed in an encrypted file. Example: environment-bb-secret.enc.yaml
       # If a value is provided BigBang will create a k8s secret named gitlab-smtp-password in the gitlab namespace
       password: ""
 
