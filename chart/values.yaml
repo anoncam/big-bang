@@ -1140,9 +1140,7 @@ addons:
     git:
       repo: https://repo1.dso.mil/platform-one/big-bang/apps/collaboration-tools/mattermost-operator.git
       path: "./chart"
-      # tag: "1.18.0-bb.0"
-      tag: null
-      branch: "renovate/ironbank"
+      tag: "1.18.0-bb.0"
 
     # -- Flux reconciliation overrides specifically for the Mattermost Operator Package
     flux: {}
@@ -1159,9 +1157,7 @@ addons:
     git:
       repo: https://repo1.dso.mil/platform-one/big-bang/apps/collaboration-tools/mattermost.git
       path: "./chart"
-      # tag: "6.6.0-bb.0"
-      tag: null
-      branch: "renovate/ironbank"
+      tag: "6.6.0-bb.0"
 
     # -- Flux reconciliation overrides specifically for the Mattermost Package
     flux: {}
