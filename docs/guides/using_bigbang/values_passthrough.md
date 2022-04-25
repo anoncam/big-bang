@@ -7,6 +7,7 @@ BigBang uses [Helm](https://helm.sh/) to handle configuration values for BigBang
 BigBang takes this basic functionality and uses it to create a somewhat complex set of layers that the values get passed through. Each layer includes a set of separate templates that are unique, yet share some standards, which receive values from the layer above and pass them through to the templates in the layer below. The purpose of this guide is to walk through how this works at a high level to increase the level of understanding amongst the community of BigBang users.
 
 ### Additional Information
+
 [Helm Templates and Values](https://helm.sh/docs/topics/charts/#templates-and-values)
 
 ## BigBang Specifics
@@ -21,7 +22,7 @@ Every variable defined in BigBang's [values.yaml](/chart/values.yaml) can be con
 
 These are the first variables listed in the [values.yaml](/chart/values.yaml) before getting to the variables for each of the packages. These values are passed through to, or referenced by, every BigBang package, meaning setting these variables sets them for every package you are deploying via BigBang. An example of a standard value is `domain`:
 
-```
+```yaml
 1 | # -- Domain used for BigBang created exposed services, can be overridden by individual packages.
 2 | domain: bigbang.dev
 3 | ...
@@ -40,9 +41,10 @@ These are an advanced Helm capability to make final modifications to the chart a
 
 ### Hierarchy
 
-The variables in BigBang's `values.yaml` file are first passed to Flux and then through to the package itself. Flux has an API for managing application deployments in a GitOps manner; technically speaking, when you deploy BigBang, you are deploying a bunch of Flux objects and Flux does the heavy lifting to deploy the actual applications. For more information on Flux, see its official [documentaion](https://fluxcd.io/docs/components/).
+The variables in BigBang's `values.yaml` file are first passed to Flux and then through to the package itself. Flux has an API for managing application deployments in a GitOps manner; technically speaking, when you deploy BigBang, you are deploying a bunch of Flux objects and Flux does the heavy lifting to deploy the actual applications. For more information on Flux, see its official [documentation](https://fluxcd.io/docs/components/).
 
 A conceptual graph of how the values flow through is provided below:
+
 ```mermaid
 graph TD
   subgraph "Package"
@@ -60,5 +62,3 @@ graph TD
   end
 
 ```
-
-
