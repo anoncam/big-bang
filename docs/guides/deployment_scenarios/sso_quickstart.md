@@ -6,6 +6,7 @@
 A 54min speed run with explanations video walkthrough of this sso quickstart guide can be found on the following 2 mirrored locations:
 
 * [Google Drive - Video Mirror](https://drive.google.com/file/d/1xzRKhFQy4WXW97YWUFpixclLGAKfgA6Z/preview)
+
 <figure class="video_container">
   <iframe src="https://drive.google.com/file/d/1xzRKhFQy4WXW97YWUFpixclLGAKfgA6Z/preview" frameborder="0" allowfullscreen="true"> </iframe>
 </figure>
