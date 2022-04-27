@@ -460,9 +460,34 @@ fluentbit:
 
 loki:
   enabled: false
+  strategy: scalable
   values:
-    persistence:
-      enabled: true
+    global:
+      createGlobalConfig: true 
+      existingSecretForConfig: "loki-config"
+    loki-simple-scalable:
+      write:
+        replicas: 1
+        persistence:
+          size: 2Gi
+        resources: 
+          limits:
+            cpu: 200m
+            memory: 400Mi 
+          requests:
+            cpu: 200m
+            memory: 400Mi
+      read:
+        replicas: 1
+        persistence:
+          size: 2Gi
+        resources: 
+          limits:
+            cpu: 200m
+            memory: 400Mi 
+          requests:
+            cpu: 200m
+            memory: 400Mi 
 
 tempo:
   enabled: false
@@ -471,13 +496,12 @@ tempo:
       tempoQuery:
         hosts:
           - "tempo.{{ .Values.domain }}"
-    resources:
-      limits:
-        cpu: 200m
-        memory: 128Mi
-      requests:
-        cpu: 200m
-        memory: 128Mi
+    tempo:
+      resources:
+        limits: null
+        requests:
+          cpu: 200m
+          memory: 128Mi
 
     persistence:
       enabled: true
@@ -488,18 +512,7 @@ tempo:
 
     tempoQuery:
       resources:
-        limits:
-          cpu: 200m
-          memory: 128Mi
-        requests:
-          cpu: 200m
-          memory: 128Mi
-
-    opentelemetryCollector:
-      resources:
-        limits:
-          cpu: 200m
-          memory: 128Mi
+        limits: null
         requests:
           cpu: 200m
           memory: 128Mi
@@ -1220,7 +1233,7 @@ addons:
             customreg.yaml: '{{ .Files.Get "resources/dev/baby-yoda.yaml" }}'
         realm:
           stringData:
-            realm.json: '{{ .Files.Get "resources/dev/baby-yoda.json" }}'
+            realm.json: '{{ .Files.Get "resources/dev/baby-yoda-ci.json" }}'
       extraVolumes: |-
         - name: certauthority
           secret:
@@ -1254,6 +1267,9 @@ addons:
       server:
         dataStorage:
           enabled: true
+          size: 256Mi
+        auditStorage:
+          size: 256Mi
       injector:
         affinity: |
           podAntiAffinity:
@@ -1266,7 +1282,6 @@ addons:
                       app.kubernetes.io/instance: "{{ .Release.Name }}"
                       component: webhook
                   topologyKey: kubernetes.io/hostname
-
       bbtests:
         enabled: true
         cypress:
