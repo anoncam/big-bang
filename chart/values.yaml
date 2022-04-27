@@ -1293,9 +1293,7 @@ addons:
     git:
       repo: https://repo1.dso.mil/platform-one/big-bang/apps/security-tools/keycloak.git
       path: "./chart"
-      # tag: "18.0.0-bb.4"
-      tag: null
-      branch: "55-keycloak-plugin-regex-prevents-underscores-in-client-names"
+      tag: "18.0.0-bb.4"
 
     database:
       # -- Hostname of a pre-existing database to use for Keycloak.
