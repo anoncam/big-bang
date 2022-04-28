@@ -491,6 +491,11 @@ loki:
 
 tempo:
   enabled: false
+  git:
+    repo: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/tempo.git
+    path: "./chart"
+    tag: Null
+    branch: "tempo_cypress"
   values:
     istio:
       tempoQuery:
@@ -502,6 +507,19 @@ tempo:
         requests:
           cpu: 200m
           memory: 128Mi
+    bbtests:
+      enabled: true
+      cypress:
+        artifacts: true
+        envs:
+          cypress_url: 'http://tempo-tempo.tempo.svc.cluster.local:16686'
+          cypress_tempo_datasource: 'http://tempo-tempo.tempo.svc:3100'
+          cypress_check_datasource: 'true'
+          cypress_grafana_url: 'http://monitoring-monitoring-grafana.monitoring.svc'
+      scripts:
+        image: registry1.dso.mil/ironbank/big-bang/base:1.2.0
+        envs:
+          TEMPO_METRICS_URL: 'http://tempo-tempo.tempo.svc:16687'
 
     persistence:
       enabled: true
