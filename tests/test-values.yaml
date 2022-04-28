@@ -537,6 +537,11 @@ tempo:
 
 monitoring:
   enabled: true
+  git:
+    repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/monitoring.git
+    path: "./chart"
+    tag: Null
+    branch: "testing_netpols_update"
   sso:
     enabled: false
     prometheus:
