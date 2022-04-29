@@ -52,6 +52,10 @@ violations:  # Try to keep this in alpha order to make it easier to find keys
       # https://github.com/grafana/helm-charts/blob/main/charts/promtail/templates/daemonset.yaml#L120
       - logging/logging-promtail-.*
       {{- end }}
+      {{- if and .Values.addons.velero.enabled .Values.addons.velero.values.deployRestic }}
+      # Restic requires hostpath volume mount access in order to facilitate backing up cluster PV/C resources
+      - velero/restic-.*
+      {{- end }}
   {{- end }}
 
   {{- if .Values.twistlock.enabled }}
@@ -145,6 +149,10 @@ violations:  # Try to keep this in alpha order to make it easier to find keys
         # Promtail requires hostpath volume types
         # https://github.com/grafana/helm-charts/blob/main/charts/promtail/templates/daemonset.yaml#L120
         - logging/logging-promtail-.*
+       {{- end }}
+       {{- if and .Values.addons.velero.enabled .Values.addons.velero.values.deployRestic }}
+        # Restic requires hostpath volume mounts in order to facilitate backing up cluster PV/C resources
+        - velero/restic-.*
        {{- end }}
   {{- end }}
 {{- end -}}
