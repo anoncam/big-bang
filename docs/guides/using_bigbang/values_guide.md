@@ -1,20 +1,20 @@
-# How Values Pass Through BigBang
+# How Values Pass Through Big Bang
 
 ## The Basics
 
-BigBang uses [Helm](https://helm.sh/) to handle configuration values for BigBang, so in order to understand how BigBang works it is first essential to understand Helm. Under the hood, Helm is essentially just a template rendering engine: template files are defined where variables are used as placeholders for values, Helm takes those values and interpolates them into the template, then outputs the rendered template file (for Kubernetes, this means YAML). For anyone that has experience with configuration management tools, it is similar in function to Jinja for Ansible and ERB templates for Puppet and Chef.
+Big Bang uses [Helm](https://helm.sh/) to handle configuration values for Big Bang, so in order to understand how Big Bang works it is first essential to understand Helm. Under the hood, Helm is essentially just a template rendering engine: template files are defined where variables are used as placeholders for values, Helm takes those values and interpolates them into the template, then outputs the rendered template file (for Kubernetes, this means YAML). For anyone that has experience with configuration management tools, it is similar in function to Jinja for Ansible and ERB templates for Puppet and Chef.
 
-BigBang takes this basic functionality and uses it to create a somewhat complex set of layers that the values get passed through. Each layer includes a set of separate templates that are unique, yet share some standards, which receive values from the layer above and pass them through to the templates in the layer below. The purpose of this guide is to walk through how this works at a high level to increase the level of understanding amongst the community of BigBang users.
+Big Bang takes this basic functionality and uses it to create a somewhat complex set of layers that the values get passed through. Each layer includes a set of separate templates that are unique, yet share some standards, which receive values from the layer above and pass them through to the templates in the layer below. The purpose of this guide is to walk through how this works at a high level to increase the level of understanding amongst the community of Big Bang users.
 
 For additional information regarding Helm in general, read through the upstream [Helm Templates and Values](https://helm.sh/docs/topics/charts/#templates-and-values) documentation.
 
-## BigBang Specifics
+## Big Bang Specifics
 
 ### Hierarchy
 
 Big Bang is a slight variation from the typical "umbrella" helm chart pattern. Individual package charts are not subcharts are Big Bang, instead they are deployed by Flux custom resources. These individual package charts (istio, monitoring, gitlab, etc) can be considered "child" helm charts of the Big Bang chart.
 
-The variables in Big Bang's `values.yaml` file are either passed to Flux or Helm depending on the deployment methodology. Values specific to individual packages will be passed to Flux and used to deploy the package itself. Technically speaking, when you deploy BigBang you are deploying a number of Flux objects and Flux does the heavy lifting to deploy the actual applications. For more information on Flux, see its official [documentation](https://fluxcd.io/docs/components/).
+The variables in Big Bang's `values.yaml` file are either passed to Flux or Helm depending on the deployment methodology. Values specific to individual packages will be passed to Flux and used to deploy the package itself. Technically speaking, when you deploy Big Bang you are deploying a number of Flux objects and Flux does the heavy lifting to deploy the actual applications. For more information on Flux, see its official [documentation](https://fluxcd.io/docs/components/).
 
 A high level conceptual graph of how values flow through Big Bang is provided below:
 
@@ -29,7 +29,7 @@ graph TD
     values_passthrough("/chart/templates/$PACKAGE/values.yaml") --> package_values("values.yaml")
   end
 
-  subgraph "BigBang"
+  subgraph "Big Bang"
     bb("values.yaml") --> flux_api("/chart/templates/$PACKAGE")
     bb("values.yaml") --> values_passthrough("/chart/templates/$PACKAGE/values.yaml")
   end
@@ -37,7 +37,7 @@ graph TD
 
 ### Values
 
-Variables defined in BigBang's [values.yaml](/chart/values.yaml) are values that the BigBang team has identified as ones which users will be most likely to want to set when installing or upgrading BigBang. This provides a single, standard way to set the most deployment-specific values and many users may not need to do any more than customize these values for their environment. Beyond these the Big Bang team also provides additional ways to pass values through to specific packages or modify templates after rendering. 
+Variables defined in Big Bang's [values.yaml](/chart/values.yaml) are values that the Big Bang team has identified as ones which users will be most likely to want to set when installing or upgrading Big Bang. This provides a single, standard way to set the most deployment-specific values and many users may not need to do any more than customize these values for their environment. Beyond these the Big Bang team also provides additional ways to pass values through to specific packages or modify templates after rendering. 
 
 #### Big Bang Configuration Values
 
@@ -79,7 +79,7 @@ Some examples of these values include:
 
 Not every deployment need/configuration for a specific package will be represented by the globals or abstracted values. Although the values you need may not be listed explicitly in the Big Bang chart values, there are still options to set them.
 
-Every package has a `values: {}` section where you can set additional variables which are defined in the chart but not exposed in BigBang's `values.yaml`. To see available values options for a specific package you can check the package repo and view its `chart/values.yaml` file. It is important to note that anything set via `<package>.values` will take precedence over the abstracted or global values configured by Big Bang.
+Every package has a `values: {}` section where you can set additional variables which are defined in the chart but not exposed in Big Bang's `values.yaml`. To see available values options for a specific package you can check the package repo and view its `chart/values.yaml` file. It is important to note that anything set via `<package>.values` will take precedence over the abstracted or global values configured by Big Bang.
 
 Indentation of these values WILL NOT match the same indentation as the package level. As an example, let's say you want to set the `replicaCount` value for the Kiali package. If you were to check the [Kiali values](https://repo1.dso.mil/platform-one/big-bang/apps/core/kiali/-/blob/c1d7cfcde20b7778b34ef909f49fc9e7cd2f7ec7/chart/values.yaml#L41) you could override the value this way:
 
