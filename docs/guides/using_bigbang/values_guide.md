@@ -1,6 +1,4 @@
-# How Values Pass Through Big Bang
-
-## The Basics
+# The Basics
 
 Big Bang uses [Helm](https://helm.sh/) to handle configuration values for Big Bang, so in order to understand how Big Bang works it is first essential to understand Helm. Under the hood, Helm is essentially just a template rendering engine: template files are defined where variables are used as placeholders for values, Helm takes those values and interpolates them into the template, then outputs the rendered template file (for Kubernetes, this means YAML). For anyone that has experience with configuration management tools, it is similar in function to Jinja for Ansible and ERB templates for Puppet and Chef.
 
@@ -8,9 +6,9 @@ Big Bang takes this basic functionality and uses it to create a somewhat complex
 
 For additional information regarding Helm templates/values in general, read through the upstream [documentation](https://helm.sh/docs/topics/charts/#templates-and-values).
 
-## Big Bang Specifics
+# Big Bang Specifics
 
-### Hierarchy
+## Hierarchy
 
 Big Bang is a slight variation from the typical "umbrella" helm chart pattern. Individual package charts are not subcharts are Big Bang, instead they are deployed by Flux custom resources. These individual package charts (istio, monitoring, gitlab, etc) can be considered "child" helm charts of the Big Bang chart.
 
@@ -35,11 +33,11 @@ graph TD
   end
 ```
 
-### Values
+## Values
 
 Variables defined in Big Bang's [values.yaml](/chart/values.yaml) are values that the Big Bang team has identified as ones which users will be most likely to want to set when installing or upgrading Big Bang. This provides a single, standard way to set the most deployment-specific values and many users may not need to do any more than customize these values for their environment. Beyond these the Big Bang team also provides additional ways to pass values through to specific packages or modify templates after rendering. 
 
-#### Big Bang Configuration Values
+### Big Bang Configuration Values
 
 There are a number of values in the Big Bang chart that are solely used for configuration of the Big Bang chart itself. Typically these values are used for the Flux templates (HelmRelease, GitRepository) or for secrets (registry credentials, git credentials).
 
@@ -49,7 +47,7 @@ Some examples of these values include:
 - `flux`: Used for configuring Flux parameters for all HelmReleases
 - `<package>.git`: Used for configuring the Flux GitRepository for each package
 
-#### Global Configuration Values
+### Global Configuration Values
 
 
 Global values within Big Bang are used in cases where packages inherit a common configuration. These mainly include configuration for networking, common SSO provider config, and other common usability values.
@@ -63,7 +61,7 @@ Some examples of these values include:
 
 **Important Note**: While we use the term "global" here these values are NOT the exact same as a Helm global value. Helm globals are directly passed to all subcharts. Big Bang globals are in some cases passed directly to the package charts, but in other cases they are manipulated/customized to inform package values.
 
-#### Abstracted Package Values
+### Abstracted Package Values
 
 Each package generally has some configuration that is commonly used for a production deployment. In these cases we try to abstract and simplify the configuration to make it easy for end users. Common use cases for this are database or object storage connections, SSO client ID/Secret, and license details. These values are all set under a `<package>` or `addons.<package>` key, since they are specific to one package in Big Bang.
 
@@ -75,7 +73,7 @@ Some examples of these values include:
 - `<package>.sso.client_id`: Specific SSO client ID for the package
 - `<package>.enterprise.license`: Enterprise license for the specific package
 
-#### Package Values Passthrough
+### Package Values Passthrough
 
 Not every deployment need/configuration for a specific package will be represented by the globals or abstracted values. Although the values you need may not be listed explicitly in the Big Bang chart values, there are still options to set them.
 
@@ -95,7 +93,7 @@ kiali:
     replicaCount: 3
 ```
 
-#### Post-renderers
+### Post-renderers
 
 In some cases customers run into limitations that even values passthrough cannot solve. In cases where the package chart/template file itself does not provide a value for configuration you can make use of Post Renderers.
 
