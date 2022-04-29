@@ -16,7 +16,7 @@ Big Bang is a slight variation from the typical "umbrella" helm chart pattern. I
 
 The variables in Big Bang's `values.yaml` file are either passed to Flux or Helm depending on the deployment methodology. Values specific to individual packages will be passed to Flux and used to deploy the package itself. Technically speaking, when you deploy BigBang you are deploying a number of Flux objects and Flux does the heavy lifting to deploy the actual applications. For more information on Flux, see its official [documentation](https://fluxcd.io/docs/components/).
 
-A conceptual graph of how the values flow through is provided below:
+A high level conceptual graph of how values flow through Big Bang is provided below:
 
 ```mermaid
 graph TD
