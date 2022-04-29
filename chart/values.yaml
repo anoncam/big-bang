@@ -577,7 +577,7 @@ monitoring:
   git:
     repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/monitoring.git
     path: "./chart"
-    tag: "33.2.0-bb.3"
+    tag: "34.8.0-bb.2"
 
   # -- Flux reconciliation overrides specifically for the Monitoring Package
   flux:
@@ -1063,9 +1063,7 @@ addons:
     git:
       repo: https://repo1.dso.mil/platform-one/big-bang/apps/security-tools/anchore-enterprise.git
       path: "./chart"
-      tag: null
-      branch: "60-anchore-test-broken-in-package-ci"
-      #tag: "1.18.0-bb.4"
+      tag: "1.18.0-bb.4"
 
     # -- Flux reconciliation overrides specifically for the Anchore Package
     flux:
@@ -1295,7 +1293,7 @@ addons:
     git:
       repo: https://repo1.dso.mil/platform-one/big-bang/apps/security-tools/keycloak.git
       path: "./chart"
-      tag: "18.0.0-bb.1"
+      tag: "18.0.0-bb.4"
 
     database:
       # -- Hostname of a pre-existing database to use for Keycloak.
@@ -1331,6 +1329,9 @@ addons:
 
     # -- Values to passthrough to the keycloak chart: https://repo1.dso.mil/platform-one/big-bang/apps/security-tools/keycloak.git
     values: {}
+
+    # -- Post Renderers.  See docs/postrenders.md
+    postRenderers: []
 
   # ----------------------------------------------------------------------------------------------------------------------
   # Vault
