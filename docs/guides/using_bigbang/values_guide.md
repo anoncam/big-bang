@@ -6,38 +6,9 @@ BigBang uses [Helm](https://helm.sh/) to handle configuration values for BigBang
 
 BigBang takes this basic functionality and uses it to create a somewhat complex set of layers that the values get passed through. Each layer includes a set of separate templates that are unique, yet share some standards, which receive values from the layer above and pass them through to the templates in the layer below. The purpose of this guide is to walk through how this works at a high level to increase the level of understanding amongst the community of BigBang users.
 
-### Additional Information
-
-[Helm Templates and Values](https://helm.sh/docs/topics/charts/#templates-and-values)
+For additional information regarding Helm in general, read through the upstream [Helm Templates and Values](https://helm.sh/docs/topics/charts/#templates-and-values) documentation.
 
 ## BigBang Specifics
-
-### Values
-
-#### Top-level Values
-
-Every variable defined in BigBang's [values.yaml](/chart/values.yaml) can be considered a top-level value. These are values that the BigBang team has identified as ones which users will be most likely to want to set when installing or upgrading BigBang. This provides a single, standard way to set the most deployment-specific values and many users may not need to do any more than customize these values for their environment.
-
-#### Standard Values
-
-These are the first variables listed in the [values.yaml](/chart/values.yaml) before getting to the variables for each of the packages. These values are passed through to, or referenced by, every BigBang package, meaning setting these variables sets them for every package you are deploying via BigBang. An example of a standard value is `domain`:
-
-```yaml
-1 | # -- Domain used for BigBang created exposed services, can be overridden by individual packages.
-2 | domain: bigbang.dev
-3 | ...
-
-```
-
-The variables related to Gateways in the Istio package can also be considered standard values, as Istio Gateways control all traffic coming into the cluster and the rules governing the routing of this traffic is defined in each package. Every package which could be exposed to traffic coming in from outside the cluster has an `ingress` variable defined which must reference the name of a Gateway defined and configured in the Istio package.
-
-#### Custom Values
-
-Every package has more variables than are listed in BigBang's `values.yaml`, but just because they aren't listed doesn't mean you can't set them. Every package has a `values: {}` section where you can set additional variables which are defined in the chart but not curated in BigBang's `values.yaml`. These values must be defined in JSON but they get passed through to the package just like any other. See the respective package repo itself to see all the variables you can set for it this way.
-
-#### Post-renderers
-
-These are an advanced Helm capability to make final modifications to the chart after it has been rendered. For more information see [here](/docs/postrenderers.md).
 
 ### Hierarchy
 
@@ -62,3 +33,55 @@ graph TD
   end
 
 ```
+
+### Values
+
+Variables defined in BigBang's [values.yaml](/chart/values.yaml) are values that the BigBang team has identified as ones which users will be most likely to want to set when installing or upgrading BigBang. This provides a single, standard way to set the most deployment-specific values and many users may not need to do any more than customize these values for their environment. Beyond these the Big Bang team also provides additional ways to pass values through to specific packages or modify templates after rendering. 
+
+#### Big Bang Configuration Values
+
+There are a number of values in the Big Bang chart that are solely used for configuration of the Big Bang chart itself. Typically these values are used for the Flux templates (HelmRelease, GitRepository) or for secrets (registry credentials, git credentials).
+
+Some examples of these values include:
+- `registryCredentials`: Used to configure the image pull secrets for every namespace
+- `git`: Used to configure credentials (if required) for cloning the Big Bang package repos
+- `flux`: Used for configuring Flux parameters for all HelmReleases
+- `<package>.git`: Used for configuring the Flux GitRepository for each package
+
+#### Global Configuration Values
+
+
+Global values within Big Bang are used in cases where packages inherit a common configuration. These mainly include configuration for networking, common SSO provider config, and other common usability values.
+
+Some examples of these values include:
+- `domain`: This value informs the VirtualService configurations for all packages
+- `openshift`: This toggle provides for configuration of any OpenShift specific values across all packages
+- `networkPolicies`: These values inform configuration of network policies (enabling, disabling, setting IP ranges)
+- `imagePullPolicy`: When set this value is used to configure all packages (and their pods) with a common pull policy
+- `sso` (top level value): The configuration set here is used to assist with packages' individual OIDC or SAML configuration, such as endpoints
+
+**Important Note**: While we use the term "global" here these values are NOT the exact same as a Helm global value. Helm globals are directly passed to all subcharts. Big Bang globals are in some cases passed directly to the package charts, but in other cases they are manipulated/customized to inform package values.
+
+#### Abstracted Package Values
+
+Each package generally has some configuration that is commonly used for a production deployment. In these cases we try to abstract and simplify the configuration to make it easy for end users. Common use cases for this are database or object storage connections, SSO client ID/Secret, and license details. These values are all set under a `<package>` or `addons.<package>` key, since they are specific to one package in Big Bang.
+
+When these values are set they are passed through to the package itself. In some cases the Big Bang chart provides additional utility by creating any necessary secrets or toggling other values that are needed.
+
+Some examples of these values include:
+- `<package>.database`: Simplified configuration for an external database connection (user, pass, host, port, etc)
+- `<package>.objectStorage`: Similar configuration for external storage (i.e. S3)
+- `<package>.sso.client_id`: Specific SSO client ID for the package
+- `<package>.enterprise.license`: Enterprise license for the specific package
+
+#### Package Values Passthrough
+
+Not every deployment need/configuration for a specific package will be represented by the globals or abstracted values. Although the values you need may not be listed explicitly in the Big Bang chart values, there are still options to set them.
+
+Every package has a `values: {}` section where you can set additional variables which are defined in the chart but not exposed in BigBang's `values.yaml`. To see available values options for a specific package you can check the package repo and view its `chart/values.yaml` file. It is important to note that anything set via `<package>.values` will take precedence over the abstracted or global values configured by Big Bang.
+
+#### Post-renderers
+
+In some cases customers run into limitations that even values passthrough cannot solve. In cases where the package chart/template file itself does not provide a value for configuration you can make use of Post Renderers.
+
+These are an advanced capability within Helm and Flux that allows end users to make modifications to the chart after it has been rendered. For more information and specific on how to leverage this capability see [this document](/docs/postrenderers.md).
