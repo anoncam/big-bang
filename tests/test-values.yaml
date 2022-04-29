@@ -108,8 +108,6 @@ kiali:
           cypress_check_data: 'true'
 
 clusterAuditor:
-  networkPolicies:
-    enabled: false
   enabled: true
   values:
     resources:
