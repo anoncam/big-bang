@@ -32,7 +32,7 @@ violations:  # Try to keep this in alpha order to make it easier to find keys
         - registry1.dso.mil
         - registry.dso.mil
 
-  {{- if or .Values.monitoring.enabled .Values.fluentbit.enabled .Values.twistlock.enabled .Values.promtail.enabled }}
+  {{- if or .Values.monitoring.enabled .Values.fluentbit.enabled .Values.twistlock.enabled .Values.promtail.enabled (and .Values.addons.velero.enabled .Values.addons.velero.values.deployRestic)}}
   allowedHostFilesystem:
     parameters:
       excludedResources:
@@ -126,7 +126,7 @@ violations:  # Try to keep this in alpha order to make it easier to find keys
       {{- end }}
   {{- end }}
 
-  {{- if or .Values.fluentbit.enabled .Values.twistlock.enabled .Values.monitoring.enabled .Values.promtail.enabled }}
+  {{- if or .Values.fluentbit.enabled .Values.twistlock.enabled .Values.monitoring.enabled .Values.promtail.enabled (and .Values.addons.velero.enabled .Values.addons.velero.values.deployRestic) }}
   volumeTypes:
     parameters:
       excludedResources:
