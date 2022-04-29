@@ -12,7 +12,9 @@ For additional information regarding Helm in general, read through the upstream 
 
 ### Hierarchy
 
-The variables in BigBang's `values.yaml` file are first passed to Flux and then through to the package itself. Flux has an API for managing application deployments in a GitOps manner; technically speaking, when you deploy BigBang, you are deploying a bunch of Flux objects and Flux does the heavy lifting to deploy the actual applications. For more information on Flux, see its official [documentation](https://fluxcd.io/docs/components/).
+Big Bang is a slight variation from the typical "umbrella" helm chart pattern. Individual package charts are not subcharts are Big Bang, instead they are deployed by Flux custom resources. These individual package charts (istio, monitoring, gitlab, etc) can be considered "child" helm charts of the Big Bang chart.
+
+The variables in Big Bang's `values.yaml` file are either passed to Flux or Helm depending on the deployment methodology. Values specific to individual packages will be passed to Flux and used to deploy the package itself. Technically speaking, when you deploy BigBang you are deploying a number of Flux objects and Flux does the heavy lifting to deploy the actual applications. For more information on Flux, see its official [documentation](https://fluxcd.io/docs/components/).
 
 A conceptual graph of how the values flow through is provided below:
 
@@ -31,7 +33,6 @@ graph TD
     bb("values.yaml") --> flux_api("/chart/templates/$PACKAGE")
     bb("values.yaml") --> values_passthrough("/chart/templates/$PACKAGE/values.yaml")
   end
-
 ```
 
 ### Values
@@ -79,6 +80,20 @@ Some examples of these values include:
 Not every deployment need/configuration for a specific package will be represented by the globals or abstracted values. Although the values you need may not be listed explicitly in the Big Bang chart values, there are still options to set them.
 
 Every package has a `values: {}` section where you can set additional variables which are defined in the chart but not exposed in BigBang's `values.yaml`. To see available values options for a specific package you can check the package repo and view its `chart/values.yaml` file. It is important to note that anything set via `<package>.values` will take precedence over the abstracted or global values configured by Big Bang.
+
+Indentation of these values WILL NOT match the same indentation as the package level. As an example, let's say you want to set the `replicaCount` value for the Kiali package. If you were to check the [Kiali values](https://repo1.dso.mil/platform-one/big-bang/apps/core/kiali/-/blob/c1d7cfcde20b7778b34ef909f49fc9e7cd2f7ec7/chart/values.yaml#L41) you could override the value this way:
+
+```yaml
+replicaCount: 3
+```
+
+In Big Bang to override this value you will want to add this to your configuration:
+
+```yaml
+kiali:
+  values:
+    replicaCount: 3
+```
 
 #### Post-renderers
 
