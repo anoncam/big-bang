@@ -490,7 +490,7 @@ loki:
             memory: 400Mi 
 
 tempo:
-  enabled: true
+  enabled: false
   values:
     istio:
       tempoQuery:
