@@ -22,14 +22,19 @@ graph TD
     package_values("values.yaml")
   end
 
-  subgraph "Flux API"
-    flux_api("Flux API")
-    values_passthrough("/chart/templates/$PACKAGE/values.yaml") --> package_values("values.yaml")
+  subgraph "Big Bang"
+    bb("values.yaml") --> values_secret("Package Values Secret")
+    bb("values.yaml") --> flux_hr
+    values_secret --> package_values
+    subgraph "Flux Components"
+      flux_hr("Package GitRepository/HelmRelease")
+    end
   end
 
-  subgraph "Big Bang"
-    bb("values.yaml") --> flux_api("/chart/templates/$PACKAGE")
-    bb("values.yaml") --> values_passthrough("/chart/templates/$PACKAGE/values.yaml")
+  subgraph "Flux/Helm Rendering"
+    manifests("Manifests applied to cluster")
+    package_values --> manifests
+    flux_hr --> manifests
   end
 ```
 
