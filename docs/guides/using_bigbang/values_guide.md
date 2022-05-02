@@ -10,7 +10,7 @@ For additional information regarding Helm templates/values in general, read thro
 
 ## Hierarchy
 
-Big Bang is a slight variation from the typical "umbrella" helm chart pattern. Individual package charts are not subcharts are Big Bang, instead they are deployed by Flux custom resources. These individual package charts (istio, monitoring, gitlab, etc) can be considered "child" helm charts of the Big Bang chart.
+Big Bang is a slight variation from the typical "umbrella" helm chart pattern. Individual package charts are not direct subcharts within Big Bang, instead they are deployed by Flux custom resources. These individual package charts (istio, monitoring, gitlab, etc) can be considered "child" helm charts of the Big Bang chart.
 
 The variables in Big Bang's `values.yaml` file are either passed to Flux or Helm depending on the deployment methodology. Values specific to individual packages will be passed to Flux and used to deploy the package itself. Technically speaking, when you deploy Big Bang you are deploying a number of Flux objects and Flux does the heavy lifting to deploy the actual applications. For more information on Flux, see its official [documentation](https://fluxcd.io/docs/components/).
 
