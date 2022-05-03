@@ -484,7 +484,7 @@ fluentbit:
           Mem_Buf_Limit 50MB
           Skip_Long_Lines On
           storage.type filesystem
-          Ignore_Older 1m
+          Ignore_Older 10m
           Parser  myparser
 
 loki:
