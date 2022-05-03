@@ -473,19 +473,19 @@ fluentbit:
           Time_Key time
           Time_Format %Y-%m-%dT%H:%M:%S.%L
           Time_Keep On
-
+        
         [INPUT]
-            Name tail
-            Path /var/log/containers/*.log
-            # -- Excluding fluentbit logs from sending to ECK, along with gatekeeper-audit logs which are shipped by clusterAuditor.
-            Exclude_Path /var/log/containers/*fluent*.log,/var/log/containers/*gatekeeper-audit*.log
-            Parser containerd
-            Tag kube.*
-            Mem_Buf_Limit 50MB
-            Skip_Long_Lines On
-            storage.type filesystem
-            Ignore_Older 1m
-            Parser  myparser
+          Name tail
+          Path /var/log/containers/*.log
+          # -- Excluding fluentbit logs from sending to ECK, along with gatekeeper-audit logs which are shipped by clusterAuditor.
+          Exclude_Path /var/log/containers/*fluent*.log,/var/log/containers/*gatekeeper-audit*.log
+          Parser containerd
+          Tag kube.*
+          Mem_Buf_Limit 50MB
+          Skip_Long_Lines On
+          storage.type filesystem
+          Ignore_Older 1m
+          Parser  myparser
 
 loki:
   enabled: false
