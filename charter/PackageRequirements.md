@@ -55,7 +55,7 @@ The Package chart should include maintenance documentation that describes
 2. How to test the upgrade
 3. Documentation for changes made to the upstream chart.
 
-This documentation will be located in each Package repo and named ```/docs/DEVELOPMENT_MAINTENANCE.md```. The document should be linked from the top level ```/CONTRIBUTING.md``` in the "To contribute a change" section item #2.
+This documentation will be located in each Package repo and named `/docs/DEVELOPMENT_MAINTENANCE.md`. The document should be linked from the top level `/CONTRIBUTING.md` in the "To contribute a change" section item #2.
 
 ## PR-X. Package Standards
 
