@@ -46,7 +46,7 @@ You can override bigbang's helm values so istio will provision a service of type
 
 ### Kubernetes Version
 
-* We currently support up to K8s Version 1.23 and back to Kubernetes releases that are not end of life (https://kubernetes.io/releases/)
+* We currently support up to K8s Version 1.23 and back to Kubernetes releases that are not end of life https://kubernetes.io/releases/
 
 ### VMWare Tanzu Kubernetes Grid
 
