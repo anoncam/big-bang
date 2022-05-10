@@ -552,7 +552,8 @@ tempo:
   git:
     repo: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/tempo.git
     path: "./chart"
-    tag: "0.15.0-bb.0"
+    #tag: "0.15.0-bb.0"
+    branch: "cypress-updates"
 
   # -- Redirect the package ingress to a specific Istio Gateway (listed in `istio.gateways`).  The default is "public".
   ingress:
@@ -578,8 +579,7 @@ monitoring:
   git:
     repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/monitoring.git
     path: "./chart"
-    #tag: "35.0.3-bb.0"
-    branch: "cypress-updates"
+    tag: "35.0.3-bb.0"
 
   # -- Flux reconciliation overrides specifically for the Monitoring Package
   flux:
