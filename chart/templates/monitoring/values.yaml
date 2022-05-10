@@ -241,6 +241,7 @@ grafana:
     url: http://tempo-tempo.tempo.svc:3100
     isDefault: false
     editable: true
+  {{- if .Values.loki.enabled }}
     jsonData:
       httpMethod: GET
       tracesToLogs:
@@ -260,6 +261,7 @@ grafana:
         enabled: true
       lokiSearch:
         datasourceUid: 'Loki'
+  {{- end }}
   {{- end }}
   {{- end }}
 
