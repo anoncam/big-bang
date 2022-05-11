@@ -207,7 +207,7 @@ policies:
           - twistlock
           names:
           - twistlock-defender-ds*
-          - twistlock-console-*
+          - twistlock-console*
       {{- end }}
     {{- end }}
 
@@ -238,7 +238,7 @@ policies:
           - twistlock
           names:
           - twistlock-defender-ds*
-          - twistlock-console-*
+          - twistlock-console*
       {{- end }}
 
     {{- end }}
