@@ -87,7 +87,7 @@ Flux's source controller uses the [GitRepository](https://fluxcd.io/docs/compone
 ```yaml
 {{- $pkg := "podinfo" }}
 {{- if (get .Values $pkg).enabled }}
-apiVersion: source.toolkit.fluxcd.io/v1beta1
+apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: GitRepository
 metadata:
   name: {{ $pkg }}
@@ -105,7 +105,7 @@ spec:
 {{- end }}
 ```
 
-The `GitRepository` Helm template above requires the following values to be added to `flx/values.yaml`:
+The `GitRepository` Helm template above requires the following values to be added to `bigbang/values.yaml`:
 
 ```yaml
 podinfo:
