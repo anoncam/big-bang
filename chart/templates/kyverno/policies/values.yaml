@@ -199,15 +199,11 @@ policies:
       # - read logs from `/var/log` to watch for malicious processes
       # - audit modifications to `/etc/passwd` (watching for suspicious changes)
       # - access the container runtime socket (observing all running containers on a node)
-      # Twistlock Console runs as root in order to properly handle upgrades and listeners:
-      # - properly read from pre-existing PVC log/config files
-      # - run http listeners for defender and console
       - resources:
           namespaces:
           - twistlock
           names:
           - twistlock-defender-ds*
-          - twistlock-console*
       {{- end }}
     {{- end }}
 
@@ -230,15 +226,11 @@ policies:
       # - read logs from `/var/log` to watch for malicious processes
       # - audit modifications to `/etc/passwd` (watching for suspicious changes)
       # - access the container runtime socket (observing all running containers on a node)
-      # Twistlock Console runs as root in order to properly handle upgrades and listeners:
-      # - properly read from pre-existing PVC log/config files
-      # - run http listeners for defender and console
       - resources:
           namespaces:
           - twistlock
           names:
           - twistlock-defender-ds*
-          - twistlock-console*
       {{- end }}
 
     {{- end }}
