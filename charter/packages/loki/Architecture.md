@@ -61,7 +61,7 @@ Loki utilizes Grafana as the frontend for searching and viewing logs, please ref
 
 ### High Availability
 
-In the 3.X releases of the Big Bang Loki package there is a Big Bang value `loki.strategy` and when set to `scalable` Loki is configured to run with multiple replicas of what are called read and write nodes. The read nodes are what schedule, process and return queries to/from the Loki API while the write nodes is where your configured log forwarder will send the logs to and process write/create operations against the API and storage.
+Since Big Bang release 1.32.0 a Big Bang value `loki.strategy` has been available. When set to `scalable` Loki is configured to run with multiple replicas of what are called read and write nodes. The read nodes are what schedule, process and return queries to/from the Loki API while the write nodes is where your configured log forwarder will send the logs to and process write/create operations against the API and storage.
 
 ```yaml
 loki:
