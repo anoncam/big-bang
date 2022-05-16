@@ -11,6 +11,16 @@ flowchart TD
    Grafana --> Loki --> S3
 ```
 
+## (Simple) Scalable
+```mermaid
+flowchart TD
+   S3[(S3)]
+   read[Loki Read] --> S3
+   write[Loki Write]
+   Promtail/FluentBit--> write --> S3
+   Grafana --> read
+```
+
 ## Monolith with Grafana Enterprise Logging (GEL)
 ```mermaid
 flowchart TD
@@ -20,16 +30,6 @@ flowchart TD
    end
    Promtail/FluentBit--> g[GEL Gateway] --> Loki --> S3
    Grafana --> g[GEL Gateway]
-```
-
-## (Simple) Scalable
-```mermaid
-flowchart TD
-   S3[(S3)]
-   read[Loki Read] --> S3
-   write[Loki Write]
-   Promtail/FluentBit--> write --> S3
-   Grafana --> read
 ```
 
 ## Simple Scalable Enterprise with Grafana Enterprise Logging (GEL)
