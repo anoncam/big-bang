@@ -26,6 +26,12 @@ The purpose of the Big Bang Helm chart is to create a Big Bang compatible, easy-
 
 Create a new Helm chart for Big Bang resources in the root of your Git repository:
 
+***Note***: Package name is important here. For CI purposes, the name of the package should match the name of the directory for the project.
+
+If you're unsure, you can find the Project ID at the top of the frontpage of the repository, and run this command to determine what the package name should be set to.
+
+`curl "https://repo1.dso.mil/api/v4/projects/<gitlab_project_id>" | jq '.path'`
+
 ```shell
 # short name of the package
 export PKGNAME=podinfo
