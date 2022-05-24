@@ -206,9 +206,9 @@ policies:
           - twistlock-defender-ds*
       {{- end }}
       {{- if .Values.fluentbit.enabled }}
-        # Fluentbit requires access to journalctl as well as /var/log.  This would require modifications
-        # to the host operating system, creating a user, adding that user to the  systemd-journal user group 
-        # and then granting permissions recursively on /var/log.
+      # Fluentbit requires access to journalctl as well as /var/log.  This would require modifications
+      # to the host operating system, creating a user, adding that user to the  systemd-journal user group 
+      # and then granting permissions recursively on /var/log.
       - resources:
           namespaces:
           - logging
