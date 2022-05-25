@@ -230,7 +230,7 @@ policies:
 
   require-non-root-user:
     validationFailureAction: audit
-    {{- if or $deployRestic .Values.twistlock.enabled .Values.fluentbit.enabled Values.promtail.enabled }}
+    {{- if or $deployRestic .Values.twistlock.enabled .Values.fluentbit.enabled .Values.promtail.enabled }}
     exclude:
       any:
       {{- if $deployRestic }}
