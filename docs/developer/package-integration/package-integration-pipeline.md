@@ -95,7 +95,13 @@ Pipelines provide rapid feedback to changes in our Helm chart as we develop and 
 
 Big Bang uses a continuous deployment tool, [Flux](https://fluxcd.io) to deploy packages using Helm charts sourced from Git ([GitOps](https://www.weave.works/technologies/gitops/)).
 
-Third-party and sandbox pipelines both have an [integration stage]() that will deploy and test a package as though it were already integrated into the Big Bang helm chart. 
+Third-party and sandbox pipelines both have an `integration` stage that will deploy and test a package as a Big Bang compatible package. 
+
+Examples of components that contribute to a package being "Big Bang compatible":
+
+- Configuring a package to be deployed via Flux custom resource definitions ([GitRepositories](https://fluxcd.io/docs/components/source/gitrepositories/) and [HelmReleases](https://fluxcd.io/docs/components/helm/helmreleases/))
+
+- Service mesh components ([Automatic Istio sidecar injection](https://istio.io/latest/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection) and [Istio VirtualService](https://istio.io/latest/docs/reference/config/networking/virtual-service/))
  
 This stage also allows any Big Bang Core or Addon packages to be deployed alongside a third-party or sandbox package for testing compatibility/functionality.
 
