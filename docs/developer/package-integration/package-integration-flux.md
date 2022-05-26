@@ -266,7 +266,7 @@ Use the Big Bang default values to make sure our Helm templates don't have any s
 
 To validate that the Helm chart is working, perform the following steps to deploy your package.  This assumes you already have a Kubernetes cluster running.
 
-1. Disable all default packages in Big Bang by adding the following to `bigbang/values.yaml`
+1. Disable all packages that are enabled by default in Big Bang by adding the following to `bigbang/values.yaml` 
 
    ```yaml
    # Network Policies
@@ -305,6 +305,25 @@ To validate that the Helm chart is working, perform the following steps to deplo
    twistlock:
      enabled: false
    ```
+
+1. To enable Big Bang packages that are disabled by default, add the appropriate code block for the Big Bang package from the Big Bang helm chart [values file](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/blob/master/chart/values.yaml).
+      
+      - For example, if you want to test a package's functionality with MinIO, you would add this block from the Big Bang helm chart values file to the package repo's `bigbang/values.yaml` file
+
+      ```yaml
+      addons:
+        minioOperator:
+          enabled: true
+          
+        minio:
+          enabled: true
+      ```
+      
+      - This would deploy MinIO in the `integration` stage with default configurations 
+      
+      - Any values that are present in the Big Bang helm chart values file can be configured here also. The pipeline merges these two files into a single values file before deployment, so the package repo's `bigbang/values.yaml` provides a way to configure a Third Party or Sandbox package along with Big Bang package configurations in a single values file. 
+
+      - A `tests/test-values.yaml` in a package repo can be used as override values for the pipeline. It allows pipeline-specific configurations so that the package's `chart/values.yaml` doesn't have to be changed.
 
 1. Install flux using the [instructions from Big Bang](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/blob/1.19.0/docs/guides/deployment_scenarios/quickstart.md#step-8-install-flux).
 1. Install the package using the bigbang Helm chart
