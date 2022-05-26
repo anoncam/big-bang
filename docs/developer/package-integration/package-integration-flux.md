@@ -1,5 +1,9 @@
 # Big Bang Package: Flux Integration
 
+Following the steps in this guide will result in the `integration` job being run for Third Party and Sandbox pipelines.
+
+If there's a need to disable this job, add `SKIP INTEGRATION` to the title of the Merge Request.
+
 Big Bang uses a continuous deployment tool, [Flux](https://fluxcd.io/) to deploy packages using Helm charts sourced from Git ([GitOps](https://www.weave.works/technologies/gitops/)).  This document will cover how to integrate a Helm chart, from a mission application or other package, into the Flux pattern required by Big Bang.  Once complete, you will be able to deploy your package with Big Bang.
 
 ## Prerequisites
