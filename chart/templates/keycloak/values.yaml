@@ -22,7 +22,7 @@ openshift: {{ .Values.openshift }}
 
 istio:
   enabled: {{ .Values.istio.enabled }}
-  injection: {{ $istioInjection }}
+  injection: {{ dig "istio" "injection" "enabled" .Values.addons.keycloak }}
   keycloak:
     enabled: true
     gateways:
