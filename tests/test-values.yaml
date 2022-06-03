@@ -42,6 +42,17 @@ sso:
   oidc:
     host: keycloak.bigbang.dev
     realm: baby-yoda
+  git:
+    repo: https://repo1.dso.mil/platform-one/big-bang/apps/security-tools/keycloak.git
+    path: "./chart"
+    tag: ""
+    branch: "static_testuser"
+  values:
+    bbtests:
+      enabled: true
+      cypress:
+        envs:
+          cypress_static_testuser: true
 
 flux:
   timeout: 20m
@@ -108,7 +119,7 @@ kiali:
           cypress_check_data: 'true'
 
 clusterAuditor:
-  enabled: true
+  enabled: false
   values:
     resources:
       requests:
@@ -125,7 +136,7 @@ clusterAuditor:
           cypress_url: 'https://grafana.bigbang.dev/d/YBgRZG6Mz/opa-violations?orgId=1'
 
 gatekeeper:
-  enabled: true
+  enabled: false
   values:
     replicas: 1
     controllerManager:
@@ -722,9 +733,14 @@ addons:
             size: 256Mi
 
   gitlab:
-    enabled: false
+    enabled: true
+    git:
+      repo: https://repo1.dso.mil/platform-one/big-bang/apps/developer-tools/gitlab.git
+      path: "./chart"
+      tag: ""
+      branch: test_keycloak_integration
     sso:
-      enabled: false
+      enabled: true
       client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_gitlab
     flux:
       timeout: 30m
@@ -816,6 +832,7 @@ addons:
           artifacts: true
           envs:
             cypress_baseUrl: https://gitlab.bigbang.dev
+            cypress_keycloak_test_enable: true
         scripts:
           envs:
             GITLAB_REPOSITORY: https://gitlab.bigbang.dev
@@ -1224,7 +1241,11 @@ addons:
             MINIO_HOST: https://minio-api.bigbang.dev
 
   keycloak:
-    enabled: false
+    enabled: true
+    git:
+      repo: https://repo1.dso.mil/platform-one/big-bang/apps/security-tools/keycloak.git
+      tag: ""
+      branch: "static_testuser"
     ingress:
       gateway: "passthrough"
       key: "" # Gets added via chart/ingress-certs.yaml
