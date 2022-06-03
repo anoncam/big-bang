@@ -491,7 +491,6 @@ fluentbit:
             Skip_Long_Lines On
             storage.type filesystem
 
-
 loki:
   enabled: false
   strategy: scalable
