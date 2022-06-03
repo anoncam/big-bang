@@ -531,7 +531,7 @@ loki:
       scripts:
         image: registry1.dso.mil/ironbank/big-bang/base:1.17.0
         envs:
-          LOKI_URL: 'http://logging-loki-read.logging.svc:3100'
+          LOKI_URL: 'http://logging-loki-write.logging.svc:3100'
 
 tempo:
   enabled: false
