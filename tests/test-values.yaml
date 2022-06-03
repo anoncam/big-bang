@@ -738,7 +738,7 @@ addons:
       repo: https://repo1.dso.mil/platform-one/big-bang/apps/developer-tools/gitlab.git
       path: "./chart"
       tag: ""
-      branch: test_keycloak_integration
+      branch: keycloak_integration_test
     sso:
       enabled: true
       client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_gitlab
