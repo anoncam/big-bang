@@ -42,17 +42,6 @@ sso:
   oidc:
     host: keycloak.bigbang.dev
     realm: baby-yoda
-  git:
-    repo: https://repo1.dso.mil/platform-one/big-bang/apps/security-tools/keycloak.git
-    path: "./chart"
-    tag: ""
-    branch: "static_testuser"
-  values:
-    bbtests:
-      enabled: true
-      cypress:
-        envs:
-          cypress_static_testuser: true
 
 flux:
   timeout: 20m
@@ -1242,10 +1231,6 @@ addons:
 
   keycloak:
     enabled: true
-    git:
-      repo: https://repo1.dso.mil/platform-one/big-bang/apps/security-tools/keycloak.git
-      tag: ""
-      branch: "static_testuser"
     ingress:
       gateway: "passthrough"
       key: "" # Gets added via chart/ingress-certs.yaml
