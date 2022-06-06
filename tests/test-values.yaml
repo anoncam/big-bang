@@ -735,7 +735,7 @@ addons:
           persistence:
             size: 256Mi
         replica:
-          replicaCount: 1
+          replicaCount: 0
           persistence:
             size: 256Mi
 
@@ -1001,7 +1001,7 @@ addons:
       anchore-ui-redis:
         enabled: true
         replica:
-          replicaCount: 1
+          replicaCount: 0
       bbtests:
         enabled: true
         scripts:
