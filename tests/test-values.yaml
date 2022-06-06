@@ -731,6 +731,7 @@ addons:
         limits: {}
       redis:
         enabled: true
+      redis-bb:
         master:
           persistence:
             size: 256Mi
