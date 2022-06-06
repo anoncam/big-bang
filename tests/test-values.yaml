@@ -730,6 +730,7 @@ addons:
           memory: 100Mi
         limits: {}
       redis:
+        enabled: true
         master:
           persistence:
             size: 256Mi
@@ -996,6 +997,8 @@ addons:
             cpu: 100m
             memory: 200Mi
           limits: {}
+      anchore-ui-redis:
+        enabled: true
       bbtests:
         enabled: true
         scripts:
