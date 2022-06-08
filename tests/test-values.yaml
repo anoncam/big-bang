@@ -102,7 +102,7 @@ kiali:
     cr:
       spec:
         auth:
-          strategy: "anonymous"
+          strategy: "openid"
     bbtests:
       enabled: true
       cypress:
