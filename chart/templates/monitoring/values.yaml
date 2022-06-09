@@ -223,6 +223,7 @@ grafana:
     url: http://logging-loki-read.logging.svc.cluster.local:3100
     {{- end }}
     access: proxy
+    tlsSkipVerify: true
     editable: true
   {{- end }}
   {{- if and .Values.loki.enabled .Values.tempo.enabled }}
