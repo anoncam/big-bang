@@ -31,8 +31,21 @@ policies:
         {{- end }}
   {{- end }}
 
-  {{- if or .Values.istio.ingressGateways .Values.istio.values.ingressGateways }}
   # Istio services (istio ingress) can create type: NodePort services
+  {{- $nodePortIngressGateways := list }}
+  {{- range $name, $values := .Values.istio.ingressGateways }}
+  {{- if eq $values.type "NodePort" }}
+  {{- $nodePortIngressGateways = append $nodePortIngressGateways $name }}
+  {{- end }}
+  {{- end }}
+
+  {{- range $name, $values := .Values.istio.values.ingressGateways }}
+  {{- if eq $values.k8s.service.type "NodePort" }}
+  {{- $nodePortIngressGateways = append $nodePortIngressGateways $name }}
+  {{- end }}
+  {{- end }}
+
+  {{- if $nodePortIngressGateways }}
   disallow-nodeport-services:
     exclude:
       any:
@@ -40,15 +53,8 @@ policies:
           kinds:
           - Service
           names:
-          {{- range $name, $values := .Values.istio.ingressGateways }}
-          {{- if eq $values.type "NodePort" }}
+          {{- range $name := $nodePortIngressGateways }}
           - {{ $name }}
-          {{- end }}
-          {{- end }}
-          {{- range $name, $values := .Values.istio.values.ingressGateways }}
-          {{- if eq $values.k8s.service.type "NodePort" }}
-          - {{ $name }}
-          {{- end }}
           {{- end }}
           namespaces:
           - "istio-system"
