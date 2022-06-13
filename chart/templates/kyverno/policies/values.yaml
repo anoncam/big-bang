@@ -40,7 +40,7 @@ policies:
   {{- end }}
 
   {{- range $name, $values := .Values.istio.values.ingressGateways }}
-  {{- if eq $values.k8s.service.type "NodePort" }}
+  {{- if eq (dig "k8s" "service" "type" "LoadBalancer" $values) "NodePort" }}
   {{- $nodePortIngressGateways = append $nodePortIngressGateways $name }}
   {{- end }}
   {{- end }}
