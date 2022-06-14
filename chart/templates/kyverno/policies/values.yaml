@@ -31,7 +31,6 @@ policies:
         {{- end }}
   {{- end }}
 
-  # Istio services (istio ingress) can create type: NodePort services
   {{- $nodePortIngressGateways := list }}
   {{- range $name, $values := .Values.istio.ingressGateways }}
   {{- if eq $values.type "NodePort" }}
@@ -46,6 +45,7 @@ policies:
   {{- end }}
 
   {{- if $nodePortIngressGateways }}
+  # Istio services (istio ingress) can create type: NodePort services
   disallow-nodeport-services:
     exclude:
       any:
