@@ -7,5 +7,5 @@ metadata:
     app.kubernetes.io/component: "cluster-utilities"
     {{- include "commonLabels" . | nindent 4}}
     istio-injection: {{ dig "istio" "injection" "enabled" .Values.addons.metricsServer }}
-  name: metrics
+  name: metrics-server
 {{- end }}
