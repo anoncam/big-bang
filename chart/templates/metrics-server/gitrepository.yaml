@@ -4,6 +4,10 @@ kind: GitRepository
 metadata:
   name: metrics-server
   namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: metrics-server
+    app.kubernetes.io/component: "cluster-utilities"
+    {{- include "commonLabels" . | nindent 4}}
 spec:
   interval: {{ .Values.flux.interval }}
   url: {{ .Values.addons.metricsServer.git.repo }}
