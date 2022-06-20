@@ -30,7 +30,9 @@ Columns:
 | [Tempo](https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/tempo) ![BETA](https://img.shields.io/badge/BETA-purple?style=flat-square) | ![Tempo Build](https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/tempo/badges/main/pipeline.svg) | No | Yes | Yes | No | Yes (PERMISSIVE) | No |
 <!-- | [NeuVector](https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/neuvector) ![ALPHA](https://img.shields.io/badge/ALPHA-red?style=flat-square) | ![NeuVector Build](https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/neuvector/badges/main/pipeline.svg) | No | No | No | No | No | No | -->
 
-## Security
+## Supported Add-Ons
+
+### Security
 
 | Package | Status | Logging | Telemetry | Tracing | Network Policies | mTLS | Behavior Detection |
 | ----    | ---  | ---|---|---|---|---|---|
@@ -39,7 +41,7 @@ Columns:
 | [Authservice](https://repo1.dso.mil/platform-one/big-bang/apps/core/authservice) | ![Authservice Build](https://repo1.dso.mil/platform-one/big-bang/apps/core/authservice/badges/main/pipeline.svg) | No | Yes | Yes | [Yes](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/merge_requests/511) | [Yes (STRICT)](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/merge_requests/1329) | No |
 | [Vault](https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/vault) ![BETA](https://img.shields.io/badge/BETA-purple?style=flat-square) | ![Vault Build](https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/vault/badges/main/pipeline.svg) |  No | No | No | Yes | Yes (PERMISSIVE) | No |
 
-## Development Tools
+### Development Tools
 
 | Package | Status | Logging | Telemetry | Tracing | Network Policies | mTLS | Behavior Detection |
 | ----    | ---  | ---|---|---|---|---|---|
@@ -50,21 +52,21 @@ Columns:
 
 > *Gitlab Runner inherits mTLS STRICT from Gitlab when installed in the same namespace.
 
-## Collaboration Tools
+### Collaboration Tools
 
 | Package | Status | Logging | Telemetry | Tracing | Network Policies | mTLS | Behavior Detection |
 | ----    | ---  | ---|---|---|---|---|---|
 | [Mattermost](https://repo1.dso.mil/platform-one/big-bang/apps/collaboration-tools/mattermost)  | ![Mattermost Build](https://repo1.dso.mil/platform-one/big-bang/apps/collaboration-tools/mattermost/badges/main/pipeline.svg)    | No | No | No | [Yes](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/merge_requests/515) | [No](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/issues/623) | No |
 | [Mattermost Operator](https://repo1.dso.mil/platform-one/big-bang/apps/collaboration-tools/mattermost-operator) |  ![Mattermost Operator Build](https://repo1.dso.mil/platform-one/big-bang/apps/collaboration-tools/mattermost-operator/badges/main/pipeline.svg) | No | No | No | [Yes](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/merge_requests/499) | [Yes (STRICT)](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/merge_requests/1531) | No |
 
-## Application Utilities
+### Application Utilities
 
 | Package | Status | Logging | Telemetry | Tracing | Network Policies | mTLS | Behavior Detection |
 | ----    | ---  | ---|---|---|---|---|---|
 | [MinIO](https://repo1.dso.mil/platform-one/big-bang/apps/application-utilities/minio)  | ![MinIO Build](https://repo1.dso.mil/platform-one/big-bang/apps/application-utilities/minio/badges/main/pipeline.svg)    | No | No | No | [Yes](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/merge_requests/550) | [Yes (STRICT)](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/merge_requests/1566) | No |
 | [MinIO Operator](https://repo1.dso.mil/platform-one/big-bang/apps/application-utilities/minio-operator) |  ![MinIO Operator Build](https://repo1.dso.mil/platform-one/big-bang/apps/application-utilities/minio-operator/badges/main/pipeline.svg) | No | No | No | No | [Yes (STRICT)](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/merge_requests/1554) |No |
 
-## Cluster Utilities
+### Cluster Utilities
 
 | Package | Status | Logging | Telemetry | Tracing | Network Policies | mTLS | Behavior Detection |
 | ----    | ---  | ---|---|---|---|---|---|
