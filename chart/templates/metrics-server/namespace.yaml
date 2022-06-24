@@ -1,5 +1,5 @@
 {{- if .Values.addons.metricsServer.enabled }}
-{{- if or (not .Capabilities.APIVersions.Has "metrics.k8s.io/v1beta1")(lookup "helm.toolkit.fluxcd.io/v2beta1" "HelmRelease" "bigbang" "metrics-server") }}
+{{- if or (not .Capabilities.APIVersions.Has "metrics.k8s.io/v1beta1") (lookup "helm.toolkit.fluxcd.io/v2beta1" "HelmRelease" "bigbang" "metrics-server") }}
 apiVersion: v1
 kind: Namespace
 metadata:
