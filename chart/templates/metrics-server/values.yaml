@@ -1,4 +1,5 @@
 {{- if .Values.addons.metricsServer.enabled }}
+{{- if or (not .Capabilities.APIVersions.Has "metrics.k8s.io/v1beta1")(lookup "helm.toolkit.fluxcd.io/v2beta1" "HelmRelease" "bigbang" "metrics-server") }}
 {{- include "values-secret" (dict "root" $ "package" .Values.addons.metricsServer "name" "metrics" "defaults" (include "bigbang.defaults.metrics" .)) }}
 {{- end }}
 
@@ -26,4 +27,5 @@ networkPolicies:
   enabled: {{ .Values.networkPolicies.enabled }}
   controlPlaneCidr: {{ .Values.networkPolicies.controlPlaneCidr }}
 
+{{- end }}
 {{- end }}

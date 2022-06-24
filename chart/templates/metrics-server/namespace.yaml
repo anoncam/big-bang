@@ -1,4 +1,5 @@
 {{- if .Values.addons.metricsServer.enabled }}
+{{- if or (not .Capabilities.APIVersions.Has "metrics.k8s.io/v1beta1")(lookup "helm.toolkit.fluxcd.io/v2beta1" "HelmRelease" "bigbang" "metrics-server") }}
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -8,4 +9,5 @@ metadata:
     {{- include "commonLabels" . | nindent 4}}
     istio-injection: {{ dig "istio" "injection" "enabled" .Values.addons.metricsServer }}
   name: metrics-server
+{{- end }}
 {{- end }}
