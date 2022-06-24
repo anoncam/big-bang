@@ -1,9 +1,9 @@
 {{- if .Values.addons.metricsServer.enabled }}
 {{- if or (not .Capabilities.APIVersions.Has "metrics.k8s.io/v1beta1") (lookup "helm.toolkit.fluxcd.io/v2beta1" "HelmRelease" "bigbang" "metrics-server") }}
-{{- include "values-secret" (dict "root" $ "package" .Values.addons.metricsServer "name" "metrics" "defaults" (include "bigbang.defaults.metrics" .)) }}
+{{- include "values-secret" (dict "root" $ "package" .Values.addons.metricsServer "name" "metrics" "defaults" (include "bigbang.defaults.metrics-server" .)) }}
 {{- end }}
 
-{{- define "bigbang.defaults.metrics" -}}
+{{- define "bigbang.defaults.metrics-server" -}}
 # hostname is deprecated and replaced with domain. But if hostname exists then use it.
 {{- $domainName := default .Values.domain .Values.hostname }}
 domain: {{ $domainName }}
