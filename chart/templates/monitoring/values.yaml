@@ -133,9 +133,9 @@ redis:
 
 vault:
   enabled: {{ .Values.addons.vault.enabled }}
-  {{- if not (dig "global" "tlsDisable" .Values.addons.vault.values) }}
-  tlsDisable: false
-  {{- end }}
+vault:
+  enabled: {{ .Values.addons.vault.enabled }}
+  tlsDisable: {{ dig "global" "tlsDisable" true .Values.addons.vault.values }}
 
 global:
   imagePullSecrets:
