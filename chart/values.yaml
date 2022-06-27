@@ -578,7 +578,9 @@ monitoring:
   git:
     repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/monitoring.git
     path: "./chart"
-    tag: "35.5.1-bb.1"
+    # tag: "35.5.1-bb.2"
+    tag: null
+    branch: "vault-service-monitor"   
 
   # -- Flux reconciliation overrides specifically for the Monitoring Package
   flux:
@@ -1343,7 +1345,9 @@ addons:
     git:
       repo: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/vault.git
       path: "./chart"
-      tag: "0.20.1-bb.0"
+      # tag: "0.20.1-bb.1"
+      tag: null
+      branch: "25-resolve-vault-agent_inject_vault_addr-issue"
 
     # -- Flux reconciliation overrides specifically for the Vault Package
     flux: {}
