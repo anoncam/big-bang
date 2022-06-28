@@ -189,6 +189,18 @@ policies:
 
   require-drop-all-capabilities:
     validationFailureAction: audit
+    {{- if .Values.addons.gitlab.enabled }}
+    exclude:
+      any:
+      # Gitlab Minio and Redis sub-charts are not configured with securityContext values from upstream. Minio and Redis
+      # installations are only recommended for dev/CI environments.
+      - resources:
+          namespaces:
+          - gitlab
+          names:
+          - gitlab-minio-*
+          - gitlab-redis-*
+    {{- end }}
 
   require-istio-on-namespaces:
     enabled: {{ .Values.istio.enabled }}
@@ -211,7 +223,7 @@ policies:
 
   require-non-root-group:
     validationFailureAction: audit
-    {{- if or $deployRestic .Values.twistlock.enabled .Values.fluentbit.enabled .Values.promtail.enabled }}
+    {{- if or $deployRestic .Values.twistlock.enabled .Values.fluentbit.enabled .Values.promtail.enabled .Values.addons.gitlab.enabled }}
     exclude:
       any:
       {{- if $deployRestic }}
@@ -255,11 +267,21 @@ policies:
           names:
           - logging-promtail*
       {{- end }}
+      {{- if .Values.addons.gitlab.enabled }}
+      # Gitlab Minio and Redis sub-charts are not configured with securityContext values from upstream. Minio and Redis
+      # installations are only recommended for dev/CI environments.
+      - resources:
+          namespaces:
+          - gitlab
+          names:
+          - gitlab-minio-*
+          - gitlab-redis-*
+      {{- end }}
     {{- end }}
 
   require-non-root-user:
     validationFailureAction: audit
-    {{- if or $deployRestic .Values.twistlock.enabled .Values.fluentbit.enabled .Values.promtail.enabled }}
+    {{- if or $deployRestic .Values.twistlock.enabled .Values.fluentbit.enabled .Values.promtail.enabled .Values.addons.gitlab.enabled }}
     exclude:
       any:
       {{- if $deployRestic }}
@@ -302,6 +324,16 @@ policies:
           - logging
           names:
           - logging-promtail*
+      {{- end }}
+      {{- if .Values.addons.gitlab.enabled }}
+      # Gitlab Minio and Redis sub-charts are not configured with securityContext values from upstream. Minio and Redis
+      # installations are only recommended for dev/CI environments.
+      - resources:
+          namespaces:
+          - gitlab
+          names:
+          - gitlab-minio-*
+          - gitlab-redis-*
       {{- end }}
     {{- end }}
 
