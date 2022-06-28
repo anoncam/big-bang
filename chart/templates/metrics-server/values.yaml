@@ -1,4 +1,4 @@
-{{- if .Values.addons.metricsServer.enabled }}
+{{- if or ( eq .Values.addons.metricsServer.enabled "true") (eq .Values.addons.metricsServer.enabled "auto") }}
 {{- include "values-secret" (dict "root" $ "package" .Values.addons.metricsServer "name" "metrics" "defaults" (include "bigbang.defaults.metrics-server" .)) }}
 {{- end }}
 

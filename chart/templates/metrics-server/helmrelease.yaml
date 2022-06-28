@@ -1,5 +1,5 @@
 {{- $fluxSettingsMetrics := merge .Values.addons.metricsServer.flux .Values.flux -}}
-{{- if .Values.addons.metricsServer.enabled }}
+{{- if or ( eq .Values.addons.metricsServer.enabled "true") (eq .Values.addons.metricsServer.enabled "auto") }}
 {{- if or (not (.Capabilities.APIVersions.Has "metrics.k8s.io/v1beta1")) (lookup "helm.toolkit.fluxcd.io/v2beta1" "HelmRelease" "bigbang" "metrics-server") }}
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
