@@ -1368,7 +1368,7 @@ addons:
   metricsServer:
     # -- Toggle deployment of metrics server
     # Acceptable options are enabled: true, enabled: false, enabled: auto
-    # true = enabled - false = disabled - auto 
+    # true = enabled - false = disabled - auto = automatic
     enabled: auto
     git:
       repo: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/metrics-server.git

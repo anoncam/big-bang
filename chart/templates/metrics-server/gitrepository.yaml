@@ -1,4 +1,5 @@
-{{- if or ( eq .Values.addons.metricsServer.enabled "true") (eq .Values.addons.metricsServer.enabled "auto") }}
+{{- $enableFlag := .Values.addons.metricsServer.enabled | toString }}
+{{- if or ( eq $enableFlag "true") (eq $enableFlag "auto") }}
 {{- if or (not (.Capabilities.APIVersions.Has "metrics.k8s.io/v1beta1")) (lookup "helm.toolkit.fluxcd.io/v2beta1" "HelmRelease" "bigbang" "metrics-server") }}
 apiVersion: source.toolkit.fluxcd.io/v1beta1
 kind: GitRepository
