@@ -1,6 +1,6 @@
 include:
   - project: 'platform-one/big-bang/pipeline-templates/pipeline-templates'
-    ref: helm-test-test
+    ref: blloyd_test_cypress_fail
     file: '/pipelines/bigbang.yaml'
 variables:
-  PIPELINE_REPO_BRANCH: 'helm-test-test' 
+  PIPELINE_REPO_BRANCH: 'blloyd_test_cypress_fail' 
