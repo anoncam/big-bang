@@ -12,14 +12,27 @@ podAnnotations:
 tempo:
   imagePullSecrets:
   - name: private-registry
+  pullPolicy: {{ .Values.imagePullPolicy }}
+{{- with .Values.tempo.objectStorage }}
+{{- if .endpoint .region .accessKey .accessSecret .bucket .insecure }}
+  storage: 
+    trace:
+      backend: s3
+      s3:
+        endpoint: {{ .Values.tempo.objectStorage.endpoint }}
+        bucket: {{ .Values.tempo.objectStorage.bucket }}
+        region: {{ .Values.tempo.objectStorage.region }}
+        access_key: {{ .Values.tempo.objectStorage.accessKey }}
+        secret_key: {{ .Values.tempo.objectStorage.accessSecret }}
+        insecure: {{ .Values.tempo.objectStorage.insecure }}
+        forcepathstyle: true
+{{- end }}
+{{- end }}
 
     # hostname is deprecated and replaced with domain. But if hostname exists then use it.
 {{- $domainName := default .Values.domain .Values.hostname }}
 hostname: {{ $domainName }}
 domain: {{ $domainName }}
-
-tempo:
-  pullPolicy: {{ .Values.imagePullPolicy }}
 
 tempoQuery:
   pullPolicy: {{ .Values.imagePullPolicy }}
