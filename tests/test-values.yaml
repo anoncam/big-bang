@@ -163,6 +163,7 @@ gatekeeper:
           - vault/vault-cypress-test
           - logging/loki-cypress-test
           - twistlock/twistlock-cypress-test
+          - sonarqube/sonarqube-cypress-test
           # Allow kyverno test vectors for Helm test
           - default/restrict-host-path-mount-.?
           - default/restrict-host-path-write-.?
@@ -259,6 +260,7 @@ gatekeeper:
           - vault/vault-cypress-test
           - logging/loki-cypress-test
           - twistlock/twistlock-cypress-test
+          - sonarqube/sonarqube-cypress-test
           # Allow kyverno test vectors for Helm test
           - default/restrict-host-path-mount-.?
           - default/restrict-host-path-write-.?
@@ -368,6 +370,7 @@ kyvernopolicies:
               - vault
               - logging
               - twistlock
+              - sonarqube
               names:
               - "*-cypress-test*"
         parameters:
@@ -394,6 +397,7 @@ kyvernopolicies:
               - vault
               - logging
               - twistlock
+              - sonarqube
               names:
               - "*-cypress-test*"
         parameters:
@@ -430,6 +434,7 @@ kyvernopolicies:
               - vault
               - logging
               - twistlock
+              - sonarqube
               names:
               - "*-cypress-test*"
       update-image-pull-policy:
@@ -534,12 +539,10 @@ loki:
     bbtests:
       enabled: true
       cypress:
-        artifacts: true
         envs:
           cypress_check_datasource: 'true'
           cypress_grafana_url: 'https://grafana.bigbang.dev'
       scripts:
-        image: registry1.dso.mil/ironbank/big-bang/base:1.17.0
         envs:
           LOKI_URL: 'http://logging-loki-write.logging.svc:3100'
 
@@ -647,6 +650,7 @@ monitoring:
     bbtests:
       enabled: true
       cypress:
+        image: registry.dso.mil/platform-one/big-bang/pipeline-templates/pipeline-templates/cypress/kubectl:8.3.1
         envs:
           cypress_prometheus_url: 'https://prometheus.bigbang.dev'
           cypress_grafana_url: 'https://grafana.bigbang.dev'
@@ -1060,7 +1064,7 @@ addons:
       account:
         adminPassword: new_admin_password
         currentAdminPassword: admin
-      curlContainerImage: registry1.dso.mil/ironbank/big-bang/base:1.16.0
+      curlContainerImage: registry1.dso.mil/ironbank/big-bang/base:2.0.0
 
   minioOperator:
     enabled: false
@@ -1362,11 +1366,14 @@ addons:
               ui = true
 
               listener "tcp" {
-                tls_disable = 0
+                tls_disable = false
                 address = "[::]:8200"
                 cluster_address = "[::]:8201"
                 tls_cert_file = "/vault/tls/tls.crt"
                 tls_key_file  = "/vault/tls/tls.key"
+                telemetry {
+                  unauthenticated_metrics_access = true
+                }
               }
 
               storage "raft" {
@@ -1389,7 +1396,6 @@ addons:
               telemetry {
                 prometheus_retention_time = "24h"
                 disable_hostname = true
-                unauthenticated_metrics_access = true
               }
 
               service_registration "kubernetes" {}
