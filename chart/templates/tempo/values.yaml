@@ -22,10 +22,6 @@ tempo:
         endpoint: {{ .endpoint }}
         bucket: {{ .bucket }}
         region: {{ .region }}
-        {{- if and .accessKey .accessSecret }}
-        access_key: {{ .accessKey }}
-        secret_key: {{ .accessSecret }}
-        {{- end }}
         insecure: {{ .insecure }}
         forcepathstyle: true
 {{- end }}
