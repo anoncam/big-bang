@@ -70,7 +70,7 @@ Flux settings are used to setup the default continuous deployment configuration 
 
 | Key | Description | Type | Default |
 |--|--|--|--|
-| `interval` | Polling interval to check for Git or Helm chart updates | ##m##s | 2m |
+| `interval` | Polling interval to check for Git or Helm chart updates | ##m##s (ex. 5m30s) | 2m |
 | `install.retries` | The number of retries that should be attempted on Helm chart installation failures before bailing. | int | 3 |
 | `upgrade.retries` | The number of retries that should be attempted on Helm chart upgrade failures before bailing. | int | 3 |
 | `rollback.timeout` | The time to wait for any individual Kubernetes operation (like Jobs for hooks) during the performance of a Helm rollback action. | ##m##s | 5m |
