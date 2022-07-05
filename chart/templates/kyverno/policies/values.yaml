@@ -192,13 +192,12 @@ policies:
     {{- if .Values.addons.gitlab.enabled }}
     exclude:
       any:
-      # Gitlab Minio and Redis sub-charts are not configured with securityContext values from upstream. Minio and Redis
-      # installations are only recommended for dev/CI environments.
+      # Gitlab Redis sub-chart does not have configurable securityContext values from upstream. An issue has been opened 
+      # upstream to add these capabilities: https://gitlab.com/gitlab-org/charts/gitlab/-/issues/3375
       - resources:
           namespaces:
           - gitlab
           names:
-          - gitlab-minio-*
           - gitlab-redis-*
     {{- end }}
 
@@ -268,13 +267,12 @@ policies:
           - logging-promtail*
       {{- end }}
       {{- if .Values.addons.gitlab.enabled }}
-      # Gitlab Minio and Redis sub-charts are not configured with securityContext values from upstream. Minio and Redis
-      # installations are only recommended for dev/CI environments.
+      # Gitlab Redis sub-chart does not have configurable securityContext values from upstream. An issue has been opened 
+      # upstream to add these capabilities: https://gitlab.com/gitlab-org/charts/gitlab/-/issues/3375
       - resources:
           namespaces:
           - gitlab
           names:
-          - gitlab-minio-*
           - gitlab-redis-*
       {{- end }}
     {{- end }}
@@ -326,13 +324,12 @@ policies:
           - logging-promtail*
       {{- end }}
       {{- if .Values.addons.gitlab.enabled }}
-      # Gitlab Minio and Redis sub-charts are not configured with securityContext values from upstream. Minio and Redis
-      # installations are only recommended for dev/CI environments.
+      # Gitlab Redis sub-chart does not have configurable securityContext values from upstream. An issue has been opened 
+      # upstream to add these capabilities: https://gitlab.com/gitlab-org/charts/gitlab/-/issues/3375
       - resources:
           namespaces:
           - gitlab
           names:
-          - gitlab-minio-*
           - gitlab-redis-*
       {{- end }}
     {{- end }}
