@@ -9,6 +9,10 @@ podAnnotations:
   {{ include "istioAnnotation" . }}
 {{- end }}
 
+objectStorage: 
+  access_key_id: {{ .Values.tempo.objectStorage.accessKey }}
+  secret_access_key: {{ .Values.tempo.objectStorage.accessSecret }}
+
 tempo:
   imagePullSecrets:
   - name: private-registry
