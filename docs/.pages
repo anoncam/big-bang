@@ -6,5 +6,10 @@ nav:
     - Encryption: encryption.md
     - Post Renderers: postrenderers.md
     - Production Config: production.md
+    - Storage: k8s-storage
     - Troubleshooting: troubleshooting.md
+    - Guides: guides
+    - Developing: developer
+    - Understanding: understanding_bigbang
     - ...
+    # - 🧪 Airgap: airgap
