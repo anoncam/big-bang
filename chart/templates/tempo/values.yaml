@@ -14,17 +14,19 @@ tempo:
   - name: private-registry
   pullPolicy: {{ .Values.imagePullPolicy }}
 {{- with .Values.tempo.objectStorage }}
-{{- if .endpoint .region .accessKey .accessSecret .bucket .insecure }}
+{{- if and .endpoint .region .bucket }}
   storage: 
     trace:
       backend: s3
       s3:
-        endpoint: {{ .Values.tempo.objectStorage.endpoint }}
-        bucket: {{ .Values.tempo.objectStorage.bucket }}
-        region: {{ .Values.tempo.objectStorage.region }}
-        access_key: {{ .Values.tempo.objectStorage.accessKey }}
-        secret_key: {{ .Values.tempo.objectStorage.accessSecret }}
-        insecure: {{ .Values.tempo.objectStorage.insecure }}
+        endpoint: {{ .endpoint }}
+        bucket: {{ .bucket }}
+        region: {{ .region }}
+        {{- if and .accessKey .accessSecret }}
+        access_key: {{ .accessKey }}
+        secret_key: {{ .accessSecret }}
+        {{- end }}
+        insecure: {{ .insecure }}
         forcepathstyle: true
 {{- end }}
 {{- end }}
