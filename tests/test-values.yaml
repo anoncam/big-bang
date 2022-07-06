@@ -164,6 +164,7 @@ gatekeeper:
           - logging/loki-cypress-test
           - twistlock/twistlock-cypress-test
           - sonarqube/sonarqube-cypress-test
+          - logging/logging-cypress-test
           # Allow kyverno test vectors for Helm test
           - default/restrict-host-path-mount-.?
           - default/restrict-host-path-write-.?
@@ -261,6 +262,7 @@ gatekeeper:
           - logging/loki-cypress-test
           - twistlock/twistlock-cypress-test
           - sonarqube/sonarqube-cypress-test
+          - logging/logging-cypress-test
           # Allow kyverno test vectors for Helm test
           - default/restrict-host-path-mount-.?
           - default/restrict-host-path-write-.?
@@ -371,6 +373,7 @@ kyvernopolicies:
               - logging
               - twistlock
               - sonarqube
+              - logging
               names:
               - "*-cypress-test*"
         parameters:
@@ -398,6 +401,7 @@ kyvernopolicies:
               - logging
               - twistlock
               - sonarqube
+              - logging
               names:
               - "*-cypress-test*"
         parameters:
@@ -435,6 +439,7 @@ kyvernopolicies:
               - logging
               - twistlock
               - sonarqube
+              - logging
               names:
               - "*-cypress-test*"
       update-image-pull-policy:
