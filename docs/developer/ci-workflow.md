@@ -13,9 +13,9 @@ This pipeline is triggered by the following for individual bigbang packages:
 - manual tag events
 - commits to default branch
 
-![Package Pipeline](../assets/imgs/developer/Package_pipeline.png)
+![Package Pipeline](../assets/imgs/developer/package-pipeline.png)
 
-[Link to draw.io diagram file](../assets/diagrams/developer/BB_gitlab_ci_diagram.drawio). This diagram file should be modified on draw.io and exported into this repository when the developer / ci workflow changes. It is provided here for ease of use.
+[Link to draw.io diagram file](../assets/diagrams/developer/bb-gitlab-ci-diagram.drawio). This diagram file should be modified on draw.io and exported into this repository when the developer / ci workflow changes. It is provided here for ease of use.
 
 ### Configuration Validation
 
@@ -45,9 +45,9 @@ This pipeline is triggered by the following for individual bigbang packages:
 
 The pipeline is split into several stages:
 
-![BB Pipeline](../assets/imgs/developer/BB_pipelines.png)
+![BB Pipeline](../assets/imgs/developer/bb-pipelines.png)
 
-[Link to draw.io diagram file](../assets/diagrams/developer/BB_gitlab_ci_diagram.drawio). This diagram file should be modified on draw.io and exported into this repository when the developer / ci workflow changes. It is provided here for ease of use.
+[Link to draw.io diagram file](../assets/diagrams/developer/bb-gitlab-ci-diagram.drawio). This diagram file should be modified on draw.io and exported into this repository when the developer / ci workflow changes. It is provided here for ease of use.
 
 ### Pre Vars
 
@@ -99,9 +99,9 @@ The infrastructure pipeline is designed to have _no_ human interaction, and is s
 
 More information on the full set of infrastructure tests are below:
 
-![Infra Pipeline](../assets/imgs/developer/Infra_test_pipelines.png)
+![Infra Pipeline](../assets/imgs/developer/infra-test-pipelines.png)
 
-[Link to draw.io diagram file](../assets/diagrams/developer/BB_gitlab_ci_diagram.drawio). This diagram file should be modified on draw.io and exported into this repository when the developer / ci workflow changes. It is provided here for ease of use.
+[Link to draw.io diagram file](../assets/diagrams/developer/bb-gitlab-ci-diagram.drawio). This diagram file should be modified on draw.io and exported into this repository when the developer / ci workflow changes. It is provided here for ease of use.
 
 ### Network Creation
 

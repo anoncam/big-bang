@@ -4,6 +4,6 @@ Big Bang requires some additional documentation for supported packages to help u
 
 - Package Architecture: See [Big Bang's Architecture instructions](../../../charter/packages/ref-package/Architecture.md).  Examples are included in [charter/packages](../../../charter/packages)
 - [Big Bang Packages](../../../charter/BigBangPackages.md)
-- [Default Credentials](../../guides/using_bigbang/default_credentials.md)
-- [Licensing](../../understanding-bigbang/licensing_expectations.md)
-- [Minimum Hardware Requirements](../../guides/prerequisites/minimum_hardware_requirements.md)
+- [Default Credentials](../../guides/using-bigbang/default-credentials.md)
+- [Licensing](../../understanding-bigbang/licensing-expectations.md)
+- [Minimum Hardware Requirements](../../guides/prerequisites/minimum-hardware-requirements.md)

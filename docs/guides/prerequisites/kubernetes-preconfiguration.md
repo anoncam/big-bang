@@ -8,7 +8,7 @@
 * CoreDNS in the kube-system namespace should be HA with pod anti-affinity rules
 * Master Nodes should be HA and tainted.
 * Consider using a licensed Kubernetes Distribution with a support contract.
-* [A default storage class should exist](default_storageclass.md) to support dynamic provisioning of persistent volumes.
+* [A default storage class should exist](default-storageclass.md) to support dynamic provisioning of persistent volumes.
 
 ## Service of Type Load Balancer
 
@@ -111,7 +111,7 @@ Note: it was unsuccessfully attempted to apply this setting via modifications to
 ### RKE2
 
 * RKE2 turns PSPs on by default (see above for tips on disabling)
-* RKE2 sets selinux to enforcing by default ([see os_preconfiguration.md for selinux config](os_preconfiguration.md))
+* RKE2 sets selinux to enforcing by default ([see os-preconfiguration.md for selinux config](os-preconfiguration.md))
 
 Since BigBang makes several assumptions about volume and load balancing provisioning by default, it's vital that the rke2 cluster must be properly configured.  The easiest way to do this is through the in tree cloud providers, which can be configured through the `rke2` configuration file such as:
 
