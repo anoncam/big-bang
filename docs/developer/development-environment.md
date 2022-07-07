@@ -163,7 +163,7 @@ cd ./bigbang
 ./scripts/install_flux.sh -u your-user-name -p your-pull-secret
 ```
 
-**Note1:** When deploying to k3d, the load balancer must be added to `excludedResources` under several policies for gatekeeper or kyverno. This can be done by modifying `chart/values.yaml` file or passing an override file (e.g. `docs/example_configs/policy-overrides-k3d.yaml`) with the values set below.  This is for development purposes only.
+**Note1:** When deploying to k3d, the load balancer must be added to `excludedResources` under several policies for gatekeeper or kyverno. This can be done by modifying `chart/values.yaml` file or passing an override file (e.g. `docs/assets/configs/example/policy-overrides-k3d.yaml`) with the values set below.  This is for development purposes only.
 
 ```yaml
 gatekeeper:
@@ -463,7 +463,7 @@ k3d cluster create \
       ```
 
     - You might also need to restart the Package app pods before they can detect the new coredns config
-    - Deploy Keycloak using the example dev config values ```docs/developer/example_configs/keycloak-dev-values.yaml```
+    - Deploy Keycloak using the example dev config values [`docs/assets/configs/example/keycloak-dev-values.yaml`](../assets/configs/example/keycloak-dev-values.yaml)
 
 ### Amazon Linux 2
 

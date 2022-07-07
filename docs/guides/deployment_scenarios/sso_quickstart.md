@@ -621,7 +621,7 @@ twistlock:
 EOF
 
 helm upgrade --install bigbang \$HOME/bigbang/chart \
-  --values \$HOME/bigbang/docs/example_configs/keycloak-dev-values.yaml \
+  --values \$HOME/bigbang/docs/assets/configs/example/keycloak-dev-values.yaml \
   --values \$HOME/ib_creds.yaml \
   --values \$HOME/keycloak_qs_demo_values.yaml \
   --values https://repo1.dso.mil/platform-one/big-bang/bigbang/-/raw/master/chart/ingress-certs.yaml \
