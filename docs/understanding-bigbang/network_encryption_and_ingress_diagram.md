@@ -8,7 +8,7 @@
 
 ## Big Bang Network Ingress Diagram
 
-![network_encryption_and_ingress_diagram.app.diagrams.net.png](images/network_encryption_and_ingress_diagram.app.diagrams.net.png)
+![network_encryption_and_ingress_diagram.app.diagrams.net.png](../assets/imgs/understanding-bigbang/network_encryption_and_ingress_diagram.app.diagrams.net.png)
 
 ### Notes
 

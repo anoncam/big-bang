@@ -4,7 +4,7 @@
 
 ## Kubernetes Pod Logs Data Flow Diagram
 
-![logs_data_flow_diagram.app.diagrams.net.png](images/logs_data_flow_diagram.app.diagrams.net.png)
+![logs_data_flow_diagram.app.diagrams.net.png](../assets/imgs/understanding-bigbang/logs_data_flow_diagram.app.diagrams.net.png)
 
 | Line Number | Protocol | Port | Description |
 | --- |  --- | --- | --- |

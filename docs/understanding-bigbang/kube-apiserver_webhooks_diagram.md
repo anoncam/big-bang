@@ -15,7 +15,7 @@
 
 ## BigBang Kubernetes API Server Webhooks Diagram
 
-![kube-apiserver_webhooks_diagram.app.diagrams.net.png](images/kube-apiserver_webhooks_diagram.app.diagrams.net.png)
+![kube-apiserver_webhooks_diagram.app.diagrams.net.png](../assets/imgs/understanding-bigbang/kube-apiserver_webhooks_diagram.app.diagrams.net.png)
 
 ### Notes  
 
