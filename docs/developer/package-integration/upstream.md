@@ -162,8 +162,8 @@ To minimize maintenance, it is preferable to reuse existing Helm charts availabl
       * <https://github.com/stefanprodan/podinfo>
 
       ## Learn More
-      * [Application Overview](docs/overview.md)
-      * [Other Documentation](docs/)
+      * [Application Overview\](docs/overview.md)
+      * [Other Documentation\](docs/)
 
       ## Pre-Requisites
 
@@ -185,12 +185,12 @@ To minimize maintenance, it is preferable to reuse existing Helm charts availabl
 
       ## Values
 
-      | Key | Type | Default | Description |
-      |-----|------|---------|-------------|
-      | replicaCount | int | `1` |  |
-      | logLevel | string | `"info"` |  |
-      | host | string | `nil` |  |
-      | backend | string | `nil` |  |
+      | Key          | Type   | Default  | Description |
+      | ------------ | ------ | -------- | ----------- |
+      | replicaCount | int    | `1`      |             |
+      | logLevel     | string | `"info"` |             |
+      | host         | string | `nil`    |             |
+      | backend      | string | `nil`    |             |
       ...
 
       ## Contributing
