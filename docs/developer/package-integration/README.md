@@ -13,5 +13,5 @@ The following documents should be followed, in order, to fully integrate a new p
 1. [Additional Tests](testing.md): Add testing to validate basic functionality
 1. [Network Policies](network-policies.md): Add ingress/egress policies to restrict network traffic for security
 1. [Policy Enforcement](policy-enforcement.md): Update package to comply with default security and governance policies in Big Bang
-1. [Supported Package](product-integration-supported.md): Migrate package into the Big Bang repo as a supported package
-1. [Final Documentation](documentation.md): Add additional Big Bang documentation for final release
+2. [Supported Package](supported.md): Migrate package into the Big Bang repo as a supported package
+3. [Final Documentation](documentation.md): Add additional Big Bang documentation for final release

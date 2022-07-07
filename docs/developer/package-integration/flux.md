@@ -12,7 +12,7 @@ Big Bang uses a continuous deployment tool, [Flux](https://fluxcd.io/) to deploy
 - [Kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl)
 - [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 - A multi-node Kubernetes cluster to deploy Big Bang and your package
-- A [Big Bang project containing the upstream Helm chart](./package-integration-upstream.md)
+- A [Big Bang project containing the upstream Helm chart](./upstream.md)
 
 > Throughout this document, we will be setting up an application called `podinfo` as a demonstration
 
@@ -218,12 +218,12 @@ Package values (chart/values.yaml) should contain upstream values plus any place
 
 Big Bang has a few options for overwriting values in packages.  The package's `HelmRelease`, that we created earlier, contains a `ValuesFrom` section that references a secret with `common`, `default`, and `overlay` keys.  Each of these keys can contain a set of override values that get passed down to the package.  Here is a table explaining the difference between the possible overlays:
 
-|Name|Description|Source|Priority|
-|--|--|--|--|
-| `overlay` | Values provided by user when deploying Big Bang | `bigbang/values.yaml`:`$PKGNAME.values.*` | Highest 1 |
-| `default` | Values created by Big Bang | `bigbang/templates/$PKGNAME/values.yaml`:`*` | 2 |
-| `common` | Big Bang values common to all packages | Not currently used | 3 |
-| `package` | Package defaults | `chart/values.yaml`:`*` | Lowest 4 |
+| Name      | Description                                     | Source                                       | Priority  |
+| --------- | ----------------------------------------------- | -------------------------------------------- | --------- |
+| `overlay` | Values provided by user when deploying Big Bang | `bigbang/values.yaml`:`$PKGNAME.values.*`    | Highest 1 |
+| `default` | Values created by Big Bang                      | `bigbang/templates/$PKGNAME/values.yaml`:`*` | 2         |
+| `common`  | Big Bang values common to all packages          | Not currently used                           | 3         |
+| `package` | Package defaults                                | `chart/values.yaml`:`*`                      | Lowest 4  |
 
 This means that if a user provides a value for the package, that overwrites the value Big Bang or the package would create.
 

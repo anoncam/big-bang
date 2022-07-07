@@ -9,7 +9,7 @@
 - [Kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl)
 - [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 - A multi-node Kubernetes cluster to deploy Big Bang and your package
-- A [Big Bang project containing the upstream Helm chart](./package-integration-upstream.md)
+- A [Big Bang project containing the upstream Helm chart](./upstream.md)
 
 > Throughout this document, we will be setting up an application called `podinfo` as a demonstration
 

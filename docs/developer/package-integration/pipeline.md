@@ -6,7 +6,7 @@ Big Bang contains and uses a continuous deployment tool to deploy packages using
 
 - [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 - [Docker CLI](https://docs.docker.com/get-docker/)
-- [Big Bang package project containing your Helm chart](./package-integration-upstream.md)
+- [Big Bang package project containing your Helm chart](./upstream.md)
    > You will need to have the Container Registry enabled.This can be requested from the Big Bang team.
 
 > Throughout this document, we will be setting up an application called `podinfo` as a demonstration.
@@ -105,4 +105,4 @@ Examples of components that contribute to a package being "Big Bang compatible":
  
 This stage also allows any Big Bang Core or Addon packages to be deployed alongside a third-party or sandbox package for testing compatibility/functionality.
 
-To set this up in a package repo, see the guide [here](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/blob/master/docs/developer/package-integration/package-integration-flux.md).
+To set this up in a package repo, see the guide [here](./flux.md).
