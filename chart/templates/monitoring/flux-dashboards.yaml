@@ -8,7 +8,7 @@ metadata:
     grafana_dashboard: "1"
 data:
   flux-cluster-dashboard.json: |
-    {{ .Files.Get "../base/flux/dashboards/cluster.json"  | nindent 4 }}
+    {{ .Files.Get "dashboards/flux/cluster.json"  | nindent 4 }}
   flux-control-plane-dashboard.json: |
-    {{ .Files.Get "../base/flux/dashboards/control-plane.json" | nindent 4 }}
+    {{ .Files.Get "dashboards/flux/control-plane.json" | nindent 4 }}
 {{- end }}
