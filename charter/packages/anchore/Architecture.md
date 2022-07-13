@@ -105,7 +105,7 @@ addons:
 
 ### Storage
 
-Anchore relies on a PostgreSQL database as its primary data store. By default, Anchore will deploy an in-cluster PostgreSQL database, but it is recommended that an external PostgreSQL 9.6+ database be used, which can be configured in the Big Bang values.yaml. For more information, see [Anchore Enterprise Storage Overview](https://docs.anchore.com/current/docs/overview/requirements/.
+Anchore relies on a PostgreSQL database as its primary data store. By default, Anchore will deploy an in-cluster PostgreSQL database, but it is recommended that an external PostgreSQL 9.6+ database be used, which can be configured in the Big Bang values.yaml. For more information, see [Anchore Enterprise Storage Overview](https://docs.anchore.com/current/docs/configuration/storage/).
 
 ### High Availability
 
