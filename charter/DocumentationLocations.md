@@ -22,5 +22,6 @@
 ### Where is the best place to look for documentation on BigBang Packages? 
 
 - Our goal is to have these docs available on a webpage hosted on the BigBang Cluster using Hugo       
-  (https://docs-bigbang.dso.mil/ by default) (look [here](./PackageDocumentation.md) for more info)
+  (https://docs.bigbang.dev by default) (look [here](./PackageDocumentation.md) for more info)
+- Currently the docs are hosted for consumption on https://docs-bigbang.dso.mil/
 - This allows us to support a centralized location for package configuration documentation, while allowing support for dynamically added versions of distributed packages in a maintainable way. 
