@@ -276,8 +276,8 @@ grafana:
       root_url: https://grafana.{{ $domainName }}/
     {{- end }}
 
-    auth:
-      signout_redirect_url: {{ .Values.monitoring.sso.grafana.signout_redirect_url | default (tpl "https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/logout" .) }}
+    # auth:
+    #   signout_redirect_url: {{ .Values.monitoring.sso.grafana.signout_redirect_url | default (tpl "https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/logout" .) }}
 
     auth.generic_oauth:
       enabled: {{ .Values.monitoring.sso.enabled }}
