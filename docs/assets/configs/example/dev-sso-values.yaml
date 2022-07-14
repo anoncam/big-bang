@@ -170,7 +170,9 @@ logging:
 tempo:
   sso:
     enabled: true
-    client_id: platform1_a8604cc9-f5e9-4656-802d-d05624370245_bb8-tempo
+    client_id: platform1_a8604cc9-f5e9-4656-802d-d05624370245_bb8-jaeger
+    # A "tempo specific" client does not yet exist, but the Jaeger client will work if you don't deploy Jaeger alongside Tempo
+    # client_id: platform1_a8604cc9-f5e9-4656-802d-d05624370245_bb8-tempo
 
 monitoring:
   sso:
