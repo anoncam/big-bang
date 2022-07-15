@@ -133,8 +133,6 @@ redis:
 
 vault:
   enabled: {{ .Values.addons.vault.enabled }}
-vault:
-  enabled: {{ .Values.addons.vault.enabled }}
   tlsDisable: {{ dig "global" "tlsDisable" true .Values.addons.vault.values }}
 
 global:
@@ -275,9 +273,6 @@ grafana:
     server:
       root_url: https://grafana.{{ $domainName }}/
     {{- end }}
-
-    auth:
-      signout_redirect_url: {{ .Values.monitoring.sso.grafana.signout_redirect_url | default (tpl "https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/logout" .) }}
 
     auth.generic_oauth:
       enabled: {{ .Values.monitoring.sso.enabled }}
