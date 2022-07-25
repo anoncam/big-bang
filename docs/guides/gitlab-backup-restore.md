@@ -1,7 +1,7 @@
 # Gitlab Backups and Restores
 
 ## Gitlab Helm Chart Configuration
-1. Follow the `Backup and rename gitlab-rails-secret` task within the ../production.md document.
+1. Follow the `Backup and rename gitlab-rails-secret` task within the [Production document](../production.md).
 1. Fill in our externalStorage values, specifically `addons.gitlab.objectStorage.iamProfile` or both `.Values.addons.gitlab.objectStorage.accessKey` & `.Values.addons.gitlab.objectStorage.accessSecret` along with `.Values.addons.gitlab.objectStorage.bucketPrefix` or you can override in the name for your own bucket eg:
 ```yaml
 addons:
@@ -69,9 +69,9 @@ You can read more on the upstream documentation: https://docs.gitlab.com/charts/
 1. Ensure your gitlab-rails secret is present in gitops or in-cluster and it correctly matches the database to which the chart is pointed.
    * If you need to replace or update your rails secret, once it is updated be sure to restart the following pods:
      ```
-     kubectl delete pods -lapp=sidekiq,release=gitlab -n gitlab
-     kubectl delete pods -lapp=webservice,release=gitlab -n gitlab
-     kubectl delete pods -lapp=toolbox,release=gitlab -n gitlab
+     kubectl rollout -n gitlab restart deploy/gitlab-sidekiq-all-in-1-v2
+     kubectl rollout -n gitlab restart deploy/gitlab-webservice-default
+     kubectl rollout -n gitlab restart deploy/gitlab-toolbox
      ```
 2. Exec into the toolbox pod and run the backup-utility command:
    1. find your Gitlab Toolbox pod 
@@ -82,7 +82,7 @@ You can read more on the upstream documentation: https://docs.gitlab.com/charts/
    * Find your most recent backup from cloud storage by finding the last line of your most recent backup job pod:
       ```
       kubectl get po -l release=gitlab,job-name -n gitlab --sort-by=.metadata.creationTimestamp
-      kubectl logsgitlab-toolbox-backup-XXXXXXXX-XXXXX -n gitlab
+      kubectl logs gitlab-toolbox-backup-XXXXXXXX-XXXXX -n gitlab
       ```
    * Find your most recent backup via AWS CLI:
       ```
