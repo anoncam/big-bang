@@ -204,7 +204,7 @@ VolumeSize=120
 # ImageId=$(aws ec2 describe-images --output json --no-cli-pager --filters "Name=name,Values=${AMIName}" --query "reverse(sort_by(Images, &CreationDate))[:1].ImageId" --output text)
 #echo done
 # Hardcode the latest image instead of searching for it to avoid unexpected changes
-echo Using AMI image id ami-84556de5
+echo "Using AMI image id ${AMI_ID}"
 ImageId="${AMI_ID}"
 
 # Create the launch spec
