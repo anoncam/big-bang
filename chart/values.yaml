@@ -33,6 +33,8 @@ openshift: false
 #   2. http credentials (username/password/caFile)
 #   3. ssh credentials (privateKey/publicKey/knownHosts)
 git:
+  tag: ""
+  branch: "1195-velero-servicemonitor-enabled-in-bigbang"
   # -- Existing secret to use for git credentials, must be in the appropriate format: https://toolkit.fluxcd.io/components/source/gitrepositories/#https-authentication
   existingSecret: ""
 
