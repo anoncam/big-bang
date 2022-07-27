@@ -1,22 +1,13 @@
 #!/bin/bash
 
 #### Global variables - These allow the script to be run by non-bigbang devs easily
-#### Create bigbang profile through 'aws configure --profile bigbang'
-export AWS_PROFILE=bigbang
 VPC_ID=vpc-065ffa1c7b2a2b979
 AMI_ID=ami-84556de5
 #### Preflight Checks
-# check for profile to exist
-PROFILE=$(cat ~/.aws/config | grep bigbang)
-if [[ -z "${PROFILE}" ]]; then
-  echo "You must configure your AWS credentials with a ${AWS_PROFILE} profile"
-  echo "   aws configure --profile ${AWS_PROFILE}"
-  exit 1
-fi
 # Check that the VPC is available 
 EXISTING_VPC=$(aws ec2 describe-vpcs | grep ${VPC_ID})
 if [[ -z "${EXISTING_VPC}" ]]; then
-  echo "VPC is not available given the current AWS_PROFILE - Update VPC_ID"
+  echo "VPC is not available in the current AWS_PROFILE - Update VPC_ID"
   exit 1
 fi
 # check for tools
