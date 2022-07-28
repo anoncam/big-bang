@@ -494,7 +494,6 @@ promtail:
     path: "./chart"
     tag: "6.2.2-bb.0"
 
-
   # -- Flux reconciliation overrides specifically for the Promtail Package
   flux: {}
 
