@@ -23,7 +23,7 @@ graph TB
 ```
 
 ### Architecture: 
-- [How Velero works](https://velero.io/docs/v1.9/how-velero-works/)
+- [How Velero works](https://velero.io/docs/main/how-velero-works/)
 
 ### Storage
 
@@ -48,10 +48,10 @@ Velero does not have configurations for high availability.
 
 None. This service doesn't have a web interface.
 
-## Licencing
+## Licensing
 
 [Apache 2.0 License](https://github.com/vmware-tanzu/velero/blob/main/LICENSE)
 
 ## Dependencies
 
-Velero requires an object storage service available. 
+Velero requires an object storage service available with the bucket details pre-configured. This can be block storage from block storage from AWS, Azure or other providers. `minio` and `miniooperator` can be enabled to provide this storage local to the cluster under the `addon` packages.
