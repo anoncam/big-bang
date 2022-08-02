@@ -33,8 +33,6 @@ openshift: false
 #   2. http credentials (username/password/caFile)
 #   3. ssh credentials (privateKey/publicKey/knownHosts)
 git:
-  tag: ""
-  branch: "1195-velero-servicemonitor-enabled-in-bigbang"
   # -- Existing secret to use for git credentials, must be in the appropriate format: https://toolkit.fluxcd.io/components/source/gitrepositories/#https-authentication
   existingSecret: ""
 
@@ -351,7 +349,7 @@ clusterAuditor:
 #
 gatekeeper:
   # -- Toggle deployment of OPA Gatekeeper.
-  enabled: true
+  enabled: false
   git:
     repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/policy.git
     path: "./chart"
@@ -1297,7 +1295,7 @@ addons:
 
   velero:
     # -- Toggle deployment of Velero.
-    enabled: false
+    enabled: true
 
     git:
       repo: https://repo1.dso.mil/platform-one/big-bang/apps/cluster-utilities/velero.git
@@ -1308,7 +1306,7 @@ addons:
     flux: {}
 
     # -- Plugin provider for Velero - requires at least one plugin installed. Current supported values: aws, azure, csi
-    plugins: []
+    plugins: ['aws']
     # - aws
 
     # -- Values to passthrough to the Velero chart: https://repo1.dso.mil/platform-one/big-bang/apps/cluster-utilities/velero/-/blob/main/chart/values.yaml
