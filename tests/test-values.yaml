@@ -737,6 +737,8 @@ addons:
       provider_name: "P1 SSO"
       groups: |
         g, Impact Level 2 Authorized, role:admin
+      rbac:
+        policy.default: role:admin
     values:
       controller:
         resources:
