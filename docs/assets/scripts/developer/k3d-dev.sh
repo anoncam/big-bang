@@ -1,8 +1,20 @@
 #!/bin/bash
 
 #### Global variables - These allow the script to be run by non-bigbang devs easily
-VPC_ID=vpc-065ffa1c7b2a2b979
-AMI_ID=ami-84556de5
+if [[ -z "${VPC_ID}" ]]; then
+  # default
+  VPC_ID=vpc-065ffa1c7b2a2b979
+else
+  VPC_ID="${VPC_ID}"
+fi
+
+if [[ -z "${AMI_ID}" ]]; then
+  # default
+  AMI_ID=ami-84556de5
+else
+  AMI_ID="${AMI_ID}"
+fi
+
 #### Preflight Checks
 # Check that the VPC is available 
 EXISTING_VPC=$(aws ec2 describe-vpcs | grep ${VPC_ID})
