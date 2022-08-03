@@ -438,7 +438,7 @@ then
 
   echo
   echo
-  echo "coping kubeconfig to workstation..."
+  echo "copying kubeconfig to workstation..."
   scp -i ~/.ssh/${KeyName}.pem -o StrictHostKeyChecking=no ubuntu@${PublicIP}:/home/ubuntu/.kube/config ~/.kube/${AWSUSERNAME}-dev-config
   if [[ "$PRIVATE_IP" == true ]]
   then
