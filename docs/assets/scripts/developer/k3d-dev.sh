@@ -11,8 +11,6 @@ fi
 if [[ -z "${AMI_ID}" ]]; then
   # default
   AMI_ID=ami-84556de5
-else
-  AMI_ID="${AMI_ID}"
 fi
 
 #### Preflight Checks
