@@ -15,6 +15,12 @@ podAnnotations:
 monitoring:
   enabled: {{ .Values.monitoring.enabled }}
 
+{{- if .Values.monitoring.enabled }}
+metrics:
+  serviceMonitor:
+    enabled: true
+{{- end }}
+
 networkPolicies:
   enabled: {{ .Values.networkPolicies.enabled }}
   controlPlaneCidr: {{ .Values.networkPolicies.controlPlaneCidr }}
