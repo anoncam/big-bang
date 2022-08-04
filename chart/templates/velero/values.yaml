@@ -15,9 +15,22 @@ podAnnotations:
 monitoring:
   enabled: {{ .Values.monitoring.enabled }}
 
+{{- if .Values.monitoring.enabled }}
 metrics:
+  enabled: true
+  scrapeInterval: 30s
+  scrapeTimeout: 10s
+  service:
+    annotations: {}
+    labels: {}
+  podAnnotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "8085"
+    prometheus.io/path: "/metrics"
   serviceMonitor:
-    enabled: {{ .Values.monitoring.enabled }}
+    enabled: true
+    additionalLabels: {}
+{{- end }}
 
 networkPolicies:
   enabled: {{ .Values.networkPolicies.enabled }}
