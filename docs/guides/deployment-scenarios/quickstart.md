@@ -38,7 +38,7 @@ When deploying a dev / demo environment there is a high chance of deploying Big 
 ## Network Requirements Notice
 This install guide by default requires network connectivity from your server to external DNS providers, specifically the google DNS server at `8.8.8.8`, you can test that your node has connectivity to this DNS server by running the command:`nslookup google.com 8.8.8.8`
 
-If this command returns `DNS request timed out`, then you will need to follow the steps in [Troubleshooting](#Troubleshooting) to change the upstream DNS server in your kubernetes cluster to your networks DNS server.
+If this command returns `DNS request timed out`, then you will need to follow the steps in [troubleshooting](#Troubleshooting) to change the upstream DNS server in your kubernetes cluster to your networks DNS server.
 
 Additionally, if your network has a proxy that has custom/internal SSL certificates then this may cause problems with pulling docker images as the image verification process can sometimes fail. Ensure you are aware of your network rules and restrictions before proceeding with the installation in order to understand potential problems when installing.
 
