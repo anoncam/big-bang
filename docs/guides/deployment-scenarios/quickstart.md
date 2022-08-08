@@ -756,7 +756,7 @@ kubectl get po -n=argocd
 > Remember to un-edit your Hosts file when you are finished tinkering.
 
 ## Troubleshooting
-This section will provide guidance for troubleshooting problems that may occur during your big bang installation and instructions for additional configuration changes that may be required in restricted networks. 
+This section will provide guidance for troubleshooting problems that may occur during your Big Bang installation and instructions for additional configuration changes that may be required in restricted networks. 
 
 ### Changing CoreDNS upstream DNS server:
 After completing step 5, if you are unable to connect to external DNS providers using the command `nslookup google.com 8.8.8.8`, to test the connection. Then use the steps below to change the upstream DNS server to your networks DNS server.
