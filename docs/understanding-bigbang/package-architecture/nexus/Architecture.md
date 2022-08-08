@@ -13,7 +13,7 @@ graph LR
   end
 
   subgraph "Nexus Repository Manager"
-    nexusrepositorymanager{"Nexus Repository Manager"} --> repository1("Repository")
+    nexusrepositorymanager("Nexus Repository Manager") --> repository1("Repository")
   end
 
   subgraph "Environment"
@@ -24,7 +24,7 @@ graph LR
 
   subgraph "Developers"
     developers("Developers") --> sourcecontrol("Source Control")
-    developers("Developers") <-- repository1(Repository)
+    repository1(Repository) --> developers("Developers")
   end
 ```
 
