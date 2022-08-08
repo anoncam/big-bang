@@ -1,14 +1,14 @@
 # Nexus
 
 ## Overview
-
+A repository manager is used to storing build artifacts and provide the feature to push and pull artifacts using integration tools.
 [Nexus Administration Guide](https://help.sonatype.com/repomanager3/nexus-repository-administration/administration-menu)
 
 ## Big Bang Touch Points
 
 ```mermaid
 graph LR
-  subgraph "Nexus"
+  subgraph "Workflow"
     sourcecontrol("Source Control") --> build("Build") --> repository1("Repository") --> release("Release")
   end
 
