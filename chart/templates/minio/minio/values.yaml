@@ -22,8 +22,6 @@ annotations:
   {{ include "istioAnnotation" . }}
 {{- end }}
 
-minioRootCreds: minio-root-creds-secret
-
 monitoring:
   enabled: {{ .Values.monitoring.enabled }}
 
