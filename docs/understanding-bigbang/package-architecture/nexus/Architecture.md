@@ -23,7 +23,7 @@ graph LR
   end
 
   subgraph "Developers"
-    developers("Developers") <--> sourcecontrol("Source Control")
+    developers("Developers") --> sourcecontrol("Source Control")
     developers("Developers") <-- repository1(Repository)
   end
 ```
