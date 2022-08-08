@@ -36,7 +36,7 @@ When deploying a dev / demo environment there is a high chance of deploying Big 
     * Only deploy to VMs with no IAM roles/rights attached.
 
 ## Network Requirements Notice
-This install guide by default requires network connectivity from your server to external DNS providers, specifically the google DNS server at `8.8.8.8`, you can test that your node has connectivity to this DNS server by running the command:`nslookup google.com 8.8.8.8`
+This install guide by default requires network connectivity from your server to external DNS providers, specifically the Google DNS server at `8.8.8.8`, you can test that your node has connectivity to this DNS server by running the command `nslookup google.com 8.8.8.8` (run this from the node).
 
 If this command returns `DNS request timed out`, then you will need to follow the steps in [troubleshooting](#Troubleshooting) to change the upstream DNS server in your kubernetes cluster to your networks DNS server.
 
@@ -769,13 +769,13 @@ After completing step 5, if you are unable to connect to external DNS providers 
 2. Change: 
 
      ```plaintext
-     foward . /etc/resolv.conf
+     forward . /etc/resolv.conf
      ```
 
      To:
 
      ```plaintext
-     foward . <DNS Server IP>
+     forward . <DNS Server IP>
      ```
 3. Save changes in editor (for vi use `:wq`)
 4. Verify changes in terminal output that prints new config 
