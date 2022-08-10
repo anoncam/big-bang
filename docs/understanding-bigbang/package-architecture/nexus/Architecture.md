@@ -79,8 +79,9 @@ monitoring:
 ```yaml
 addons:
   nexus:
-    blobstores:
-      enabled: true
+    values:
+      blobstores:
+        enabled: true
 ```
 
 ## Single Sign on (SSO)
