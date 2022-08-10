@@ -22,20 +22,25 @@ graph LR
     release("Release") --> stage3(prod)
   end
 
-  subgraph "Developers"
-    developers("Developers") --> sourcecontrol("Source Control")
-    repository1(Repository) --> developers("Developers")
+  subgraph "Monitoring" - change this to monitoring and add on for istio
+    prometheus("Prometheus") --> servicemonitor("Service Monitor")
+    servicemonitor("Service Monitor") --> nexusrepositorymanager("Nexus Repository Manager")
+  end
+
+  subgraph "Logging" - change this to monitoring and add on for istio
+    nexusrepositorymanager("Nexus Repository Manager") --> fluent(Fluentbit) --> logging-ek-es-http
+    logging-ek-es-http{{Elastic Service<br />logging-ek-es-http}} --> elastic[(Elastic Storage)]
   end
 ```
 
 ### UI
 
-Nexus Repository Manager serves as the user interface for Nexus.  Nexus Repository Manager Pro provides anonymous access for users who need to search repositories, browse repositories and look through the system feeds.
+Nexus Repository Manager serves as the user interface for Nexus.  Nexus Repository Manager provides anonymous access for users who need to search repositories, browse repositories and look through the system feeds. Additionally, UI access is exposed through the Istio Virtual Service.
 
 ### Logging
 
 You can configure the level of logging for the repository manager and all plugins as well as inspect the current log using the user interface.
-Logging can be enabled by clicking on the Logging menu item in the Administration submenu in the main menu.
+Logging can be enabled by clicking on the Logging menu item in the Administration submenu in the main menu. Additionally, logs are auto-scraped and shipped via the logging stack when deployed with bigbang.
 
 ### Storage
 
@@ -44,14 +49,12 @@ Persistent storage values can be set/modified in the bigbang chart:
 
 ```yaml
 addons:
-  persistence:
-    size: 8Gi
-    accessMode: ReadWriteOnce
+  nexus:
+    values:  
+      persistence:
+        size: 8Gi
+        accessMode: ReadWriteOnce
 ```
-
-### Database
-
-N/A
 
 ### Istio Configuration
 
@@ -72,6 +75,8 @@ monitoring:
   enabled: true
 ```
 
+This deploys a servicemonitor for automatic scraping of exposed metrics by prometheus.
+
 ## Resiliency
 
 [Nexus Resiliency Guide](https://help.sonatype.com/repomanager3/planning-your-implementation/resiliency-and-high-availability#ResiliencyandHighAvailability-BackupandRestoration)
@@ -86,15 +91,7 @@ addons:
 
 ## Single Sign on (SSO)
 
-SSO can be configured for Nexus by adding the following:
-
-```yaml
-addons:
-  nexus:
-    sso: true
-    idp_data:
-    idpMetadata:
-```
+SSO can be configured for Nexus by the following the instructions at [Keycloak Configuration](https://repo1.dso.mil/platform-one/big-bang/apps/developer-tools/nexus/-/blob/main/docs/keycloak.md)
 
 ## Licensing
 
