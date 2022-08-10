@@ -22,12 +22,12 @@ graph LR
     release("Release") --> stage3(prod)
   end
 
-  subgraph "Monitoring" - change this to monitoring and add on for istio
+  subgraph "Monitoring" 
     prometheus("Prometheus") --> servicemonitor("Service Monitor")
     servicemonitor("Service Monitor") --> nexusrepositorymanager("Nexus Repository Manager")
   end
 
-  subgraph "Logging" - change this to monitoring and add on for istio
+  subgraph "Logging"
     nexusrepositorymanager("Nexus Repository Manager") --> fluent(Fluentbit) --> logging-ek-es-http
     logging-ek-es-http{{Elastic Service<br />logging-ek-es-http}} --> elastic[(Elastic Storage)]
   end
