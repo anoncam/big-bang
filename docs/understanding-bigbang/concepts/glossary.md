@@ -1,4 +1,4 @@
-# Big Bang Overview
+# Overview
 
 [[_TOC_]]
 

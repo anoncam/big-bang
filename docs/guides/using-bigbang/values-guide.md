@@ -6,8 +6,6 @@ Big Bang takes this basic functionality and uses it to create a somewhat complex
 
 For additional information regarding Helm templates/values in general, read through the upstream [documentation](https://helm.sh/docs/topics/charts/#templates-and-values).
 
-# Big Bang Specifics
-
 ## Hierarchy
 
 Big Bang is a slight variation from the typical "umbrella" helm chart pattern. Individual package charts are not direct subcharts within Big Bang, instead they are deployed by Flux custom resources. These individual package charts (istio, monitoring, gitlab, etc) can be considered "child" helm charts of the Big Bang chart.

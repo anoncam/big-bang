@@ -1,4 +1,4 @@
-# Big Bang Auth Service and Keycloak SSO Quick Start Demo
+# Auth Service and Keycloak SSO Quick Start Demo
 
 [[_TOC_]]
 

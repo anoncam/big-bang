@@ -1,4 +1,4 @@
-# Big Bang GitOps Engines
+# GitOps Engines
 
 ## Management of Big Bang
 
