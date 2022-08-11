@@ -5,7 +5,7 @@ metadata:
 upstream:
   type: git
   git:
-    commit: a602c57e5ddef2a17b846d318960241664d6f0ca
+    commit: fe3e0efcf1060bd5b3332b1d717243401b34c305
     repo: https://github.com/fluxcd/flux2
     directory: /manifests/monitoring/monitoring-config/dashboards
-    ref: v0.31.1
+    ref: v0.31.5
