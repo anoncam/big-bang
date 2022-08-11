@@ -234,4 +234,4 @@ Developer tools include packages that a programmer would use to plan, author, te
 
 ## Further Information
 
-You can find some additional details about features supported by each package by visiting [this document](../../../Packages.md).
+You can find some additional details about features supported by each package by visiting [this document](../../packages.md).
