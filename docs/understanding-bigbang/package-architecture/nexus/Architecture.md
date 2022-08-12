@@ -6,6 +6,8 @@ A repository manager is used to storing build artifacts and provide the feature 
 
 ## Big Bang Touch Points
 
+The below diagram includes the main Big Bang touchpoints to Nexus as well as a basic workflow for using Nexus.
+
 ```mermaid
 graph LR
   subgraph "Workflow"
@@ -35,68 +37,49 @@ graph LR
 
 ### UI
 
-Nexus Repository Manager serves as the user interface for Nexus.  Nexus Repository Manager provides anonymous access for users who need to search repositories, browse repositories and look through the system feeds. Additionally, UI access is exposed through the Istio Virtual Service.
+Nexus Repository Manager serves as the user interface for Nexus. Nexus Repository Manager provides optional anonymous access for users who need to search repositories, browse repositories and look through the system feeds. UI access is exposed through the Istio Virtual Service.
 
 ### Logging
 
 You can configure the level of logging for the repository manager and all plugins as well as inspect the current log using the user interface.
-Logging can be enabled by clicking on the Logging menu item in the Administration submenu in the main menu. Additionally, logs are auto-scraped and shipped via the logging stack when deployed with bigbang.
+Logging can be enabled by clicking on the Logging menu item in the Administration submenu in the main menu. Logs are auto-scraped and shipped via your chosen logging stack when deployed with bigbang.
 
 ### Storage
 
-Nexus requires access to persistent storage
-Persistent storage values can be set/modified in the bigbang chart:
+Nexus requires access to persistent storage for storing repos, docker registries, etc. Persistent storage values can be set/modified in the bigbang chart:
 
 ```yaml
 addons:
   nexus:
     values:  
       persistence:
-        size: 8Gi
+        storageSize: 8Gi
         accessMode: ReadWriteOnce
 ```
 
 ### Istio Configuration
 
-Istio is disabled in the nexus chart by default and can be enabled by setting the following values in the bigbang chart:
+Istio interaction with Nexus will be automatically toggled dependent on whether you have enabled Istio.
 
-```yaml
-hostname: bigbang.dev
-istio:
-  enabled: true
-```
+When enabled an Istio VirtualService will be deployed, along with other configuration for Nexus' interaction in the service mesh.
 
 ## Monitoring
 
-Monitoring is disabled in the nexus chart by default and can be enabled by setting the following values in the bigbang chart:
+Monitoring interaction with Nexus will be automatically toggled dependent on whether you have enabled monitoring.
 
-```yaml
-monitoring:
-  enabled: true
-```
-
-This deploys a servicemonitor for automatic scraping of exposed metrics by prometheus.
+When enabled a servicemonitor is deployed for automatic scraping of exposed metrics by prometheus.
 
 ## Resiliency
 
-[Nexus Resiliency Guide](https://help.sonatype.com/repomanager3/planning-your-implementation/resiliency-and-high-availability#ResiliencyandHighAvailability-BackupandRestoration)
-
-```yaml
-addons:
-  nexus:
-    values:
-      blobstores:
-        enabled: true
-```
+Nexus provides a helpful upstream guide on resiliency and high availability [here](https://help.sonatype.com/repomanager3/planning-your-implementation/resiliency-and-high-availability). Nexus does not support a traditional HA setup (more than 1 replica) so backups for resiliency are recommended.
 
 ## Single Sign on (SSO)
 
-SSO can be configured for Nexus by the following the instructions at [Keycloak Configuration](https://repo1.dso.mil/platform-one/big-bang/apps/developer-tools/nexus/-/blob/main/docs/keycloak.md)
+SSO can be configured for Nexus by the following the instructions from the package documentation [here](https://repo1.dso.mil/platform-one/big-bang/apps/developer-tools/nexus/-/blob/main/docs/keycloak.md)
 
 ## Licensing
 
-We expect you to secure your license; the license will be provided as a binary. Encode the binary file as a base64
-encoded string, secure with sops, and place in the following:
+By default, Big Bang will deploy the unlicensed version of Nexus. If you need some of the license features, such as SSO, you can add your license via values and it will be added to the deployment:
 
 ```yaml
 addons:
@@ -106,8 +89,7 @@ addons:
       ehjgjhh...
 ```
 
-The _helpers.tpl will create a named template and generate the appropriate secret within the namespace. The chart will reference the
-license via a secret volumeMount to ensure the application starts licensed.
+NOTE: This should be added via encrypted values to protect the license.
 
 ### Health Checks
 
