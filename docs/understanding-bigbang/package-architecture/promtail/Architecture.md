@@ -17,9 +17,6 @@ graph TB
     promtail --> loki
   end
 
-  subgraph "Elasticsearch"
-    promtail --> elasticsearch
-  end
 ```
 
 ### Architecture: 
