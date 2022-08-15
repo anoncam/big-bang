@@ -42,7 +42,7 @@ These values get passed into the promtail chart [here](https://repo1.dso.mil/pla
 
 ## High Availability
 
-By default, Promtail runs as a `daemonset` with a pod on each node
+By default, Promtail runs as a `daemonset` with a pod on each node.
 
 ## Single Sign on (SSO)
 
