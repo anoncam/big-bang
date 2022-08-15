@@ -72,21 +72,67 @@ kibana:
 elasticsearch:
   imagePullSecrets:
     - name: private-registry
-{{- if .Values.istio.enabled }}
   master:
+    initContainers:
+      - name: elastic-internal-init-filesystem
+        securityContext:
+          privileged: false
+          capabilities:
+            drop:
+              - ALL
+      - name: elastic-internal-suspend
+        securityContext:
+          privileged: false
+          capabilities:
+            drop:
+              - ALL
+    {{- if .Values.istio.enabled }}
+      - name: elastic-internal-init-keystore
+        securityContext:
+          privileged: false
+          capabilities:
+            drop:
+              - ALL
     podAnnotations:
       {{ include "istioAnnotation" . }}
+    {{- end }}
   data:
+    initContainers:
+      - name: elastic-internal-init-filesystem
+        securityContext:
+          privileged: false
+          capabilities:
+            drop:
+              - ALL
+      - name: elastic-internal-suspend
+        securityContext:
+          privileged: false
+          capabilities:
+            drop:
+              - ALL
+    {{- if .Values.istio.enabled }}
+      - name: elastic-internal-init-keystore
+        securityContext:
+          privileged: false
+          capabilities:
+            drop:
+              - ALL
     podAnnotations:
       {{ include "istioAnnotation" . }}
+    {{- end }}
   ingest:
+    {{- if .Values.istio.enabled }}
     podAnnotations:
       {{ include "istioAnnotation" . }}
+    {{- end }}
   ml:
+    {{- if .Values.istio.enabled }}
     podAnnotations:
       {{ include "istioAnnotation" . }}
+    {{- end }}
   coord:
+    {{- if .Values.istio.enabled }}
     podAnnotations:
       {{ include "istioAnnotation" . }}
-{{- end }}
+    {{- end }}
 {{- end -}}
