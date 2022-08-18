@@ -153,6 +153,8 @@ elasticsearch:
           capabilities:
             drop:
               - ALL
+      {{- end }}
+    {{- if .Values.istio.enabled }}
     podAnnotations:
       {{ include "istioAnnotation" . }}
     {{- end }}
@@ -185,6 +187,8 @@ elasticsearch:
           capabilities:
             drop:
               - ALL
+      {{- end }}
+    {{- if .Values.istio.enabled }}
     podAnnotations:
       {{ include "istioAnnotation" . }}
     {{- end }}
@@ -217,6 +221,8 @@ elasticsearch:
           capabilities:
             drop:
               - ALL
+      {{- end }}
+    {{- if .Values.istio.enabled }}
     podAnnotations:
       {{ include "istioAnnotation" . }}
     {{- end }}
