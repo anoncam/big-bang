@@ -147,6 +147,12 @@ elasticsearch:
               - ALL
       {{- end }}
     {{- if .Values.istio.enabled }}
+      - name: elastic-internal-init-keystore
+        securityContext:
+          privileged: false
+          capabilities:
+            drop:
+              - ALL
     podAnnotations:
       {{ include "istioAnnotation" . }}
     {{- end }}
@@ -173,6 +179,12 @@ elasticsearch:
               - ALL
       {{- end }}
     {{- if .Values.istio.enabled }}
+      - name: elastic-internal-init-keystore
+        securityContext:
+          privileged: false
+          capabilities:
+            drop:
+              - ALL
     podAnnotations:
       {{ include "istioAnnotation" . }}
     {{- end }}
@@ -199,6 +211,12 @@ elasticsearch:
               - ALL
       {{- end }}
     {{- if .Values.istio.enabled }}
+      - name: elastic-internal-init-keystore
+        securityContext:
+          privileged: false
+          capabilities:
+            drop:
+              - ALL
     podAnnotations:
       {{ include "istioAnnotation" . }}
     {{- end }}
