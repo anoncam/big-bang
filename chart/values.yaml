@@ -611,7 +611,7 @@ monitoring:
   git:
     repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/monitoring.git
     path: "./chart"
-    # tag: "39.2.1-bb.3"
+    # tag: "39.2.1-bb.4"
     branch: "mtls-metrics"
 
   # -- Flux reconciliation overrides specifically for the Monitoring Package
