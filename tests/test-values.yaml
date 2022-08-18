@@ -1126,7 +1126,7 @@ addons:
   minio:
     enabled: false
     values:
-      tenants:
+      tenant:
         pools:
         - servers: 2
           volumesPerServer: 4
