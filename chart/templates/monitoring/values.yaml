@@ -33,7 +33,7 @@ gitlabRunner:
   enabled: {{ .Values.addons.gitlabRunner.enabled }}
 
 clusterAuditor:
-  enabled: {{ .Values.addons.clusterAuditor.enabled }}
+  enabled: {{ .Values.clusterAuditor.enabled }}
 
 istio:
   {{- $monitoringInjection := dig "istio" "injection" "enabled" .Values.monitoring }}
