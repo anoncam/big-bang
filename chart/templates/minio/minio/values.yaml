@@ -47,7 +47,6 @@ tenant:
     pullPolicy: {{ .Values.imagePullPolicy }}
   imagePullSecret:
     name: private-registry
-  {{- if .Values.monitoring.enabled }}
-  prometheusOperator: true
-  {{- end }}    
+  metrics:
+    enabled: {{ .Values.monitoring.enabled }}
 {{- end -}}
