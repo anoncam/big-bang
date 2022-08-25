@@ -347,14 +347,14 @@ use_iam_profile: true
 
 {{- /* This function merges defaults in lists from above into overlays */ -}}
 {{- /* The end user will not have to replicate exclusions/repos from above when providing an overlay */ -}}
-{{- /* There is a hidden flag `skipOverlayMerge` that can be added to any constraint to ignore the defaults */ -}}
+{{- /* There is a hidden flag `skipOverlayMerge` that can be added to any certificates to ignore the defaults */ -}}
 {{- define "bigbang.overlays.gitlab" }}
 
   {{- $defaults := fromYaml (include "bigbang.defaults.gitlab" .) }}
 
   {{- $overlays := dig "values" dict .Values.addons.gitlab }}
-  {{- range $constraint, $default := $defaults.global }}
-    {{- $overlay := (dig "global" $constraint dict $overlays) }}
+  {{- range $certificates, $default := $defaults.global }}
+    {{- $overlay := (dig "global" $certificates dict $overlays) }}
     # Only continue if an overlay matches a default constriant and hidden "skipOverlayMerge" is not set
     {{- if and $overlay (not $overlay.skipOverlayMerge) }}
 
