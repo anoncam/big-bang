@@ -38,7 +38,7 @@ loki:
       region: {{ .Values.loki.objectStorage.region }}
       accessKeyId: {{ .Values.loki.objectStorage.accessKey }}
       secretAccessKey: {{ .Values.loki.objectStorage.accessSecret }}
-  {{- if $istioInjection }}
+  {{- if .Values.istio.enabled }}
   serviceMonitor:
     scheme: https
     tlsConfig:
