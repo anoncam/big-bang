@@ -349,16 +349,20 @@ use_iam_profile: true
 {{- /* The end user will not have to replicate exclusions/repos from above when providing an overlay */ -}}
 {{- /* There is a hidden flag `skipOverlayMerge` that can be added to any constraint to ignore the defaults */ -}}
 {{- define "bigbang.overlays.gitlab" }}
+
   {{- $defaults := fromYaml (include "bigbang.defaults.gitlab" .) }}
+
   {{- $overlays := dig "values" dict .Values.addons.gitlab }}
   {{- range $constraint, $default := $defaults.global }}
-    {{- $overlay := (dig "global"  $constraint dict $overlays) }}
-
+    {{- $overlay := (dig "global" $constraint dict $overlays) }}
     # Only continue if an overlay matches a default constriant and hidden "skipOverlayMerge" is not set
     {{- if and $overlay (not $overlay.skipOverlayMerge) }}
+
       # Add any default excludedNamespaces to overlay
-      {{- if and (dig  "certificates" "customCAs" list $default) (dig "certificates" "customCAs" list $overlay) }}
-         {{ $_ := set $overlay.certificates "customCAs" (concat $default.certificates.customCAs $overlay.certificates.customCAs) }}
+      {{- if and (dig "customCAs"  list $default) (dig "customCAs"  list $overlay) }}
+
+         {{ $_ := set $overlay "customCAs" (concat $default.customCAs $overlay.customCAs) }}
+
       {{- end }}
     {{- end }}
   {{- end }}
