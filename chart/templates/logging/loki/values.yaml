@@ -24,6 +24,14 @@ monitoring:
 {{- if (eq .Values.loki.strategy "scalable") }}
   serviceMonitor:
     enabled: {{ .Values.monitoring.enabled }}
+    {{- if .Values.istio.enabled }}
+    scheme: https
+    tlsConfig:
+      caFile: /etc/prom-certs/root-cert.pem
+      certFile: /etc/prom-certs/cert-chain.pem
+      keyFile: /etc/prom-certs/key.pem
+      insecureSkipVerify: true  # Prometheus does not support Istio security naming, thus skip verifying target pod certificate
+    {{- end }}
 {{- end }}
 
 istio:
@@ -38,15 +46,6 @@ loki:
       region: {{ .Values.loki.objectStorage.region }}
       accessKeyId: {{ .Values.loki.objectStorage.accessKey }}
       secretAccessKey: {{ .Values.loki.objectStorage.accessSecret }}
-  {{- if .Values.istio.enabled }}
-  serviceMonitor:
-    scheme: https
-    tlsConfig:
-      caFile: /etc/prom-certs/root-cert.pem
-      certFile: /etc/prom-certs/cert-chain.pem
-      keyFile: /etc/prom-certs/key.pem
-      insecureSkipVerify: true  # Prometheus does not support Istio security naming, thus skip verifying target pod certificate
-  {{- end }}
 
 {{- with .Values.loki.objectStorage }}
 {{- if and (eq $.Values.loki.strategy "scalable") (not (and .endpoint .region)) }}
