@@ -4,7 +4,6 @@
 
 {{- define "bigbang.defaults.velero" -}}
 
-#######
 istio:
   enabled: {{ .Values.istio.enabled }}
 
