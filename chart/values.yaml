@@ -332,8 +332,7 @@ clusterAuditor:
   git:
     repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/cluster-auditor.git
     path: "./chart"
-    #tag: "1.4.0-bb.8"
-    branch: "dashboard-fix"
+    tag: "1.4.0-bb.8"
 
   # -- Flux reconciliation overrides specifically for the Cluster Auditor Package
   flux: {}
