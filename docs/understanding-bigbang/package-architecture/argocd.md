@@ -88,7 +88,7 @@ addons:
         replicas: 2              
 ```
 
-_Note:_ A production HA deployment of argocd within Big Bang has not yet been produced and results may vary.
+_Note:_ A production HA deployment of argocd within Big Bang has not yet been produced and results may vary should you proceed with a HA deployment of argocd.
 
 For additional information about an ArgoCD high availability installation visit [ArgoCD High Availability](https://argo-cd.readthedocs.io/en/stable/operator-manual/installation/#high-availability)
 
