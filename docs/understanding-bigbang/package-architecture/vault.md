@@ -44,10 +44,52 @@ The Big Bang Vault deployment uses a Mozilla Public License. The license is an o
 
 Vault supports several storage options for the durable storage of Vault's information. As of Vault 1.4, an Integrated Storage option is offered. This storage backend does not rely on any third party systems; it implements high availability, supports Enterprise Replication features, and provides backup/restore workflows.
 
+The following is an example of how to modify the Big Bang values to accommodate a HA deployment.
+
+```yaml
+addons:
+  vault:
+    values:
+      dataStorage:
+        enabled: true
+        # Size of the PVC created
+        size: 10Gi
+        # Location where the PVC will be mounted.
+        mountPath: "/vault/data"
+        # Name of the storage class to use.  If null it will use the
+        # configured default Storage Class.
+        storageClass: null
+        # Access Mode of the storage device being used for the PVC
+        accessMode: ReadWriteOnce
+        # Annotations to apply to the PVC
+        annotations: {}
+
+      # This configures the Vault Statefulset to create a PVC for audit
+      # logs.  Once Vault is deployed, initialized and unsealed, Vault must
+      # be configured to use this for audit logs.  This will be mounted to
+      # /vault/audit
+      # See https://www.vaultproject.io/docs/audit/index.html to know more
+      auditStorage:
+        enabled: true
+        # Size of the PVC created
+        size: 10Gi
+        # Location where the PVC will be mounted.
+        mountPath: "/vault/audit"
+        # Name of the storage class to use.  If null it will use the
+        # configured default Storage Class.
+        storageClass: null
+        # Access Mode of the storage device being used for the PVC
+        accessMode: ReadWriteOnce
+        # Annotations to apply to the PVC
+        annotations: {}            
+```
+
 ### High Availability
 
 Vault supports a multi-server mode for high availability. This mode protects against outages by running multiple Vault servers. High availability mode is automatically enabled when using a data store that supports it.
-Vault supports one or more servers to scale out the deployment. To scale the deployment in Big Bang, the following is recommended:
+Vault supports one or more servers to scale out the deployment.
+
+To scale the deployment in Big Bang, the following is recommended:
 
 ```yaml
 addons:
@@ -61,7 +103,7 @@ addons:
 
 ### UI
 
-Vault features a web interface for interacting with Vault. Through the UI you are able to create, read, update, and delete secrets, authenticate, unseal, and more.
+Vault features a web interface for interacting with Vault. Through the UI you are able to create, read, update, and delete secrets, authenticate, unseal, and more. The Vault UI is enabled by default at the package level.
 
 _Note:_ The UI requires Vault 0.10 or higher
 
@@ -70,6 +112,16 @@ _Note:_ The UI requires Vault 0.10 or higher
 Vault produces detailed logs that contain information about user interactions, internal processes, warnings and errors. The verbosity of the logs is controlled using the /sys/loggers endpoint. The log levels are DEBUG, INFO, WARN, ERROR, and TRACE. It is always recommended to increase the log level to DEBUG in order to ensure the availability of the maximum amount of information.
 
 For more information, see [Vault Loggers](https://www.vaultproject.io/api-docs/system/loggers).
+
+The following is an example to enable deubg level logging for the vault deployment in Big Bang:
+
+```yaml
+addons:
+  vault:
+    values:
+      # Enables debug logging.
+      debug: true
+```
 
 _Note:_ within Big Bang, logs are captured by fluentbit and shipped to elastic by default.
 
@@ -81,8 +133,19 @@ For more information on Vault monitoring see the following, [Vault Monitoring](h
 
 The Big Bang Vault Helm chart has been modified to use your `monitoring:` values in Big Bang to automatically toggle metrics on/off.
 
+The following is an example to enable monitoring for the vault deployment in Big Bang:
+
+```yaml
+addons:
+  vault:
+    values:
+      monitoring:
+        enabled: true
+        namespace: monitoring
+```
+
 ### Health Checks
 
-The `/sys/health` endpoint is used to check the health status of Vault. This endpoint returns the health status of Vault. This matches the semantics of a Consul HTTP health check and provides a simple way to monitor the health of a Vault instance.
+Liveness and readiness probes are included in the Vault Helm chart for all deployments. The `/sys/health` endpoint is used to check the health status of Vault. This endpoint returns the health status of Vault. This matches the semantics of a Consul HTTP health check and provides a simple way to monitor the health of a Vault instance.
 
 For more information, see [Vault System Health](https://www.vaultproject.io/api-docs/system/health).
