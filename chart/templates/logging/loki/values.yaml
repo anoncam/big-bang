@@ -24,6 +24,7 @@ monitoring:
 {{- if (eq .Values.loki.strategy "scalable") }}
   serviceMonitor:
     enabled: {{ .Values.monitoring.enabled }}
+    # conditional passes only for default istio: enabled, mTLS: SCRICT
     {{- if and .Values.istio.enabled (eq (dig "istio" "mtls" "mode" "STRICT" .Values.loki.values) "STRICT") }}
     scheme: https
     tlsConfig:
@@ -63,6 +64,7 @@ monolith:
   enabled: {{ eq .Values.loki.strategy "monolith" }}
   serviceMonitor:
     enabled: {{ .Values.monitoring.enabled }}
+    # conditional passes only for default istio: enabled, mTLS: SCRICT
     {{- if and .Values.istio.enabled (eq (dig "istio" "mtls" "mode" "STRICT" .Values.loki.values) "STRICT") }}
     scheme: https
     tlsConfig:
