@@ -68,7 +68,9 @@ Argo CD is largely stateless, all data is persisted as Kubernetes objects, which
 
 ### High Availability
 
-High Availability installation is recommended for production use. This bundle includes the same components but tuned for high availability and resiliency.
+Upstream provides methods for deploying argocd in HA. High Availability installation is recommended for production use. However, a production HA deployment of argocd within Big Bang may produce results that vary should you proceed with a HA deployment of argocd.
+
+This bundle includes the same components but tuned for high availability and resiliency.
 
 - [ha/install.yaml](https://github.com/argoproj/argo-cd/blob/master/manifests/ha/install.yaml) - the same as install.yaml but with multiple replicas for supported components.
 
@@ -88,13 +90,27 @@ addons:
         replicas: 2              
 ```
 
-_Note:_ A production HA deployment of argocd within Big Bang has not yet been produced and results may vary should you proceed with a HA deployment of argocd.
-
 For additional information about an ArgoCD high availability installation visit [ArgoCD High Availability](https://argo-cd.readthedocs.io/en/stable/operator-manual/installation/#high-availability)
 
 ### UI
 
 ArgoCD includes a UI, which is accessible at the specified URL. The UI can be used to view, manage, and create applications.
+
+The following is an example of how to modify the Big Bang values to accommodate your organization's desired web interface url.
+
+```yaml
+addons:
+  argocd:
+    values:
+      # -- Manage Argo CD configmap (Declarative Setup)
+      ## Ref: https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/argocd-cm.yaml
+      configEnabled: true
+      # -- [General Argo CD configuration]
+      # @default -- See [values.yaml]
+      config:
+        # Argo CD's externally facing base URL (optional). Required when configuring SSO
+        url: https://your.organizations.url.here               
+```
 
 ### Logging
 
