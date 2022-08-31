@@ -492,7 +492,8 @@ promtail:
   git:
     repo: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/promtail.git
     path: "./chart"
-    tag: "6.2.2-bb.0"
+    #tag: "6.2.2-bb.0"
+    branch: "egress-api-np-add"
 
   # -- Flux reconciliation overrides specifically for the Promtail Package
   flux: {}
@@ -509,7 +510,8 @@ loki:
   git:
     repo: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/loki.git
     path: "./chart"
-    tag: "1.7.6-bb.2"
+    #tag: "1.7.6-bb.2"
+    branch: "renovate-update-fixes"
 
   # -- Flux reconciliation overrides specifically for the Loki Package
   flux: {}
