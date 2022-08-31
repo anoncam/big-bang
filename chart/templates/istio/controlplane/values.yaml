@@ -9,6 +9,10 @@ domain: {{ $domainName }}
 
 enterprise: {{ .Values.istio.enterprise }}
 
+istiod:
+  env: {{- toYaml .Values.istio.envVariables | nindent 4 }}
+
+
 {{- if or .Values.jaeger.enabled .Values.tempo.enabled }}
 tracing:
 {{- if .Values.jaeger.enabled }}
@@ -112,9 +116,6 @@ gateways:
     {{- end }}
 
 {{- end }}
-
-istiod:
-  env: {{- toYaml .Values.istio.envVariables | nindent 4 }}
 
 {{- define "istio.ingressgateway.k8s" -}}
 k8s:
