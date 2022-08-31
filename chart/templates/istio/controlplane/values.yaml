@@ -113,6 +113,9 @@ gateways:
 
 {{- end }}
 
+istiod:
+  env: {{- toYaml .Values.istio.envVariables | nindent 4 }}
+
 {{- define "istio.ingressgateway.k8s" -}}
 k8s:
   service:
