@@ -74,29 +74,54 @@ High Availability installation is recommended for production use. This bundle in
 
 - [ha/namespace-install.yaml](https://github.com/argoproj/argo-cd/blob/master/manifests/ha/namespace-install.yaml) - the same as namespace-install.yaml but with multiple replicas for supported components.
 
-For additional information about an ArgoCD high availability installation visit [ArgoCD High Availability](https://argo-cd.readthedocs.io/en/stable/operator-manual/installation/#high-availability)
+The following is an example of how to modify the Big Bang values to accommodate a HA deployment.
 
 ```yaml
 addons:
   argocd:
     values:
-      application-controller:
-        replicas:
+      controller:
+        replicas: 2
       server:
-        replicas:    
+        replicas: 2  
       repoServer:
-        replicas:                
+        replicas: 2              
 ```
+
+_Note:_ A production HA deployment of argocd within Big Bang has not yet been produced and results may vary.
+
+For additional information about an ArgoCD high availability installation visit [ArgoCD High Availability](https://argo-cd.readthedocs.io/en/stable/operator-manual/installation/#high-availability)
 
 ### UI
 
-ArgoCD includes a UI, which is accessible at the specified URL. The UI can be used to view, manage, and reate applications.
+ArgoCD includes a UI, which is accessible at the specified URL. The UI can be used to view, manage, and create applications.
 
 ### Logging
 
 Argo CD logs payloads of most API requests except request that are considered sensitive, such as /cluster.ClusterService/Create, /session.SessionService/Create etc. The full list of method can be found in server/server.go For more information, see [ArgoCD Logs](https://argo-cd.readthedocs.io/en/stable/operator-manual/security/#logging).
 
 _Note:_ within Big Bang, logs are captured by fluentbit and shipped to elastic by default.
+
+```yaml
+addons:
+  argocd:
+    values:
+      controller:
+        # -- Set the logging level. (One of: `debug`, `info`, `warn`, `error`)
+        logLevel: debug
+        # -- Application controller log format. Either `text` or `json`
+        logFormat: text
+      server:
+        # -- Set the logging level. (One of: `debug`, `info`, `warn`, `error`)
+        logLevel: debug
+        # -- Application controller log format. Either `text` or `json`
+        logFormat: text    
+      repoServer:
+        # -- Set the logging level. (One of: `debug`, `info`, `warn`, `error`)
+        logLevel: debug
+        # -- Application controller log format. Either `text` or `json`
+        logFormat: text           
+```
 
 ### Monitoring
 
