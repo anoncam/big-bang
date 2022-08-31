@@ -100,7 +100,7 @@ ArgoCD includes a UI, which is accessible at the specified URL. The UI can be us
 
 Argo CD logs payloads of most API requests except request that are considered sensitive, such as /cluster.ClusterService/Create, /session.SessionService/Create etc. The full list of method can be found in server/server.go For more information, see [ArgoCD Logs](https://argo-cd.readthedocs.io/en/stable/operator-manual/security/#logging).
 
-_Note:_ within Big Bang, logs are captured by fluentbit and shipped to elastic by default.
+An example of how to modify the argocd logging values within Big Bang is as follows:
 
 ```yaml
 addons:
@@ -122,6 +122,8 @@ addons:
         # -- Application controller log format. Either `text` or `json`
         logFormat: text           
 ```
+
+_Note:_ within Big Bang, logs are captured by fluentbit and shipped to elastic by default.
 
 ### Monitoring
 
