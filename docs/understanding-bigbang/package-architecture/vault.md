@@ -42,6 +42,20 @@ For more information on the Hashicorp Vault architecture, see [Hashicorp Vault](
 
 The Big Bang Vault deployment uses a Mozilla Public License. The license is an open source copyleft license. The MPL's "file-level" copyleft is designed to encourage contributors to share modifications they make to your code, while still allowing them to combine your code with code under other licenses (open or proprietary) with minimal restrictions.
 
+Additionally, to enable add a license to enable enterprise Vault features and support the following is an example of how to modify the values within Big Bang:
+
+```yaml
+addons:
+  vault:
+    values:
+      enterpriseLicense:
+        # The name of the Kubernetes secret that holds the enterprise license. The
+        # secret must be in the same namespace that Vault is installed into.
+        secretName: ""
+        # The key within the Kubernetes secret that holds the enterprise license.
+        secretKey: "license"
+```
+
 ### Storage
 
 Vault supports several storage options for the durable storage of Vault's information. As of Vault 1.4, an Integrated Storage option is offered. This storage backend does not rely on any third party systems; it implements high availability, supports Enterprise Replication features, and provides backup/restore workflows.
@@ -103,11 +117,11 @@ addons:
           replicas: 3
 ```
 
+For additional information for Vault configuration for High Availability within Big Bang reference the following, [Vault HA](https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/vault/-/blob/main/docs/production-ha.md)
+
 ### UI
 
 Vault features a web interface for interacting with Vault. Through the UI you are able to create, read, update, and delete secrets, authenticate, unseal, and more. The Vault UI is enabled by default at the package level.
-
-_Note:_ The UI requires Vault 0.10 or higher
 
 ### Logging
 
@@ -131,18 +145,7 @@ For more information, see [Vault Loggers](https://www.vaultproject.io/api-docs/s
 
 The `/sys/metrics` endpoint is used to get telemetry metrics for Vault. This endpoint returns the telemetry metrics for Vault. It can be used by metrics collections systems like Prometheus that use a pull model for metrics collection. The Big Bang Vault Helm chart has been modified to use your `monitoring:` values in Big Bang to automatically toggle metrics on/off.
 
-The following is an example to enable monitoring for the vault deployment in Big Bang:
-
-```yaml
-addons:
-  vault:
-    values:
-      monitoring:
-        enabled: true
-        namespace: monitoring
-```
-
-For more information on Vault monitoring see the following, [Vault Monitoring](https://www.vaultproject.io/api-docs/system/metrics)
+Within Big Bang there is additional setup required to configure Vault and monitoring. For more information see, [Vault with Prometheus](https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/vault/-/blob/main/docs/PROMETHEUS.md)
 
 ### Health Checks
 
