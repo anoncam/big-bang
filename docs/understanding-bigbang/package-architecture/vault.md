@@ -44,7 +44,7 @@ The Big Bang Vault deployment uses a Mozilla Public License. The license is an o
 
 Vault supports several storage options for the durable storage of Vault's information. As of Vault 1.4, an Integrated Storage option is offered. This storage backend does not rely on any third party systems; it implements high availability, supports Enterprise Replication features, and provides backup/restore workflows.
 
-The following is an example of how to modify the Big Bang values to accommodate a HA deployment.
+The following is an example of how to size the storage within the Big Bang values:
 
 ```yaml
 addons:
