@@ -70,12 +70,6 @@ Argo CD is largely stateless, all data is persisted as Kubernetes objects, which
 
 Upstream provides methods for deploying argocd in HA. High Availability installation is recommended for production use. However, a production HA deployment of argocd within Big Bang may produce results that vary should you proceed with a HA deployment of argocd.
 
-This bundle includes the same components but tuned for high availability and resiliency.
-
-- [ha/install.yaml](https://github.com/argoproj/argo-cd/blob/master/manifests/ha/install.yaml) - the same as install.yaml but with multiple replicas for supported components.
-
-- [ha/namespace-install.yaml](https://github.com/argoproj/argo-cd/blob/master/manifests/ha/namespace-install.yaml) - the same as namespace-install.yaml but with multiple replicas for supported components.
-
 The following is an example of how to modify the Big Bang values to accommodate a HA deployment.
 
 ```yaml
@@ -94,9 +88,9 @@ For additional information about an ArgoCD high availability installation visit 
 
 ### UI
 
-ArgoCD includes a UI, which is accessible at the specified URL. The UI can be used to view, manage, and create applications.
+ArgoCD includes a UI, which is accessible at a specified URL. The UI can be used to view, manage, and create applications.
 
-The following is an example of how to modify the Big Bang values to accommodate your organization's desired web interface url.
+The following is an example of how to modify the Big Bang values to accommodate your organization's desired web interface url:
 
 ```yaml
 addons:
@@ -149,6 +143,6 @@ The Big Bang ArgoCD Helm chart has been modified to use your `monitoring:` value
 
 ### Health Checks
 
-Argo CD provides built-in health assessment for several standard Kubernetes types, which is then surfaced to the overall Application health status as a whole.
+Argo CD provides built-in health assessment for several standard Kubernetes types, which is then surfaced to the overall application health status as a whole.
 
 For more information, see [ArgoCD Resource Health](https://argo-cd.readthedocs.io/en/stable/operator-manual/health/).
