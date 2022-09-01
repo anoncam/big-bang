@@ -111,8 +111,6 @@ _Note:_ The UI requires Vault 0.10 or higher
 
 Vault produces detailed logs that contain information about user interactions, internal processes, warnings and errors. The verbosity of the logs is controlled using the /sys/loggers endpoint. The log levels are DEBUG, INFO, WARN, ERROR, and TRACE. It is always recommended to increase the log level to DEBUG in order to ensure the availability of the maximum amount of information.
 
-For more information, see [Vault Loggers](https://www.vaultproject.io/api-docs/system/loggers).
-
 The following is an example to enable deubg level logging for the vault deployment in Big Bang:
 
 ```yaml
@@ -125,13 +123,11 @@ addons:
 
 _Note:_ within Big Bang, logs are captured by fluentbit and shipped to elastic by default.
 
+For more information, see [Vault Loggers](https://www.vaultproject.io/api-docs/system/loggers).
+
 ### Monitoring
 
-The `/sys/metrics` endpoint is used to get telemetry metrics for Vault. This endpoint returns the telemetry metrics for Vault. It can be used by metrics collections systems like Prometheus that use a pull model for metrics collection
-
-For more information on Vault monitoring see the following, [Vault Monitoring](https://www.vaultproject.io/api-docs/system/metrics)
-
-The Big Bang Vault Helm chart has been modified to use your `monitoring:` values in Big Bang to automatically toggle metrics on/off.
+The `/sys/metrics` endpoint is used to get telemetry metrics for Vault. This endpoint returns the telemetry metrics for Vault. It can be used by metrics collections systems like Prometheus that use a pull model for metrics collection. The Big Bang Vault Helm chart has been modified to use your `monitoring:` values in Big Bang to automatically toggle metrics on/off.
 
 The following is an example to enable monitoring for the vault deployment in Big Bang:
 
@@ -143,6 +139,8 @@ addons:
         enabled: true
         namespace: monitoring
 ```
+
+For more information on Vault monitoring see the following, [Vault Monitoring](https://www.vaultproject.io/api-docs/system/metrics)
 
 ### Health Checks
 
