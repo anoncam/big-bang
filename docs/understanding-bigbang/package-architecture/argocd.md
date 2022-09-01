@@ -68,7 +68,7 @@ Argo CD is largely stateless, all data is persisted as Kubernetes objects, which
 
 ### High Availability
 
-Upstream provides methods for deploying argocd in HA. High Availability installation is recommended for production use. However, a production HA deployment of argocd within Big Bang may produce results that vary.
+Upstream provides methods and docs for deploying argocd in HA. However, a production HA deployment of argocd within Big Bang has not been fully vetted and may produce results that vary.
 
 The following is an example of how to modify the Big Bang values to accommodate a HA deployment.
 
@@ -88,17 +88,31 @@ For additional information about an ArgoCD high availability deployment visit [A
 
 ### UI
 
-ArgoCD includes a UI, which is accessible at a specified URL. The UI can be used to view, manage, and create applications.
+ArgoCD includes a UI, which is accessible at a configurable URL. The UI can be used to view, manage, and create applications.
 
-Istio is disabled in the ArgoCD chart by default and can be enabled with the following values in the bigbang chart:
+ArgoCD is Istio injected and the VirtualService resource is accessible externally from the cluster at "argocd.{{ .Values.domain }}" but can be configured via the following values in the bigbang chart:
 
 ```yaml
-hostname: bigbang.dev
+domain: bigbang.dev
 istio:
   enabled: true
+  argocd:
+    # -- Toggle Istio VirtualService creation
+    enabled: true
+    # -- Set Annotations for VirtualService
+    annotations: {}
+    # -- Set Labels for VirtualService
+    labels: {}
+    # -- Set Gateway for VirtualService
+    gateways:
+      - istio-system/main
+    # -- Set Hosts for VirtualService
+    hosts:
+      - argocd.{{ .Values.domain }}
+
 ```
 
-This creates the Istio virtual service and maps to the main istio gateway for bigbang. The ArgoCD GUI is available behind this Istio VirtualService that is configured automatically at "argocd.{{ .Values.hostname }}" (value set above) and can be configured with the following values:
+If you need to alter the VirtualService host out of band you will also need to configure the argocd `config.url` to match:
 
 ```yaml
 addons:
@@ -141,11 +155,11 @@ addons:
         logFormat: text           
 ```
 
-_Note:_ within Big Bang, logs are captured by fluentbit and shipped to elastic by default.
+_Note:_ within Big Bang, logs are captured by fluentbit or promtail and shipped to your enabled logging stack (ECK by default, PLG is also available).
 
 ### Monitoring
 
-ArgoCD exposes prometheus metrics in the API of each service if the config.yaml used by that service has the metrics.enabled keys set to enabled and metrics.servicemonitor keys set to true. Each service exports its own metrics and is typically scraped by a Prometheus installation to gather the metrics.
+ArgoCD exposes prometheus metrics in the API of each service if the config.yaml used by that service has the metrics.enabled keys set to enabled and `metrics.servicemonitor` keys set to true. Each service exports its own metrics and is typically scraped by a Prometheus installation to gather the metrics.
 
 The Big Bang ArgoCD Helm chart has been modified to use your `monitoring:` values in Big Bang to automatically toggle metrics on/off.
 
