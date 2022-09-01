@@ -90,7 +90,15 @@ For additional information about an ArgoCD high availability installation visit 
 
 ArgoCD includes a UI, which is accessible at a specified URL. The UI can be used to view, manage, and create applications.
 
-The following is an example of how to modify the Big Bang values to accommodate your organization's desired web interface url:
+Istio is disabled in the ArgoCD chart by default and can be enabled with the following values in the bigbang chart:
+
+```yaml
+hostname: bigbang.dev
+istio:
+  enabled: true
+```
+
+This creates the Istio virtual service and maps to the main istio gateway for bigbang. The ArgoCD GUI is available behind this Istio VirtualService that is configured automatically at "argocd.{{ .Values.hostname }}" (value set above) and can be configured with the following values:
 
 ```yaml
 addons:
@@ -103,7 +111,7 @@ addons:
       # @default -- See [values.yaml]
       config:
         # Argo CD's externally facing base URL (optional). Required when configuring SSO
-        url: https://your.organizations.url.here               
+        url: https://argocd.bigbang.dev        
 ```
 
 ### Logging
