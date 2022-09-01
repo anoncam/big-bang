@@ -68,7 +68,7 @@ Argo CD is largely stateless, all data is persisted as Kubernetes objects, which
 
 ### High Availability
 
-Upstream provides methods for deploying argocd in HA. High Availability installation is recommended for production use. However, a production HA deployment of argocd within Big Bang may produce results that vary should you proceed with a HA deployment of argocd.
+Upstream provides methods for deploying argocd in HA. High Availability installation is recommended for production use. However, a production HA deployment of argocd within Big Bang may produce results that vary.
 
 The following is an example of how to modify the Big Bang values to accommodate a HA deployment.
 
@@ -84,7 +84,7 @@ addons:
         replicas: 2              
 ```
 
-For additional information about an ArgoCD high availability installation visit [ArgoCD High Availability](https://argo-cd.readthedocs.io/en/stable/operator-manual/installation/#high-availability)
+For additional information about an ArgoCD high availability deployment visit [ArgoCD High Availability](https://argo-cd.readthedocs.io/en/stable/operator-manual/installation/#high-availability)
 
 ### UI
 
