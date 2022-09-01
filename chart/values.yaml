@@ -231,10 +231,6 @@ istio:
     #   tls:
     #     mode: "PASSTHROUGH"
 
-  envVariables:
-    - name: ENABLE_LEGACY_FSGROUP_INJECTION
-      value: "false"
-
   # -- Flux reconciliation overrides specifically for the Istio Package
   flux: {}
 
