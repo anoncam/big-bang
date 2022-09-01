@@ -15,6 +15,7 @@ graph LR
 
   subgraph "Secrets Management"
     vaultservice1("vault") --> secret1("Secret")
+    secret1("Secret") --> vaultservice1("vault")
   end
 
   subgraph "Authentication"
