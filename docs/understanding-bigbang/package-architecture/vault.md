@@ -19,6 +19,7 @@ graph LR
 
   subgraph "Authentication"
     vaultservice1("vault") --> authenticationservice1("Keycloak")
+    authenticationservice1("Keycloak") --> vaultservice1("vault")
   end
 
   subgraph "Logging"
