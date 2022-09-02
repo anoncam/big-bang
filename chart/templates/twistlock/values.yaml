@@ -44,7 +44,7 @@ sso:
   provider_name: {{ Values.twistlock.sso.provider_name }}
   provider_type: {{ Values.twistlock.sso.provider_type }}
   issuer_uri: {{ tpl Values.twistlock.sso.issuer_uri . }}
-  idp_url: {{tpl Values.twistlock.sso.idp_url . }}
+  idp_url: {{ tpl Values.twistlock.sso.idp_url . }}
   console_url: {{ Values.twistlock.sso.console_url }}
   groups: {{ Values.twistlock.sso.groups }}
   cert: {{ Values.twistlock.sso.cert }}
