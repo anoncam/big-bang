@@ -38,4 +38,9 @@ console:
   image:
     imagePullPolicy: {{ .Values.imagePullPolicy }}
 
+{{- if .Values.twistlock.sso.enabled }}
+sso:
+  {{ toYaml .Values.twistlock.sso.enabled | nindent 2 }}
+{{- end }}
+
 {{- end -}}

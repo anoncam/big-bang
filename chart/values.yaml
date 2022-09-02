@@ -684,6 +684,34 @@ twistlock:
   ingress:
     gateway: ""
 
+  sso:
+    # -- Toggle SAML SSO
+    enabled: false
+
+    # -- SAML client ID
+    client_id: ""
+
+    # -- SAML Povider Alias (optional)
+    provider_name: ""
+
+    # -- SAML Identity Provider. `shibboleth` is recommended by Twistlock support for Keycloak
+    provider_type: "shibboleth"
+
+    # -- Identity Provider url with path to realm
+    issuer_uri: "https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}"
+
+    # -- SAML Identity Provider SSO URL
+    idp_url: "https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/saml"
+
+    # -- Console URL of the Twistlock app (optional)
+    console_url: ""
+
+    # -- Groups attribute (optional)
+    groups: ""
+
+    # -- X.509 Certificate from Identity Provider (i.e. Keycloak). See docs/KEYCLOAK.md for format. Use the `|-` syntax for multiline string
+    cert: ""
+
   # -- Values to passthrough to the twistlock chart: https://repo1.dso.mil/platform-one/big-bang/apps/security-tools/twistlock.git
   values: {}
 
