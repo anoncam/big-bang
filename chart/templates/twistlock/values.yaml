@@ -47,6 +47,6 @@ sso:
   idp_url: {{ tpl .Values.twistlock.sso.idp_url . }}
   console_url: {{ .Values.twistlock.sso.console_url }}
   groups: {{ .Values.twistlock.sso.groups }}
-  cert: {{ .Values.twistlock.sso.cert }}
+  cert: {{ .Values.twistlock.sso.cert | quote }}
 
 {{- end -}}
