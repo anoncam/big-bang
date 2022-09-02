@@ -106,8 +106,6 @@ addons:
     values:
       redis:
         enabled: true
-      globals:
-        redis_server_uri: "tcp://authservice-redis-bb-master:6379"
 ```
 
 Authservice can also be configured to communicate with external redis serivces such as Elasticache.
@@ -131,6 +129,8 @@ addons:
   authservice:
     values:
       replicaCount: 2
+      redis:
+        enabled: true
       autoscaling:
         enabled: false
         minReplicas: 1
