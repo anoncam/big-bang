@@ -704,12 +704,12 @@ twistlock:
     idp_url: "https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/saml"
 
     # -- Console URL of the Twistlock app (optional)
-    console_url: ""
+    console_url: "https://twistlock.{{ .Values.domain }}"
 
     # -- Groups attribute (optional)
     groups: ""
 
-    # -- X.509 Certificate from Identity Provider (i.e. Keycloak). See docs/KEYCLOAK.md for format. Use the `|-` syntax for multiline string
+    # -- X.509 Certificate from Identity Provider (i.e. Keycloak). See https://repo1.dso.mil/platform-one/big-bang/apps/security-tools/twistlock/-/blob/main/docs/KEYCLOAK.md for format. Use the `|-` syntax for multiline string.
     cert: ""
 
   # -- Values to passthrough to the twistlock chart: https://repo1.dso.mil/platform-one/big-bang/apps/security-tools/twistlock.git
