@@ -477,7 +477,7 @@ echo "==========================================================================
 # ending instructions
 echo
 echo "SAVE THE FOLLOWING INSTRUCTIONS INTO A TEMPORARY TEXT DOCUMENT SO THAT YOU DON'T LOOSE THEM"
-echo "NOTE: The EC2 instance will automatically terminate at 08:00 UTC unless you delete the cron job"
+echo "NOTE: The EC2 instance will automatically terminate 8 hours from the time of creation unless you delete the cron job"
 echo
 echo "ssh to instance:"
 echo "  ssh -i ~/.ssh/${KeyName}.pem -o IdentitiesOnly=yes ubuntu@${PublicIP}"
