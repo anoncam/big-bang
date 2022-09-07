@@ -685,7 +685,7 @@ twistlock:
     gateway: ""
 
   sso:
-    # -- Toggle SAML SSO
+    # -- Toggle SAML SSO, requires a license and enabling the init job - see https://repo1.dso.mil/platform-one/big-bang/apps/security-tools/twistlock/-/blob/main/docs/initialization.md
     enabled: false
 
     # -- SAML client ID
