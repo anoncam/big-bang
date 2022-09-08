@@ -59,6 +59,10 @@ initContainers:
       limits:
         memory: 512Mi
         cpu: 100m
+    securityContext:
+      capabilities:
+        drop: 
+          - ALL
 {{- end }}
 {{- if eq . "azure" }}
   - name: velero-plugin-for-azure
