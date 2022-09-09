@@ -258,6 +258,7 @@ gatekeeper:
           - default/i.?
           - default/disallow-selinux-options-.?
           - default/restrict-selinux-type-.?
+          - default/not-me
       volumeTypes:
         parameters:
           excludedResources:
