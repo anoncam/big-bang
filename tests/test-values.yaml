@@ -297,6 +297,9 @@ kyvernopolicies:
   values:
     bbtests:
       enabled: true
+    excludeContainers:
+    - not-me
+    - or-me
     exclude:
       any:
       # Allows k3d load balancer to bypass policies.
