@@ -77,6 +77,8 @@ redis-bb:
 server:
   image: 
     imagePullPolicy: {{ .Values.imagePullPolicy }}
+  config:
+    kustomize.buildOptions: "--enable-alpha-plugins"
 
 repoServer:
   image: 
